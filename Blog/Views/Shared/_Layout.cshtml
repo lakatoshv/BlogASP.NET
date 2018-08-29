@@ -1,45 +1,159 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title – приложение ASP.NET</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" type="image/gif/png/ico" href="~/public/blog.ico" />
+    <!-- Bootstrap core CSS -->
+    @Styles.Render("~/public/plugins/bootstrap/css/bootstrap.min.css")
+    @Styles.Render("~/public/font-awesome/css/font-awesome.min.css")
+
+    <!-- Custom styles for this template -->
+    @Styles.Render("~/public/css/app.css")
+
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    @Styles.Render("~/public/css/clean-blog.min.css")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Имя приложения", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакт", "Contact", "Home")</li>
+            <img src="~/public/blog.ico" width="50px" height="50px">
+            @Html.ActionLink("BlogASP.NET", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fa fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        @Html.ActionLink("Про нас", "About", "Home", new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Контакти", "Contact", "Home", new { @class = "nav-link" })
+                    </li>
+                    <!--
+                    guest
+                    <li class="nav-item"><a href="{ { route('login') } }" class="nav-link"><i class="fa fa-sign-in"></i> Ввійти</a></li>
+                    <li class="nav-item"><a href="{ { route('register') } }" class="nav-link"><i class="fa fa-user"></i> Зареєструватись</a></li>
+                    else
+                    <li class="nav-item dropdow">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                            { { Auth::user()->name } } <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{ { route('logout') } }" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                <form id="logout-form" action="{ { route('logout') } }" method="POST" style="display: none;">
+                                    { { csrf_field() } }
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{ { route('logout') } }" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Вийти</a>
+                        <form id="logout-form" action="{ { route('logout') } }" method="POST" style="display: none;">
+                            { { csrf_field() } }
+                        </form>
+                    </li>
+                    endguest
+                    -->
                 </ul>
-                @Html.Partial("_LoginPartial")
             </div>
         </div>
-    </div>
+    </nav>
+    <!-- Page Header -->
+    <header class="masthead" style='background-image: url(@Url.Content("~/public/img/home-bg-v2.jpg")'>
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>BlogASP.NET</h1>
+                        <hr class="hr">
+                        <span class="subheading">Цікавий блог про цікаве</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year – приложение ASP.NET</p>
-        </footer>
     </div>
+    <hr>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-md-12 mx-auto">
+                    <ul class="socialIcons">
+                        <li class="facebook">
+                            <a href="#">
+                                <i class="fa fa-fw fa-facebook"></i>Facebook
+                            </a>
+                        </li>
+                        <li class="twitter">
+                            <a href="#">
+                                <i class="fa fa-fw fa-twitter"></i>Twitter
+                            </a>
+                        </li>
+                        <li class="instagram">
+                            <a href="#">
+                                <i class="fa fa-fw fa-instagram"></i>Instagram
+                            </a>
+                        </li>
+                        <li class="pinterest">
+                            <a href="#">
+                                <i class="fa fa-fw fa-pinterest-p"></i>Pinterest
+                            </a>
+                        </li>
+                        <li class="vk">
+                            <a href="#">
+                                <i class="fa fa-fw fa-vk"></i>VKontakte
+                            </a>
+                        </li>
+                        <li class="tumblr">
+                            <a href="#">
+                                <i class="fa fa-fw fa-tumblr"></i>Tumblr
+                            </a>
+                        </li>
+                        <li class="linkedin">
+                            <a href="#">
+                                <i class="fa fa-fw fa-linkedin"></i>Linkedid
+                            </a>
+                        </li>
+                        <li class="google-plus">
+                            <a href="#">
+                                <i class="fa fa-fw fa-google-plus"></i>Google+
+                            </a>
+                        </li>
+                        <li class="yahoo">
+                            <a href="#">
+                                <i class="fa fa-fw fa-yahoo"></i>Yahoo
+                            </a>
+                        </li>
+                        <li class="skype">
+                            <a href="#">
+                                <i class="fa fa-fw fa-skype"></i>Skype
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; BlogASP.NET 2018</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/public/plugins/jquery/jquery.js")
+    @Scripts.Render("~/public/plugins/bootstrap/js/bootstrap.bundle.min.js")
+    @Scripts.Render("~/public/js/clean-blog.min.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>
