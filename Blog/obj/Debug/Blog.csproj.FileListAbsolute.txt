@@ -200,3 +200,6 @@ C:\xampp\htdocs\C#\BlogASP.NET\Blog\bin\ru\Microsoft.Owin.Security.Facebook.reso
 C:\xampp\htdocs\C#\BlogASP.NET\Blog\bin\ru\Microsoft.Owin.Security.Google.resources.dll
 C:\xampp\htdocs\C#\BlogASP.NET\Blog\bin\ru\Microsoft.Owin.Security.Twitter.resources.dll
 C:\xampp\htdocs\C#\BlogASP.NET\Blog\bin\ru\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\xampp\htdocs\C#\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.InitialCreate.resources
+C:\xampp\htdocs\C#\BlogASP.NET\Blog\obj\Debug\Blog.csproj.GenerateResource.Cache
+C:\xampp\htdocs\C#\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.Initial.resources
