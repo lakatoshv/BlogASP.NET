@@ -15,39 +15,53 @@ namespace Blog.Models
         protected override void Seed(BlogContext context)
         {
             context.Posts.Add(new Post {
-                Title = "Построение орбит небесных тел средствами Python",
-                Description = "Для нахождения траекторий относительных движений в классической механике используется предположение об абсолютности времени во всех системах отсчета (как инерциальных, так и неинерциальных).",
-                Content = "Для нахождения траекторий относительных движений в классической механике используется предположение об абсолютности времени во всех системах отсчета (как инерциальных, так и неинерциальных).  Используя данное предположение, рассмотрим движение одной и той же точки в двух различных системах отсчета К и К', из которых вторая движется относительно первой с произвольной скоростью ",
+                Id = 0,
+                Title = "Building the orbits of celestial bodies using Python",
+                Description = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial).",
+                Content = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial). Using this assumption, let us consider the motion of one and the same point in two different reference frames K and K ', of which the second moves relative to the first with an arbitrary speed",
                 Author = "Vital L",
                 Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
-                Tags = "Разработка под Windows, Математика, Астрономия, Алгоритмы, Python",
+                Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
             {
-                Title = "Построение орбит небесных тел средствами Python",
-                Description = "Для нахождения траекторий относительных движений в классической механике используется предположение об абсолютности времени во всех системах отсчета (как инерциальных, так и неинерциальных).",
-                Content = "Для нахождения траекторий относительных движений в классической механике используется предположение об абсолютности времени во всех системах отсчета (как инерциальных, так и неинерциальных).  Используя данное предположение, рассмотрим движение одной и той же точки в двух различных системах отсчета К и К', из которых вторая движется относительно первой с произвольной скоростью ",
+                Id = 1,
+                Title = "Building the orbits of celestial bodies using Python",
+                Description = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial).",
+                Content = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial). Using this assumption, let us consider the motion of one and the same point in two different reference frames K and K ', of which the second moves relative to the first with an arbitrary speed",
                 Author = "Vital L",
                 Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
-                Tags = "Разработка под Windows, Математика, Астрономия, Алгоритмы, Python",
+                Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
             {
-                Title = "Построение орбит небесных тел средствами Python",
-                Description = "Для нахождения траекторий относительных движений в классической механике используется предположение об абсолютности времени во всех системах отсчета (как инерциальных, так и неинерциальных).",
-                Content = "Для нахождения траекторий относительных движений в классической механике используется предположение об абсолютности времени во всех системах отсчета (как инерциальных, так и неинерциальных).  Используя данное предположение, рассмотрим движение одной и той же точки в двух различных системах отсчета К и К', из которых вторая движется относительно первой с произвольной скоростью ",
+                Id = 2,
+                Title = "Building the orbits of celestial bodies using Python",
+                Description = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial).",
+                Content = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial). Using this assumption, let us consider the motion of one and the same point in two different reference frames K and K ', of which the second moves relative to the first with an arbitrary speed",
                 Author = "Vital L",
                 Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
-                Tags = "Разработка под Windows, Математика, Астрономия, Алгоритмы, Python",
+                Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
             {
-                Title = "Построение орбит небесных тел средствами Python",
-                Description = "Для нахождения траекторий относительных движений в классической механике используется предположение об абсолютности времени во всех системах отсчета (как инерциальных, так и неинерциальных).",
-                Content = "Для нахождения траекторий относительных движений в классической механике используется предположение об абсолютности времени во всех системах отсчета (как инерциальных, так и неинерциальных).  Используя данное предположение, рассмотрим движение одной и той же точки в двух различных системах отсчета К и К', из которых вторая движется относительно первой с произвольной скоростью ",
+                Id = 3,
+                Title = "Building the orbits of celestial bodies using Python",
+                Description = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial).",
+                Content = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial). Using this assumption, let us consider the motion of one and the same point in two different reference frames K and K ', of which the second moves relative to the first with an arbitrary speed",
                 Author = "Vital L",
                 Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
-                Tags = "Разработка под Windows, Математика, Астрономия, Алгоритмы, Python",
+                Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
+            });
+            context.Posts.Add(new Post
+            {
+                Id = 4,
+                Title = "Building the orbits of celestial bodies using Python",
+                Description = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial).",
+                Content = "To find the trajectories of relative motions in classical mechanics, we use the assumption of absolute time in all reference frames (both inertial and non-inertial). Using this assumption, let us consider the motion of one and the same point in two different reference frames K and K ', of which the second moves relative to the first with an arbitrary speed",
+                Author = "Vital L",
+                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             base.Seed(context);
         }

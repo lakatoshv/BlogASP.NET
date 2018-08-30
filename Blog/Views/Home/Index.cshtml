@@ -6,36 +6,38 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-10 col-md-10 mx-auto">
-            @for (int i = 0; i < 10; i++) {
-            <div class="post-preview">
-                <a href="#">
-                    <h2 class="post-title">
-                        Правило 10:1 в программировании и писательстве
-                    </h2>
-                    <img style="width: 100%; height: 300px;" src="https://habrastorage.org/webt/lq/ay/ri/lqayrit6mqfj7d7zo6-wyzzvkio.jpeg" />
-                    <h3 class="post-subtitle">
-                        В этой статье автор анализирует количество времени, которое тратится на написание книг или программного кода, и приходит к интересной закономерности. Ее можно применять для планирования сроков работы над проектами
-                    </h3>
-                </a>
-                <p class="post-meta">
-                    <span><i class="fa fa-fw fa-eye"></i> 20</span>
-                    <span><i class="fa fa-fw fa-thumbs-up"></i> 10</span>
-                    <span><i class="fa fa-fw fa-thumbs-down"></i> 5</span>
-                    <span><i class="fa fa-fw fa-comment"></i> 12</span>
-                </p>
-                <p class="post-meta">
-                    Теги: Статистика в IT, Системы управления версиями, Программирование, Блог компании Wirex
-                </p>
-                <p class="post-meta">
-                    Написав: <b>
-                        <a href="">Vital L</a><i>
-                           27.01.2001
-                        </i>
-                    </b>
-                </p>
-            </div>
-            <hr>
-            }
+                <span></span>
+                @foreach (var item in Model)
+                {
+                    <div class="post-preview">
+                        <a href="#">
+                            <h2 class="post-title">
+                                @item.Title
+                            </h2>
+                            <img style="width: 100%; height: 300px;" src="@item.Imgurl" />
+                            <h3 class="post-subtitle">
+                                @item.Description
+                            </h3>
+                        </a>
+                        <p class="post-meta">
+                            <span><i class="fa fa-fw fa-eye"></i> @item.Seen</span>
+                            <span><i class="fa fa-fw fa-thumbs-up"></i> @item.Likes</span>
+                            <span><i class="fa fa-fw fa-thumbs-down"></i> @item.Dislikes</span>
+                            <span><i class="fa fa-fw fa-comment"></i> 0</span>
+                        </p>
+                        <p class="post-meta">
+                            Теги: @item.Tags
+                        </p>
+                        <p class="post-meta">
+                            Написав: <b>
+                                <a href="">@item.Author</a><i>
+                                    27.01.2001
+                                </i>
+                            </b>
+                        </p>
+                    </div>
+                    <hr>
+                }
 
             <!-- Pager -->
             <div class="clearfix">

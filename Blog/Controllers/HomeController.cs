@@ -12,7 +12,8 @@ namespace Blog.Controllers
         BlogContext db = new BlogContext();
         public ActionResult Index()
         {
-            return View();
+            ViewBag.Message = db.Posts.ToList();
+            return View(db.Posts.ToList());
         }
 
         public ActionResult About()
@@ -25,6 +26,11 @@ namespace Blog.Controllers
         public ActionResult Contact()
         {
             return View();
+        }
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }
