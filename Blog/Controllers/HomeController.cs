@@ -12,8 +12,7 @@ namespace Blog.Controllers
         BlogContext db = new BlogContext();
         public ActionResult Index()
         {
-            ViewBag.Message = db.Posts.ToList();
-            return View(db.Posts.ToList());
+            return RedirectToAction("Index", "Posts");
         }
 
         public ActionResult About()
