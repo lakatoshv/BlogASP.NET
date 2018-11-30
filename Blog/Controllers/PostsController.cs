@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blog.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,12 @@ namespace Blog.Controllers
 {
     public class PostsController : Controller
     {
+        BlogContext db = new BlogContext();
         // GET: Posts
         public ActionResult Index()
         {
-            return View();
+            ViewBag.Message = db.Posts.ToList();
+            return View(db.Posts.ToList());
         }
 
         // GET: Posts/Details/5
@@ -84,6 +87,12 @@ namespace Blog.Controllers
             {
                 return View();
             }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

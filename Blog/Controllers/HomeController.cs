@@ -9,7 +9,6 @@ namespace Blog.Controllers
 {
     public class HomeController : Controller
     {
-        BlogContext db = new BlogContext();
         public ActionResult Index()
         {
             return RedirectToAction("Index", "Posts");
@@ -25,11 +24,6 @@ namespace Blog.Controllers
         public ActionResult Contact()
         {
             return View();
-        }
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }
