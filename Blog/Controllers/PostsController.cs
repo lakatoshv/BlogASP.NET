@@ -17,8 +17,8 @@ namespace Blog.Controllers
             return View(db.Posts.ToList());
         }
 
-        // GET: Posts/Details/5
-        public ActionResult Details(int id)
+        // GET: Posts/Show/5
+        public ActionResult Show(int id)
         {
             return View();
         }
