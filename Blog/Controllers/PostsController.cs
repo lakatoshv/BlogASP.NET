@@ -16,11 +16,11 @@ namespace Blog.Controllers
             ViewBag.Message = db.Posts.ToList();
             return View(db.Posts.ToList());
         }
-
         // GET: Posts/Show/5
         public ActionResult Show(int id)
         {
-            return View();
+            var postModel = db.Posts.Where(post => post.Id.Equals(id)).FirstOrDefault();
+            return View(postModel);
         }
 
         // GET: Posts/Create
