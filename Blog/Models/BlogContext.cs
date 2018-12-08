@@ -9,6 +9,7 @@ namespace Blog.Models
     public class BlogContext : DbContext
     {
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Post> Comment { get; set; }
     }
     public class BlogDbInitializer : DropCreateDatabaseAlways<BlogContext>
     {
