@@ -207,9 +207,14 @@
     <Compile Include="Migrations\201808302205064_Initial.Designer.cs">
       <DependentUpon>201808302205064_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812091731226_Comment.cs" />
+    <Compile Include="Migrations\201812091731226_Comment.Designer.cs">
+      <DependentUpon>201812091731226_Comment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BlogContext.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
@@ -288,6 +293,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201808302205064_Initial.resx">
       <DependentUpon>201808302205064_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812091731226_Comment.resx">
+      <DependentUpon>201812091731226_Comment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

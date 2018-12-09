@@ -309,3 +309,4 @@ C:\AspNet\BlogAsp.Net\Blog\obj\Debug\Blog.csproj.CoreCompileInputs.cache
 C:\AspNet\BlogAsp.Net\Blog\obj\Debug\Blog.csproj.CopyComplete
 C:\AspNet\BlogAsp.Net\Blog\obj\Debug\Blog.dll
 C:\AspNet\BlogAsp.Net\Blog\obj\Debug\Blog.pdb
+C:\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.Comment.resources
