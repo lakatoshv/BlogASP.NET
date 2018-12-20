@@ -1,4 +1,5 @@
 ﻿using Blog.Models;
+using Blog.ViewModels.Posts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,9 @@ namespace Blog.Controllers
         // GET: Posts/Show/5
         public ActionResult Show(int id)
         {
-            var postModel = db.Posts.Where(post => post.Id.Equals(id)).FirstOrDefault();
+            PostViewModel postModel = new PostViewModel();
+            postModel.post = db.Posts.Where(post => post.Id.Equals(id)).FirstOrDefault();
+            postModel.comments = db.Comments.Where(comment => comment.PostID.Equals(id)).ToList();
             return View(postModel);
         }
 
