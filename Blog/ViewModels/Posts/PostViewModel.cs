@@ -9,6 +9,7 @@ namespace Blog.ViewModels.Posts
     public class PostViewModel
     {
         public Post post { get; set; }
+        public Comment comment { get; set; }
         public IList<Comment> comments { get; set; }
     }
 }

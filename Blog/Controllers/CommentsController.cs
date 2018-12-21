@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blog.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,7 +17,9 @@ namespace Blog.Controllers
 
         // POST: Comments/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Comment comment)
         {
             try
             {
