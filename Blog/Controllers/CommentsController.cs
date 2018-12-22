@@ -9,6 +9,7 @@ namespace Blog.Controllers
 {
     public class CommentsController : Controller
     {
+        BlogContext db = new BlogContext();
         // GET: Comments/Create
         public ActionResult Create()
         {
@@ -23,9 +24,20 @@ namespace Blog.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                comment.CreatedAt = DateTime.Now;
+                
+                if (ModelState.IsValid)
+                {
+                    var result = db.Comments.Add(comment);
+                    // Дополнительные сведения о том, как включить подтверждение учетной записи и сброс пароля, см. по адресу: http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Отправка сообщения электронной почты с этой ссылкой
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Request");
+                }
+                return null;
             }
             catch
             {
