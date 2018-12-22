@@ -56,6 +56,7 @@
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary("", new { @class = "text-danger" })
+                            @Html.TextBoxFor(model => model.comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "post-id", Value = Model.post.Id, @type = "hidden"})
                             @Html.TextBoxFor(model => model.comment.Author, new { @class = "form-control comment_input comment_input_name", @id = "email", @placeholder = "Електронна пошта" })
                             @Html.TextAreaFor(model => model.comment.CommentBody, new { @class = "comment_text", @id = "comment", @placeholder = "Коментар" })
                             <button class="btn btn-sm btn-success" type="submit">Додати коментар</button>
