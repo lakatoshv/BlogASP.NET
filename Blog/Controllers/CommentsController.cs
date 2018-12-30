@@ -41,7 +41,7 @@ namespace Blog.Controllers
         }
 
         // GET: Comments/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Comment comment)
         {
             return View();
         }

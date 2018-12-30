@@ -56,12 +56,11 @@
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary("", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "post-id", Value = Model.post.Id, @type = "hidden"})
-                            @Html.TextBoxFor(model => model.comment.Author, new { @class = "form-control comment_input comment_input_name", @id = "email", @placeholder = "Електронна пошта" })
+                            @Html.TextBoxFor(model => model.comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "post-id", Value = Model.post.Id, @type = "hidden" })
+                            @Html.TextBoxFor(model => model.comment.Author, new { @class = "form-control comment_input comment_input_name", @id = "author", @placeholder = "Електронна пошта" })
                             @Html.TextAreaFor(model => model.comment.CommentBody, new { @class = "comment_text", @id = "comment", @placeholder = "Коментар" })
                             <button class="btn btn-sm btn-success" type="submit">Додати коментар</button>
                         }
-                        <input type="text" class="comment_input comment_input_name" placeholder="Your Name" required="required">
                     </div>
                 </div>
             </div>
@@ -81,13 +80,34 @@
                                         <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
                                             <span><I class="fa fa-3x fa-user-circle"></I></span>
                                             <small class="post_meta">
-                                                <a href="#">@comment.Author</a>
+                                                <a href="#" id="author{{@comment.Id}}">@comment.Author</a>
                                                 <span>@comment.CreatedAt</span>
                                             </small>
-                                            <button type="button" class="reply_button ml-auto">Відповісти</button>
                                         </div>
-                                        <div class="comment_content">
+                                        <div class="comment_content{{@comment.Id}}">
                                             <p>@comment.CommentBody</p>
+                                            <p class="pull-right">
+                                                <button 
+                                                    type="button" 
+                                                    class="btn btn-sm text-white btn-primary" 
+                                                    comment-id="{{@comment.Id}}" 
+                                                    onclick="setEditCommentValues(this.comment-id)" 
+                                                    data-toggle="modal" 
+                                                    data-target="#edit-comment">
+                                                        <i class="fa fa-edit"></i>
+                                                        Редагувати
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-sm text-white btn-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                    Видалити
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-outline-success ml-2">
+                                                    <i class="fa fa-reply"></i>
+                                                    Відповісти
+                                                </button>
+                                            </p>
                                         </div>
                                     </div>
 
@@ -125,5 +145,44 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    function setEditCommentValues(id) {
+        var author = $("#author" + id).text;
+        var comment = $("#comment_content" + id + " p").text;
+        
+        $("#edit-post-id").text(id);
+        $("#edit-author").text(author);
+        $("#edit-comment").text(comment);
+    }
+});
+</script>
+<div id="edit-comment" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body post_comment_form_container">
+                @using (Html.BeginForm("Edit", "Comments", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "edit-post-id", Value = Model.post.Id, @type = "hidden" })
+                    @Html.TextBoxFor(model => model.comment.Author, new { @class = "form-control comment_input comment_input_name", @id = "edit-author", @placeholder = "Електронна пошта" })
+                    @Html.TextAreaFor(model => model.comment.CommentBody, new { @class = "comment_text", @id = "edit-comment", @placeholder = "Коментар" })
+                }
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-success" type="submit">Зберегти</button><button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+            </div>
+        </div>
+
     </div>
 </div>
