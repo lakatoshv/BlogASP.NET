@@ -80,22 +80,21 @@
                                         <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
                                             <span><I class="fa fa-3x fa-user-circle"></I></span>
                                             <small class="post_meta">
-                                                <a href="#" id="author{{@comment.Id}}">@comment.Author</a>
+                                                <a href="#" id="author@(comment.Id)">@comment.Author</a>
                                                 <span>@comment.CreatedAt</span>
                                             </small>
                                         </div>
-                                        <div class="comment_content{{@comment.Id}}">
-                                            <p>@comment.CommentBody</p>
+                                        <div class="comment_content">
+                                            <p id="content@(comment.Id)">@comment.CommentBody</p>
                                             <p class="pull-right">
-                                                <button 
-                                                    type="button" 
-                                                    class="btn btn-sm text-white btn-primary" 
-                                                    comment-id="{{@comment.Id}}" 
-                                                    onclick="setEditCommentValues(this.comment-id)" 
-                                                    data-toggle="modal" 
-                                                    data-target="#edit-comment">
-                                                        <i class="fa fa-edit"></i>
-                                                        Редагувати
+                                                <button type="button"
+                                                        class="btn btn-sm text-white btn-primary"
+                                                        id="@(comment.Id)"
+                                                        onclick="setEditCommentValues(this.id)"
+                                                        data-toggle="modal"
+                                                        data-target="#edit-comment">
+                                                    <i class="fa fa-edit"></i>
+                                                    Редагувати
                                                 </button>
                                                 <button type="button"
                                                         class="btn btn-sm text-white btn-danger">
@@ -147,18 +146,16 @@
         </div>
     </div>
 </div>
-
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
 <script>
-$(document).ready(function(){
     function setEditCommentValues(id) {
-        var author = $("#author" + id).text;
-        var comment = $("#comment_content" + id + " p").text;
-        
-        $("#edit-post-id").text(id);
-        $("#edit-author").text(author);
-        $("#edit-comment").text(comment);
+        var author = $("#author" + id).text();
+        var comment = $("#content" + id).text();
+        alert(author + "\t" + comment);
+        $("#edit-id").val(id);
+        $("#edit-author").val(author);
+        $("#edit-content").val(comment);
     }
-});
 </script>
 <div id="edit-comment" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -174,9 +171,10 @@ $(document).ready(function(){
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary("", new { @class = "text-danger" })
-                    @Html.TextBoxFor(model => model.comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "edit-post-id", Value = Model.post.Id, @type = "hidden" })
+                    @Html.TextBoxFor(model => model.comment.Id, new { @class = "form-control comment_input comment_input_name", @id = "edit-post-id", @type = "hidden" })
+                    @Html.TextBoxFor(model => model.comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "edit-id", Value = Model.post.Id, @type = "hidden" })
                     @Html.TextBoxFor(model => model.comment.Author, new { @class = "form-control comment_input comment_input_name", @id = "edit-author", @placeholder = "Електронна пошта" })
-                    @Html.TextAreaFor(model => model.comment.CommentBody, new { @class = "comment_text", @id = "edit-comment", @placeholder = "Коментар" })
+                    @Html.TextAreaFor(model => model.comment.CommentBody, new { @class = "comment_text", @id = "edit-content", @placeholder = "Коментар" })
                 }
             </div>
             <div class="modal-footer">

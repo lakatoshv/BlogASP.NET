@@ -41,14 +41,14 @@ namespace Blog.Controllers
         }
 
         // GET: Comments/Edit/5
-        public ActionResult Edit(Comment comment)
+        public ActionResult Edit(int id)
         {
             return View();
         }
 
         // POST: Comments/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Comment comment)
         {
             try
             {
