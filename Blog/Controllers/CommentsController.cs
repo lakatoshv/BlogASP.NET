@@ -1,7 +1,10 @@
 ﻿using Blog.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -48,18 +51,28 @@ namespace Blog.Controllers
 
         // POST: Comments/Edit/5
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Comment comment)
         {
+            if (comment.Id == null && comment.PostID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             try
             {
-                // TODO: Add update logic here
+                comment.CreatedAt = DateTime.Now;
+                db.Entry(comment).State = EntityState.Modified;
+                db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Show/" + comment.PostID, "Posts");
             }
-            catch
-            {
-                return View();
-            }
+                catch (DataException /* dex */)
+                {
+                    //Log the error (uncomment dex variable name and add a line here to write a log.
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            return View(comment);
         }
 
         // GET: Comments/Delete/5
