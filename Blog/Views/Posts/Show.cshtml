@@ -36,10 +36,11 @@
                     </b>
                 </p>
                 @{
-                    var pathURL = Url.Action("Like", "Posts") + "/" + Model.post.Id;
+                    var like = Url.Action("Like", "Posts") + "/" + Model.post.Id;
+                    var dislike = Url.Action("Dislike", "Posts") + "/" + Model.post.Id;
                 }
-                <a class="btn btn-xs btn-info" href="@pathURL"><span class="fa fa-thumbs-up"></span> Подобається</a>
-                <button class="btn btn-sm btn-danger"><span class="fa fa-thumbs-down"></span> Неподобається</button>
+                <a class="btn btn-xs btn-info" href="@like"><span class="fa fa-thumbs-up"></span> Подобається</a>
+                <a class="btn btn-sm btn-danger" href="@dislike"><span class="fa fa-thumbs-down"></span> Неподобається</a>
             </div>
         </div>
     </div>

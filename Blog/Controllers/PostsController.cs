@@ -73,6 +73,28 @@ namespace Blog.Controllers
             }
         }
 
+        // GET: Dislike/5
+        public ActionResult Dislike(int? id)
+        {
+            if (id == null) return RedirectToAction("Index", "Posts");
+            try
+            {
+                PostViewModel postModel = new PostViewModel();
+                postModel.post = db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
+                postModel.post.Dislikes++;
+                db.Entry(postModel.post).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Show/" + id, "Posts");
+            }
+            catch (DataException /* dex */)
+            {
+                return RedirectToAction("Index", "Posts");
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+        }
+
         // GET: Posts/Edit/5
         public ActionResult Edit(int id)
         {
