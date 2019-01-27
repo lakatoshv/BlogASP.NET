@@ -20,8 +20,9 @@ namespace Blog.Controllers
             return View(db.Posts.ToList());
         }
         // GET: Posts/Show/5
-        public ActionResult Show(int id)
+        public ActionResult Show(int? id)
         {
+            if (id == null) return RedirectToAction("Index", "Posts");
             PostViewModel postModel = new PostViewModel();
             postModel.post = db.Posts.Where(post => post.Id.Equals(id)).FirstOrDefault();
             postModel.comments = db.Comments.Where(comment => comment.PostID.Equals(id)).ToList();
