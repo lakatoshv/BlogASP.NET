@@ -2,6 +2,8 @@
 using Blog.ViewModels.Posts;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -45,6 +47,28 @@ namespace Blog.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        // GET: Like/5
+        public ActionResult Like(int? id)
+        {
+            if(id == null) return RedirectToAction("Index", "Posts");
+            try
+            {
+                PostViewModel postModel = new PostViewModel();
+                postModel.post = db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
+                postModel.post.Likes++;
+                db.Entry(postModel.post).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Show/" + id, "Posts");
+            }
+            catch (DataException /* dex */)
+            {
+                return RedirectToAction("Index", "Posts");
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
         }
 
