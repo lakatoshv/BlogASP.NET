@@ -24,8 +24,8 @@ namespace Blog.Controllers
         {
             if (id == null) return RedirectToAction("Index", "Posts");
             PostViewModel postModel = new PostViewModel();
-            postModel.post = db.Posts.Where(post => post.Id.Equals(id)).FirstOrDefault();
-            postModel.comments = db.Comments.Where(comment => comment.PostID.Equals(id)).ToList();
+            postModel.post = db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
+            postModel.comments = db.Comments.Where(comment => comment.PostID.Equals(id.Value)).ToList();
             return View(postModel);
         }
 
