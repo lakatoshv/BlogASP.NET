@@ -83,18 +83,26 @@ namespace Blog.Controllers
 
         // POST: Comments/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Comment commentForDelete)
         {
+            if (commentForDelete.Id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                Comment comment = db.Comments.Where(comm => comm.Id.Equals(commentForDelete.Id)).FirstOrDefault();
+                db.Comments.Remove(comment);
+                db.SaveChanges();
+                return RedirectToAction("Show/" + comment.PostID, "Posts");
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
+            return RedirectToAction("Index");
         }
     }
 }
