@@ -6,8 +6,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using WebGrease.Css.Extensions;
 
 namespace Blog.Services.Posts
 {
@@ -18,18 +16,22 @@ namespace Blog.Services.Posts
             BlogContext db = new BlogContext();
             PostViewModel postModel = new PostViewModel();
             postModel.post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
-            postModel.comments = db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
 
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
-            ApplicationUser user = userManager.FindByIdAsync(postModel.post.Author).Result;
-            postModel.post.Author = user.UserName;
+            var author = postModel.post.Author;
+            ApplicationUser user = userManager.FindByIdAsync(author).Result;
+            if (user != null)
+                postModel.post.Author = user.UserName;
 
-            postModel.comments.ForEach(comment => {
+            var comments = db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
+            comments.ForEach(comment => {
                 ApplicationUser commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
-                if (user != null)
+                if (commentAuthor != null)
                     comment.Author = commentAuthor.UserName;
             });
+            postModel.comments = comments;
+
 
             return postModel;
         }
