@@ -220,6 +220,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Posts\Interfaces\IPostsService.cs" />
+    <Compile Include="Services\Posts\PostsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Posts\PostViewModel.cs" />
   </ItemGroup>
@@ -283,6 +285,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Posts\Show.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,5 +1,9 @@
 ﻿using Blog.Models;
+using Blog.Services.Posts;
+using Blog.Services.Posts.Interfaces;
 using Blog.ViewModels.Posts;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,38 +16,46 @@ namespace Blog.Controllers
 {
     public class PostsController : Controller
     {
-        BlogContext db = new BlogContext();
+        private PostsService _postsService = new PostsService();
+        private BlogContext _db = new BlogContext();
+        
         // GET: Posts
         public ActionResult Index()
         {
-            ViewBag.Message = db.Posts.ToList();
-            return View(db.Posts.ToList());
+            var posts = _postsService.GetPosts();
+            return View(posts);
         }
         // GET: Posts/Show/5
         public ActionResult Show(int? id)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
-            PostViewModel postModel = new PostViewModel();
-            postModel.post = db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
-            postModel.comments = db.Comments.Where(comment => comment.PostID.Equals(id.Value)).ToList();
+            var postModel = _postsService.GetPost(id.Value);
             return View(postModel);
         }
 
         // GET: Posts/Create
         public ActionResult Create()
         {
-            return View();
+            if(!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            else return View();
         }
 
         // POST: Posts/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Post post)
         {
             try
             {
-                // TODO: Add insert logic here
+                //post.CreatedAt = DateTime.Now;
 
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    post.Author = User.Identity.GetUserId();
+                    var result = _db.Posts.Add(post);
+                    _db.SaveChanges();
+                    return RedirectToAction("index", "Posts");
+                }
+                return null;
             }
             catch
             {
@@ -58,10 +70,10 @@ namespace Blog.Controllers
             try
             {
                 PostViewModel postModel = new PostViewModel();
-                postModel.post = db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
+                postModel.post = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
                 postModel.post.Likes++;
-                db.Entry(postModel.post).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(postModel.post).State = EntityState.Modified;
+                _db.SaveChanges();
 
                 return RedirectToAction("Show/" + id, "Posts");
             }
@@ -80,10 +92,10 @@ namespace Blog.Controllers
             try
             {
                 PostViewModel postModel = new PostViewModel();
-                postModel.post = db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
+                postModel.post = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
                 postModel.post.Dislikes++;
-                db.Entry(postModel.post).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(postModel.post).State = EntityState.Modified;
+                _db.SaveChanges();
 
                 return RedirectToAction("Show/" + id, "Posts");
             }
@@ -141,7 +153,7 @@ namespace Blog.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            _db.Dispose();
             base.Dispose(disposing);
         }
     }
