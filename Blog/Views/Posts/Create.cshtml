@@ -17,17 +17,58 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="post_comment_form_container">
-                        @using (Html.BeginForm("Create", "Posts", FormMethod.Post, new { role = "form" }))
+
+                        @using (Html.BeginForm(
+                            "Create", "Posts", 
+                            FormMethod.Post, 
+                            new { role = "form" }))
                         {
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary("", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @id = "title", @placeholder = "Тема посту"})
-                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "author", @placeholder = "Опис" })
-                            @Html.TextAreaFor(model => model.Content, new { @class = "comment_text", @id = "content", @placeholder = "Текст посту" })
-                            @Html.TextBoxFor(model => model.Tags, new { @class = "form-control", @id = "tags", @placeholder = "Теги", @type = "hidden" })
-                            @Html.TextBoxFor(model => model.Imgurl, new { @class = "form-control", @id = "imgurl", @placeholder = "Коментар" })
+                            @Html.TextBoxFor(
+                                model => model.Title,
+                                new {
+                                    @class = "form-control",
+                                    @id = "title",
+                                    @placeholder = "Тема посту"
+                                }
+                            )
+                            @Html.TextAreaFor(
+                                model => model.Description,
+                                new {
+                                    @class = "form-control",
+                                    @id = "author",
+                                    @placeholder = "Опис"
+                                }
+                            )
+                            @Html.TextAreaFor(
+                                model => model.Content,
+                                new {
+                                    @class = "comment_text",
+                                    @id = "content",
+                                    @placeholder = "Текст посту"
+                                }
+                            )
+                            @Html.TextBoxFor(
+                                model => model.Tags,
+                                new {
+                                    @class = "form-control",
+                                    @id = "tags",
+                                    @placeholder = "Теги",
+                                    @type = "hidden"
+                                }
+                            )
+                            @Html.TextBoxFor(
+                                model => model.Imgurl,
+                                new {
+                                    @class = "form-control",
+                                    @id = "imgurl",
+                                    @placeholder = "Коментар"
+                                }
+                            )
                             <button class="btn btn-sm btn-success" type="submit">Додати пост</button>
                         }
+
                     </div>
                 </div>
             </div>

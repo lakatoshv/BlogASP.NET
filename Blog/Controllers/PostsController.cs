@@ -37,6 +37,7 @@ namespace Blog.Controllers
         public ActionResult Create()
         {
             if(!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+
             else return View();
         }
 
@@ -47,7 +48,6 @@ namespace Blog.Controllers
             try
             {
                 //post.CreatedAt = DateTime.Now;
-
                 if (ModelState.IsValid)
                 {
                     post.Author = User.Identity.GetUserId();
