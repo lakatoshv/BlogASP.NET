@@ -91,6 +91,8 @@
                                         <div class="comment_content">
                                             <p id="content@(comment.Id)">@comment.CommentBody</p>
                                             <p class="pull-right">
+                                                @if (User.Identity.GetUserId().Equals(comment.Author) )
+                                                {
                                                     <button
                                                         type="button"
                                                         class="btn btn-sm text-white btn-primary"
@@ -112,6 +114,7 @@
                                                         <i class="fa fa-trash"></i>
                                                         Видалити
                                                     </button>
+                                                }
                                                 <button type="button"
                                                         class="btn btn-sm btn-outline-success ml-2">
                                                     <i class="fa fa-reply"></i>

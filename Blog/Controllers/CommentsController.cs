@@ -1,4 +1,5 @@
 ﻿using Blog.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,6 +17,7 @@ namespace Blog.Controllers
         // GET: Comments/Create
         public ActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             return View();
         }
 
@@ -25,10 +27,11 @@ namespace Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Comment comment)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             try
             {
                 comment.CreatedAt = DateTime.Now;
-                
+                comment.Author = User.Identity.GetUserId();
                 if (ModelState.IsValid)
                 {
                     var result = db.Comments.Add(comment);
@@ -46,6 +49,7 @@ namespace Blog.Controllers
         // GET: Comments/Edit/5
         public ActionResult Edit(int id)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             return View();
         }
 
@@ -55,12 +59,14 @@ namespace Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Comment comment)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (comment.Id == null && comment.PostID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             try
             {
+                comment.Author = User.Identity.GetUserId();
                 comment.CreatedAt = DateTime.Now;
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
@@ -78,6 +84,7 @@ namespace Blog.Controllers
         // GET: Comments/Delete/5
         public ActionResult Delete(int id)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             return View();
         }
 
@@ -87,6 +94,7 @@ namespace Blog.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(Comment commentForDelete)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (commentForDelete.Id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
