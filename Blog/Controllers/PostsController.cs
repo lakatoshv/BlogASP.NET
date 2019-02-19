@@ -66,7 +66,8 @@ namespace Blog.Controllers
         // GET: Like/5
         public ActionResult Like(int? id)
         {
-            if(id == null) return RedirectToAction("Index", "Posts");
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
                 PostViewModel postModel = new PostViewModel();
@@ -88,6 +89,7 @@ namespace Blog.Controllers
         // GET: Dislike/5
         public ActionResult Dislike(int? id)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
