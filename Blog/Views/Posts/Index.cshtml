@@ -6,9 +6,13 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-10 col-md-10 mx-auto">
-                <span></span>
-                @foreach (var item in Model)
-                {
+            @{
+                var createPost = Url.Action("Create", "Posts");
+            }
+            <a href="@createPost" class="btn btn-light">Написати пост</a>
+            <span></span>
+            @foreach (var item in Model)
+            {
                 <div class="post-preview">
                     @{
                         var pathURL = Url.Action("Show", "Posts") + "/" + item.Id;
@@ -17,7 +21,7 @@
                         <h2 class="post-title">
                             @item.Title
                         </h2>
-                        <img style="width: 100%; height: 300px;" src="@item.Imgurl" />
+                        <img style="width: 100%; height: 300px;" src="@item.Imgurl"/>
                         <h3 class="post-subtitle">
                             @item.Description
                         </h3>
@@ -32,15 +36,17 @@
                         Теги: @item.Tags
                     </p>
                     <p class="post-meta">
-                        Написав: <b>
-                            <a href="">@item.Author</a><i>
+                        Написав:
+                        <b>
+                            <a href="">@item.Author</a>
+                            <i>
                                 27.01.2001
                             </i>
                         </b>
                     </p>
                 </div>
-                    <hr>
-                }
+                <hr>
+            }
 
             <!-- Pager -->
             <div class="clearfix">
