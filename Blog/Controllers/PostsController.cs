@@ -50,6 +50,7 @@ namespace Blog.Controllers
                 //post.CreatedAt = DateTime.Now;
                 if (ModelState.IsValid)
                 {
+                    post.CreatedAt = DateTime.Now;
                     post.Author = User.Identity.GetUserId();
                     var result = _db.Posts.Add(post);
                     _db.SaveChanges();
