@@ -91,7 +91,7 @@
                                         <div class="comment_content">
                                             <p id="content@(comment.Id)">@comment.CommentBody</p>
                                             <p class="pull-right">
-                                                @if (User.Identity.GetUserId().Equals(comment.Author) )
+                                                @if (User.Identity.GetUserName().Equals(comment.Author) )
                                                 {
                                                     <button
                                                         type="button"
