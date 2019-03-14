@@ -111,24 +111,33 @@ namespace Blog.Controllers
         }
 
         // GET: Posts/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null) return RedirectToAction("Index", "Posts");
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            var postModel = _postsService.GetPost(id.Value);
+            return View(postModel.post);
         }
 
         // POST: Posts/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int? id, Post post)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
-                // TODO: Add update logic here
+                post.CreatedAt = DateTime.Now;
+                _db.Entry(post).State = EntityState.Modified;
+                _db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Show/" + id, "Posts");
             }
-            catch
+            catch (DataException /* dex */)
             {
-                return View();
+                return RedirectToAction("Index", "Posts");
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
         }
 

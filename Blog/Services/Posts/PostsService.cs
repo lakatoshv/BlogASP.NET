@@ -1,9 +1,9 @@
-﻿using Blog.Models;
+﻿
+using Blog.Models;
 using Blog.Services.Posts.Interfaces;
 using Blog.ViewModels.Posts;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
