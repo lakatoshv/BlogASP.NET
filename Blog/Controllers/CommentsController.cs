@@ -81,27 +81,28 @@ namespace Blog.Controllers
             return View(comment);
         }
 
+        /*
         // GET: Comments/Delete/5
         public ActionResult Delete(int id)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             return View();
         }
+        */
 
         // POST: Comments/Delete/5
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(Comment commentForDelete)
+        public ActionResult Delete(int id)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-            if (commentForDelete.Id == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             try
             {
-                Comment comment = db.Comments.Where(comm => comm.Id.Equals(commentForDelete.Id)).FirstOrDefault();
+                Comment comment = db.Comments.Where(comm => comm.Id.Equals(id)).FirstOrDefault();
                 db.Comments.Remove(comment);
                 db.SaveChanges();
                 return RedirectToAction("Show/" + comment.PostID, "Posts");
