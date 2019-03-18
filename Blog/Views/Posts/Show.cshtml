@@ -15,11 +15,33 @@
                 <h2 class="post-title text-center">
                     @Model.post.Title
                 </h2>
+                <br />
+                @if (User.Identity.GetUserName().Equals(Model.post.Author))
+                {
+                    <p class="pull-right">
+                        @{
+                            var edit = Url.Action("Edit", "Posts") + "/" + Model.post.Id;
+                            var delete = Url.Action("Delete", "Posts");
+                        }
+                        <a type="button"
+                           class="btn btn-sm text-white btn-primary"
+                           href="@edit">
+                            <i class="fa fa-edit"></i>
+                            Редагувати
+                        </a>
+
+                        <a type="button"
+                           class="btn btn-sm text-white btn-danger"
+                           href="@delete">
+                            <i class="fa fa-trash"></i>
+                            Видалити
+                        </a>
+                    </p>
+                }
                 <img style="width: 100%; height: 300px;" src="@Model.post.Imgurl" />
                 <h3 class="post-subtitle text-center">
                     @Model.post.Description
                 </h3>
-                </a>
                 <p class="post-meta">
                     <span><i class="fa fa-fw fa-eye"></i> @Model.post.Seen</span>
                     <span><i class="fa fa-fw fa-thumbs-up"></i> @Model.post.Likes</span>
@@ -50,7 +72,8 @@
     <!-- Similar Posts -->
     <div class="similar_posts">
 
-        @if (User.Identity.IsAuthenticated){
+        @if (User.Identity.IsAuthenticated)
+        {
             <!-- Post Comment -->
             <div class="post_comment">
                 <div class="post_comment_title">Post Comment</div>
@@ -91,26 +114,24 @@
                                         <div class="comment_content">
                                             <p id="content@(comment.Id)">@comment.CommentBody</p>
                                             <p class="pull-right">
-                                                @if (User.Identity.GetUserName().Equals(comment.Author) )
+                                                @if (User.Identity.GetUserName().Equals(comment.Author))
                                                 {
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-sm text-white btn-primary"
-                                                        id="@(comment.Id)"
-                                                        onclick="setEditCommentValues(this.id)"
-                                                        data-toggle="modal"
-                                                        data-target="#edit-comment">
+                                                    <button type="button"
+                                                            class="btn btn-sm text-white btn-primary"
+                                                            id="@(comment.Id)"
+                                                            onclick="setEditCommentValues(this.id)"
+                                                            data-toggle="modal"
+                                                            data-target="#edit-comment">
                                                         <i class="fa fa-edit"></i>
                                                         Редагувати
                                                     </button>
 
-                                                    <button
-                                                        type="button"
-                                                        class="btn btn-sm text-white btn-danger"
-                                                        id="@(comment.Id)"
-                                                        onclick="setDeleteCommentValues(this.id)"
-                                                        data-toggle="modal"
-                                                        data-target="#delete-comment">
+                                                    <button type="button"
+                                                            class="btn btn-sm text-white btn-danger"
+                                                            id="@(comment.Id)"
+                                                            onclick="setDeleteCommentValues(this.id)"
+                                                            data-toggle="modal"
+                                                            data-target="#delete-comment">
                                                         <i class="fa fa-trash"></i>
                                                         Видалити
                                                     </button>
@@ -126,28 +147,28 @@
 
                                     <!-- Reply - ->
                                     <ul class="comment_list">
-                                      <li class="comment">
-                                        <div class="comment_body">
-                                          <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
-                                            <div class="comment_author_image">
-                                              <div>
-                                                <img src="images/comment_author_2.jpg" alt="">
-                                              </div>
+                                        <li class="comment">
+                                            <div class="comment_body">
+                                                <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+                                                    <div class="comment_author_image">
+                                                        <div>
+                                                            <img src="images/comment_author_2.jpg" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <small class="post_meta">
+                                                        <a href="#">Katy Liu</a>
+                                                        <span>Sep 29, 2017 at 9:48 am</span>
+                                                    </small>
+                                                    <button type="button" class="reply_button ml-auto">Reply</button>
+                                                </div>
+                                                <div class="comment_content">
+                                                    <p>Nulla facilisi. Aenean porttitor quis tortor id tempus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus molestie varius tincidunt. Vestibulum congue sed libero ac sodales.</p>
+                                                </div>
                                             </div>
-                                            <small class="post_meta">
-                                              <a href="#">Katy Liu</a>
-                                              <span>Sep 29, 2017 at 9:48 am</span>
-                                            </small>
-                                            <button type="button" class="reply_button ml-auto">Reply</button>
-                                          </div>
-                                          <div class="comment_content">
-                                            <p>Nulla facilisi. Aenean porttitor quis tortor id tempus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vivamus molestie varius tincidunt. Vestibulum congue sed libero ac sodales.</p>
-                                          </div>
-                                        </div>
-                                        <!- - Reply - ->
-                                        <ul class="comment_list">
-                                        </ul>
-                                      </li>
+                                            <!- - Reply - ->
+                                            <ul class="comment_list">
+                                            </ul>
+                                        </li>
                                     </ul>
                                     -->
                                 </li>

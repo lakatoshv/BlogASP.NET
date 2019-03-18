@@ -121,14 +121,19 @@ namespace Blog.Controllers
 
         // POST: Posts/Edit/5
         [HttpPost]
-        public ActionResult Edit(int? id, Post post)
+        public ActionResult Edit(int? id, Post editedPost)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
-                post.CreatedAt = DateTime.Now;
-                _db.Entry(post).State = EntityState.Modified;
+                var postModel = _postsService.GetPost(id.Value);
+                editedPost.Author = postModel.post.Author;
+                editedPost.Likes = postModel.post.Likes;
+                editedPost.Dislikes = postModel.post.Dislikes;
+                editedPost.Seen = postModel.post.Seen;
+                editedPost.CreatedAt = DateTime.Now;
+                _db.Entry(editedPost).State = EntityState.Modified;
                 _db.SaveChanges();
 
                 return RedirectToAction("Show/" + id, "Posts");

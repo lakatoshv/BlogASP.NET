@@ -25,6 +25,29 @@
                         <h2 class="post-title">
                             @item.Title
                         </h2>
+                        <br/>
+                        @if (User.Identity.GetUserName().Equals(item.Author))
+                        {
+                            <p class="pull-right">
+                                @{
+                                    var edit = Url.Action("Edit", "Posts") + "/" + item.Id;
+                                    var delete = Url.Action("Delete", "Posts");
+                                }
+                                <a type="button"
+                                   class="btn btn-sm text-white btn-primary"
+                                   href="@edit">
+                                    <i class="fa fa-edit"></i>
+                                    Редагувати
+                                </a>
+
+                                <a type="button"
+                                   class="btn btn-sm text-white btn-danger"
+                                   href="@delete">
+                                    <i class="fa fa-trash"></i>
+                                    Видалити
+                                </a>
+                            </p>
+                        }
                         <img style="width: 100%; height: 300px;" src="@item.Imgurl" />
                         <h3 class="post-subtitle">
                             @item.Description
@@ -49,6 +72,7 @@
                         </b>
                     </p>
                 </div>
+                <br/>
                 <hr>
             }
 
