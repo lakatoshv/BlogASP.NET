@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Blog.Controllers
 {
@@ -66,6 +67,10 @@ namespace Blog.Controllers
             }
             try
             {
+                var originalComment = db.Comments.Where(comm => comm.Id.Equals(comment.Id)).FirstOrDefault();
+                if(!originalComment.Author.Equals(User.Identity.GetUserId()))
+                    return RedirectToAction("Show/" + comment.PostID, "Posts");
+
                 comment.Author = User.Identity.GetUserId();
                 comment.CreatedAt = DateTime.Now;
                 db.Entry(comment).State = EntityState.Modified;
@@ -103,6 +108,9 @@ namespace Blog.Controllers
             try
             {
                 Comment comment = db.Comments.Where(comm => comm.Id.Equals(id)).FirstOrDefault();
+                if (!comment.Author.Equals(User.Identity.GetUserId()))
+                    return RedirectToAction("Show/" + comment.PostID, "Posts");
+
                 db.Comments.Remove(comment);
                 db.SaveChanges();
                 return RedirectToAction("Show/" + comment.PostID, "Posts");
