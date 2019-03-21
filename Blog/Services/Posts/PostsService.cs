@@ -16,7 +16,7 @@ namespace Blog.Services.Posts
             BlogContext db = new BlogContext();
             PostViewModel postModel = new PostViewModel();
             postModel.post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
-
+            if (postModel.post == null) return null;
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             var author = postModel.post.Author;

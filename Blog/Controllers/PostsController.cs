@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -30,6 +31,7 @@ namespace Blog.Controllers
         {
             if (id == null) return RedirectToAction("Index", "Posts");
             var postModel = _postsService.GetPost(id.Value);
+            if(postModel == null) return RedirectToAction("Index", "Posts");
             return View(postModel);
         }
 
@@ -149,6 +151,7 @@ namespace Blog.Controllers
         // GET: Posts/Delete/5
         public ActionResult Delete(int id)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             return View();
         }
 
@@ -156,16 +159,24 @@ namespace Blog.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             try
             {
-                // TODO: Add delete logic here
-
+                BlogContext db = new BlogContext();
+                Post postForDelete = db.Posts.Where(post => post.Id.Equals(id)).FirstOrDefault();
+                db.Posts.Remove(postForDelete);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
