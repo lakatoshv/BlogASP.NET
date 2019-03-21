@@ -130,6 +130,9 @@ namespace Blog.Controllers
             try
             {
                 var postModel = _postsService.GetPost(id.Value);
+                if (!postModel.post.Author.Equals(User.Identity.GetUserId()))
+                    return RedirectToAction("Show/" + postModel.post.Id, "Posts");
+
                 editedPost.Author = postModel.post.Author;
                 editedPost.Likes = postModel.post.Likes;
                 editedPost.Dislikes = postModel.post.Dislikes;
@@ -168,6 +171,9 @@ namespace Blog.Controllers
             {
                 BlogContext db = new BlogContext();
                 Post postForDelete = db.Posts.Where(post => post.Id.Equals(id)).FirstOrDefault();
+                if (!postForDelete.Author.Equals(User.Identity.GetUserId()))
+                    return RedirectToAction("Index", "Posts");
+
                 db.Posts.Remove(postForDelete);
                 db.SaveChanges();
                 return RedirectToAction("Index");
