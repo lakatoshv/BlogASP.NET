@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNet.Identity
+@model Blog.Models.ApplicationUser
+@{
+    ViewBag.Title = "BlogASP.NET - " + Model.UserName;
+}
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+<style>
+    ul.nav li {
+        padding: 10px;
+    }
+    ul.nav li a {
+        z-index: 1000;
+        display: block;
+    }
+</style>
+<!-- Main Content -->
+<div class="container">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 " align="center">
+                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="avatar" class="img-circle img-responsive"><br>
+                    <h3>@Model.UserName</h3>
+                </div>
+                <div class=" col-md-9 col-lg-9">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#main-info">Осовна інформація</a></li>
+                        <li><a data-toggle="tab" href="#posts">Пости</a></li>
+                        <li><a data-toggle="tab" href="#comments">Коментарі</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="main-info">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>Ім'я:</td>
+                                    <td><b>@Model.UserName</b></td>
+                                </tr>
+                                <tr>
+                                    <td>Електронна пошта:</td>
+                                    <td><b><a href="mailto:@Model.Email">@Model.Email</a></b></td>
+                                </tr>
+                                <tr>
+                                    <td>Адреса:</td>
+                                    <td><b>Address</b></td>
+                                </tr>
+                                @if (Model.PhoneNumberConfirmed)
+                                {
+                                    <tr>
+                                        <td>Номер телефону:</td>
+                                        <td><b>@Model.PhoneNumber</b></td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>Номер телефону:</td>
+                                        <td><b>-</b></td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td>Статус:</td>
+                                    <td><b>active</b></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="bs-callout bs-callout-danger">
+                                <h4>Про мене:</h4>
+                                <p>
+                                    Lorem ipsum dolor sit amet, ea vel prima adhuc, scripta liberavisse ea quo, te vel vidit mollis complectitur. Quis verear mel ne. Munere vituperata vis cu, 
+                                    te pri duis timeam scaevola, nam postea diceret ne. Cum ex quod aliquip mediocritatem, mei habemus persecuti mediocritatem ei.
+                                </p>
+                                <p>
+                                    Odio recteque expetenda eum ea, cu atqui maiestatis cum. Te eum nibh laoreet, case nostrud nusquam an vis. 
+                                    Clita debitis apeirian et sit, integre iudicabit elaboraret duo ex. Nihil causae adipisci id eos.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="posts">
+                            <p><b>Статистика</b></p>
+                            <table class="table table-user-information">
+                                <tbody>
+                                    <tr>
+                                        <td>Мої пости:</td>
+                                        <td><b>10</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Збережені пости:</td>
+                                        <td><b>15</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#my">Мої пости</a></li>
+                                <li><a data-toggle="tab" href="#saved">Збережені пости</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="my">
+                                    Мої пости
+                                </div>
+                                <div class="tab-pane" id="saved">
+                                    Збережені пости
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
+            <span class="pull-right">
+                <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
+            </span>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
