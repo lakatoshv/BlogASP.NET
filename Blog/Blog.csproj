@@ -212,6 +212,10 @@
     <Compile Include="Migrations\201812091731226_Comment.Designer.cs">
       <DependentUpon>201812091731226_Comment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903281454306_ProfileTable.cs" />
+    <Compile Include="Migrations\201903281454306_ProfileTable.Designer.cs">
+      <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BlogContext.cs" />
@@ -219,6 +223,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Posts\Interfaces\IPostsService.cs" />
     <Compile Include="Services\Posts\PostsService.cs" />
@@ -301,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812091731226_Comment.resx">
       <DependentUpon>201812091731226_Comment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903281454306_ProfileTable.resx">
+      <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

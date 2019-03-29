@@ -10,6 +10,7 @@ namespace Blog.Models
     {
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
     }
     public class BlogDbInitializer : DropCreateDatabaseAlways<BlogContext>
     {
