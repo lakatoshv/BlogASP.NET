@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Blog.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Blog.Controllers
 {
@@ -155,6 +156,13 @@ namespace Blog.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+                    var userManager = new UserManager<ApplicationUser>(store);
+                    ApplicationUser createdUser = userManager.FindByEmailAsync(model.Email).Result;
+                    var profile = new Profile {ApplicationUser = createdUser.Id, FirstName = model.FirstName, LastName = model.LastName };
+                    BlogContext db = new BlogContext();
+                    db.Profiles.Add(profile);
+                    db.SaveChanges();
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // Дополнительные сведения о том, как включить подтверждение учетной записи и сброс пароля, см. по адресу: http://go.microsoft.com/fwlink/?LinkID=320771

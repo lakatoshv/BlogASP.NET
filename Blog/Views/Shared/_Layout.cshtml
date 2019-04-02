@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -71,19 +72,20 @@
                         )
                     </li>
                     }
-                    else { 
-                        <li class="nav-item">
-                            @{
-                                var name = HttpContext.Current.User.Identity.Name
-                            }
-                            @Html.ActionLink(
-                                linkText: name,
-                                actionName: "Index",
-                                controllerName: "Profile",
-                                routeValues: null,
-                                htmlAttributes: new {@class = "nav-link"}
-                            )
-                        </li>
+                    else {
+                    <li class="nav-item">
+                        @{
+                            var profile = ((ClaimsIdentity)HttpContext.Current.User.Identity).Claims;
+                            var name = profile.First(item => item.Type == "FirstName").Value + " " + profile.First(item => item.Type == "LastName").Value;
+                        }
+                        @Html.ActionLink(
+                        linkText: name,
+                        actionName: "Index",
+                        controllerName: "Profile",
+                        routeValues: null,
+                        htmlAttributes: new {@class = "nav-link"}
+                        )
+                    </li>
                         <li class="nav-item">
                             @Html.ActionLink(
                                 linkText: "Вийти",
