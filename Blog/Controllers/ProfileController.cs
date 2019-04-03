@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Blog.Models;
+using Blog.ViewModels.Users;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -14,16 +15,24 @@ namespace Blog.Controllers
         // GET: Profile
         public ActionResult Index()
         {
+            BlogContext db = new BlogContext();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
-            ApplicationUser user = userManager.FindByIdAsync(User.Identity.GetUserId()).Result;
+            ProfileViewModel profile = new ProfileViewModel();
+            var userId = User.Identity.GetUserId();
+            profile.UserData = userManager.FindByIdAsync(userId).Result;
 
-            return View(user);
+            profile.ProfileData = db.Profiles.Where(pr => pr.ApplicationUser.Equals(userId)).FirstOrDefault();
+            profile.Posts = db.Posts.Where(post => post.Author.Equals(userId)).ToList(); ;
+            return View(profile);
         }
 
         // GET: Profile/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
+            if (id == null) return RedirectToAction("Index", "Posts");
+            BlogContext db = new BlogContext();
+            Profile profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(id)).FirstOrDefault();
             return View();
         }
 

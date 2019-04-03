@@ -1,7 +1,10 @@
-﻿@using Microsoft.AspNet.Identity
-@model Blog.Models.ApplicationUser
+﻿@using Microsoft.Ajax.Utilities
+@using Microsoft.AspNet.Identity
+@model Blog.ViewModels.Users.ProfileViewModel
 @{
-    ViewBag.Title = "BlogASP.NET - " + Model.UserName;
+    var name = Model.ProfileData.FirstName + " " + Model.ProfileData.LastName;
+    if (name == "") {name = Model.UserData.UserName;}
+    ViewBag.Title = "BlogASP.NET - " + name;
 }
 
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
@@ -22,8 +25,16 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-3 col-lg-3 " align="center">
-                    <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="avatar" class="img-circle img-responsive"><br>
-                    <h3>@Model.UserName</h3>
+                    @if (!Model.ProfileData.ProfileImg.IsNullOrWhiteSpace())
+                    {
+                        <img src="@Model.ProfileData.ProfileImg" alt="avatar" class="img-circle img-responsive"><br>
+                    }
+                    else
+                    {
+                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="avatar" class="img-circle img-responsive"><br>
+                    }
+
+                    <h3>@name</h3>
                 </div>
                 <div class=" col-md-9 col-lg-9">
                     <ul class="nav nav-tabs">
@@ -37,21 +48,39 @@
                                 <tbody>
                                 <tr>
                                     <td>Ім'я:</td>
-                                    <td><b>@Model.UserName</b></td>
+                                    @if (Model.ProfileData.FirstName != "")
+                                    {
+                                        <td><b>@Model.ProfileData.FirstName</b></td>
+                                    }
+                                    else
+                                    {
+                                        <td><b>-</b></td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td>Фамілія:</td>
+                                    @if (Model.ProfileData.LastName != "")
+                                    {
+                                        <td><b>@Model.ProfileData.LastName</b></td>
+                                    }
+                                    else
+                                    {
+                                        <td><b>-</b></td>
+                                    }
                                 </tr>
                                 <tr>
                                     <td>Електронна пошта:</td>
-                                    <td><b><a href="mailto:@Model.Email">@Model.Email</a></b></td>
+                                    <td><b><a href="mailto:@Model.UserData.Email">@Model.UserData.Email</a></b></td>
                                 </tr>
                                 <tr>
                                     <td>Адреса:</td>
                                     <td><b>Address</b></td>
                                 </tr>
-                                @if (Model.PhoneNumberConfirmed)
+                                @if (!Model.UserData.PhoneNumber.IsNullOrWhiteSpace())
                                 {
                                     <tr>
                                         <td>Номер телефону:</td>
-                                        <td><b>@Model.PhoneNumber</b></td>
+                                        <td><b>@Model.UserData.PhoneNumber</b></td>
                                     </tr>
                                 }
                                 else
@@ -85,7 +114,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Мої пости:</td>
-                                        <td><b>10</b></td>
+                                        <td><b>@Model.Posts.Count</b></td>
                                     </tr>
                                     <tr>
                                         <td>Збережені пости:</td>
