@@ -3,7 +3,7 @@
 @model Blog.ViewModels.Users.ProfileViewModel
 @{
     var name = Model.ProfileData.FirstName + " " + Model.ProfileData.LastName;
-    if (name == "") {name = Model.UserData.UserName;}
+    if (name == "") { name = Model.UserData.UserName; }
     ViewBag.Title = "BlogASP.NET - " + name;
 }
 
@@ -12,10 +12,11 @@
     ul.nav li {
         padding: 10px;
     }
-    ul.nav li a {
-        z-index: 1000;
-        display: block;
-    }
+
+        ul.nav li a {
+            z-index: 1000;
+            display: block;
+        }
 </style>
 <!-- Main Content -->
 <div class="container">
@@ -46,64 +47,64 @@
                         <div class="tab-pane active" id="main-info">
                             <table class="table table-user-information">
                                 <tbody>
-                                <tr>
-                                    <td>Ім'я:</td>
-                                    @if (Model.ProfileData.FirstName != "")
+                                    <tr>
+                                        <td>Ім'я:</td>
+                                        @if (Model.ProfileData.FirstName != "")
+                                        {
+                                            <td><b>@Model.ProfileData.FirstName</b></td>
+                                        }
+                                        else
+                                        {
+                                            <td><b>-</b></td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td>Фамілія:</td>
+                                        @if (Model.ProfileData.LastName != "")
+                                        {
+                                            <td><b>@Model.ProfileData.LastName</b></td>
+                                        }
+                                        else
+                                        {
+                                            <td><b>-</b></td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td>Електронна пошта:</td>
+                                        <td><b><a href="mailto:@Model.UserData.Email">@Model.UserData.Email</a></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Адреса:</td>
+                                        <td><b>Address</b></td>
+                                    </tr>
+                                    @if (!Model.UserData.PhoneNumber.IsNullOrWhiteSpace())
                                     {
-                                        <td><b>@Model.ProfileData.FirstName</b></td>
+                                        <tr>
+                                            <td>Номер телефону:</td>
+                                            <td><b>@Model.UserData.PhoneNumber</b></td>
+                                        </tr>
                                     }
                                     else
                                     {
-                                        <td><b>-</b></td>
+                                        <tr>
+                                            <td>Номер телефону:</td>
+                                            <td><b>-</b></td>
+                                        </tr>
                                     }
-                                </tr>
-                                <tr>
-                                    <td>Фамілія:</td>
-                                    @if (Model.ProfileData.LastName != "")
-                                    {
-                                        <td><b>@Model.ProfileData.LastName</b></td>
-                                    }
-                                    else
-                                    {
-                                        <td><b>-</b></td>
-                                    }
-                                </tr>
-                                <tr>
-                                    <td>Електронна пошта:</td>
-                                    <td><b><a href="mailto:@Model.UserData.Email">@Model.UserData.Email</a></b></td>
-                                </tr>
-                                <tr>
-                                    <td>Адреса:</td>
-                                    <td><b>Address</b></td>
-                                </tr>
-                                @if (!Model.UserData.PhoneNumber.IsNullOrWhiteSpace())
-                                {
                                     <tr>
-                                        <td>Номер телефону:</td>
-                                        <td><b>@Model.UserData.PhoneNumber</b></td>
+                                        <td>Статус:</td>
+                                        <td><b>active</b></td>
                                     </tr>
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td>Номер телефону:</td>
-                                        <td><b>-</b></td>
-                                    </tr>
-                                }
-                                <tr>
-                                    <td>Статус:</td>
-                                    <td><b>active</b></td>
-                                </tr>
                                 </tbody>
                             </table>
                             <div class="bs-callout bs-callout-danger">
                                 <h4>Про мене:</h4>
                                 <p>
-                                    Lorem ipsum dolor sit amet, ea vel prima adhuc, scripta liberavisse ea quo, te vel vidit mollis complectitur. Quis verear mel ne. Munere vituperata vis cu, 
+                                    Lorem ipsum dolor sit amet, ea vel prima adhuc, scripta liberavisse ea quo, te vel vidit mollis complectitur. Quis verear mel ne. Munere vituperata vis cu,
                                     te pri duis timeam scaevola, nam postea diceret ne. Cum ex quod aliquip mediocritatem, mei habemus persecuti mediocritatem ei.
                                 </p>
                                 <p>
-                                    Odio recteque expetenda eum ea, cu atqui maiestatis cum. Te eum nibh laoreet, case nostrud nusquam an vis. 
+                                    Odio recteque expetenda eum ea, cu atqui maiestatis cum. Te eum nibh laoreet, case nostrud nusquam an vis.
                                     Clita debitis apeirian et sit, integre iudicabit elaboraret duo ex. Nihil causae adipisci id eos.
                                 </p>
                             </div>
@@ -128,7 +129,51 @@
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="my">
-                                    Мої пости
+                                    <p><b>Мої пости</b></p>
+                                    <table class="table table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:35%"><b>Назва:</b></th>
+                                                <th style="width:10%"><b>Кількість переглядів:</b></th>
+                                                <th style="width:10%"><b>Кількість лайків:</b></th>
+                                                <th style="width:10%"><b>Кількість дизлайків:</b></th>
+                                                <th style="width:15%"><b>Дата створення:</b></th>
+                                                <th style="width:20%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var post in Model.Posts)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @{
+                                                            var pathURL = Url.Action("Show", "Posts") + "/" + post.Id;
+                                                        }
+                                                        <a href="@pathURL">@post.Title</a>
+                                                    </td>
+                                                    <td>@post.Seen</td>
+                                                    <td>@post.Likes</td>
+                                                    <td>@post.Dislikes</td>
+                                                    <td>@post.CreatedAt</td>
+                                                    <td class="actions" data-th="">
+                                                        @{
+                                                            var edit = Url.Action("Edit", "Posts") + "/" + post.Id;
+                                                            var delete = Url.Action("Delete", "Posts");
+                                                        }
+                                                        <a class="btn btn-primary" href="@edit"><i class="fa fa-edit"></i></a>
+                                                        <button type="button"
+                                                                class="btn btn-sm text-white btn-danger"
+                                                                id="@(post.Id)"
+                                                                onclick="setDeletePostValues(this.id)"
+                                                                data-toggle="modal"
+                                                                data-target="#delete-post">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <div class="tab-pane" id="saved">
                                     Збережені пости
@@ -148,4 +193,43 @@
         </div>
     </div>
 </div>
+
+<div id="delete-post" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Видалити цей пост?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <input type='hidden' id="delete-id" />
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deletePost('/Posts/Delete/')">
+                    <i class="fa fa-trash"></i>
+                    Видалити
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    function setDeletePostValues(id) {
+        $("#delete-id").val(id);
+    }
+
+    function deletePost(url) {
+        var id = $("#delete-id").val();
+        ajaxQuery(id, url);
+    }
+    function ajaxQuery(id, url) {
+        $.post(
+            url + id,
+            onAjaxSuccess
+        );
+    }
+    function onAjaxSuccess(data) {
+        location.reload();
+    }
+</script>
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
