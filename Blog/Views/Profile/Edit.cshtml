@@ -1,0 +1,127 @@
+﻿@model Blog.ViewModels.Users.ProfileViewModel
+@{
+    ViewBag.Title = "Редагувати профіль";
+    var tagIndex = 1;
+}
+
+@Styles.Render("~/public/css/post.css")
+@Styles.Render("~/public/css/post_responsive.css")
+
+<div class="container">
+    <div class="row" data-ref="container">
+        <div class="col-lg-12">
+            @using (Html.BeginForm("Edit", "Profile", FormMethod.Post, new { role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="first-name"
+                           tag=""
+                           class="optional">
+                        Ім'я:
+                    </label>
+
+                    @Html.TextBoxFor(model => model.ProfileData.FirstName, new { @class = "form-control", @id = "first-name", @placeholder = "Ім'я", @value = Model.ProfileData.FirstName })
+                </div>
+
+                <div class="form-group">
+                    <label for="last-name"
+                           tag=""
+                           class="optional">
+                        Фамілія:
+                    </label>
+
+                    @Html.TextBoxFor(model => model.ProfileData.LastName, new { @class = "form-control", @id = "last-name", @placeholder = "Фамілія", @value = Model.ProfileData.LastName })
+                </div>
+
+                <div class="form-group">
+                    <label for="email"
+                        tag=""
+                        class="optional">
+                            Електронна пошта:
+                    </label>
+
+                    @Html.TextBoxFor(model => model.UserData.Email, new { @class = "form-control", @id = "email", @placeholder = "Електронна пошта", @value = Model.UserData.Email, @type = "email" })
+                </div>
+
+                <div class="form-group">
+                    <label for="phone"
+                           tag=""
+                           class="optional">
+                        Номер телефону:
+                    </label>
+
+                    @Html.TextBoxFor(model => model.UserData.PhoneNumber, new { @class = "form-control", @id = "phone", @placeholder = "Номер телефону", @value = Model.UserData.PhoneNumber, @type = "tel" })
+                </div>
+
+                <label for="content"
+                       tag=""
+                       class="optional">
+                    Аватар
+                </label>
+                <!--
+            <div class="radio">
+                <label>
+                    <input class="form-check-input" type="radio" name="type" id="upload" value="upload">
+                    <label for="upload">Вибрати файл з комп'ютера</label>
+                </label>
+                <div class="upload" style="display: none;">
+                    <div id="objects">
+                        <div class="form-group" id="add-image1" >
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+                            <label for="gallery_img" tag="" class="optional">Картинка:</label>
+                            <dd>
+                                <input type="hidden" name="MAX_FILE_SIZE" value="2097152" id="MAX_FILE_SIZE">
+                                <input type="file" name="gallery_img" id="gallery_img" class="form-control">
+                            </dd>
+                        </div>
+                    </div>
+                    <p id="add-input" class="btn btn-default">Додати ще одну картинку</p>
+                </div>
+            </div>
+            <div class="radio">
+                <label>
+                    <input class="form-check-input" type="radio" name="type" id="addurl" value="addurl">
+                    <label for="addurl">Вказати URL-адресу</label>
+                </label>
+                <div class="addurl" style="display: none;">
+                    <div class="form-group">
+                        <label for="img_url" tag="" class="optional">URL-адреса:</label>
+                        <input type="text" name="img_url" id="img_url" value="" class="form-control">
+                        <p>Наприклад: https://some_image.com/example.jpg</p>
+                    </div>
+                </div>
+            </div>
+        -->
+                <div class="addurl">
+                    <div class="form-group">
+                        <label for="img_url"
+                               tag=""
+                               class="optional">
+                            URL-адреса:
+                        </label>
+
+                        @Html.TextBoxFor(model => model.ProfileData.ProfileImg, new { @class = "form-control", @id = "title", @placeholder = "URL-адреса", @value = Model.ProfileData.ProfileImg })
+
+                        <p>Наприклад: https://some_image.com/example.jpg</p>
+                    </div>
+                </div>
+
+                <br />
+                <div class="pull-right">
+                    <input type="submit"
+                           name="submit"
+                           id="submit"
+                           value="Редагувати"
+                           class="btn btn-default">
+
+                    <button type="button"
+                            class="btn btn-sm text-white btn-secondary">
+                        Скасувати
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
