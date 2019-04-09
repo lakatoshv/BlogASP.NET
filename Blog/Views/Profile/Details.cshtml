@@ -47,66 +47,66 @@
                         <div class="tab-pane active" id="main-info">
                             <table class="table table-user-information">
                                 <tbody>
-                                @if (User.Identity.GetUserId().Equals(Model.UserData.Id))
-                                {
-                                    <tr>
-                                        <td></td>
-                                        <td class="pull-right">
-                                            @{
-                                                var editProfile = Url.Action("Edit", "Profile") + "/" + Model.ProfileData.Id;
-                                            }
-                                            <a class="" href="@editProfile"><i class="fa fa-edit"> Редагувати</i></a>
-                                        </td>
-                                    </tr>
-                                }
-                                <tr>
-                                    <td>Ім'я:</td>
-                                    @if (Model.ProfileData.FirstName != "")
+                                    @if (User.Identity.GetUserId().Equals(Model.UserData.Id))
                                     {
-                                        <td><b>@Model.ProfileData.FirstName</b></td>
+                                        <tr>
+                                            <td></td>
+                                            <td class="pull-right">
+                                                @{
+                                                    var editProfile = Url.Action("Edit", "Profile") + "/" + Model.ProfileData.Id;
+                                                }
+                                                <a class="" href="@editProfile"><i class="fa fa-edit"> Редагувати</i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td>Ім'я:</td>
+                                        @if (Model.ProfileData.FirstName != "")
+                                        {
+                                            <td><b>@Model.ProfileData.FirstName</b></td>
+                                        }
+                                        else
+                                        {
+                                            <td><b>-</b></td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td>Фамілія:</td>
+                                        @if (Model.ProfileData.LastName != "")
+                                        {
+                                            <td><b>@Model.ProfileData.LastName</b></td>
+                                        }
+                                        else
+                                        {
+                                            <td><b>-</b></td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td>Електронна пошта:</td>
+                                        <td><b><a href="mailto:@Model.UserData.Email">@Model.UserData.Email</a></b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Адреса:</td>
+                                        <td><b>Address</b></td>
+                                    </tr>
+                                    @if (!Model.UserData.PhoneNumber.IsNullOrWhiteSpace())
+                                    {
+                                        <tr>
+                                            <td>Номер телефону:</td>
+                                            <td><b>@Model.UserData.PhoneNumber</b></td>
+                                        </tr>
                                     }
                                     else
                                     {
-                                        <td><b>-</b></td>
+                                        <tr>
+                                            <td>Номер телефону:</td>
+                                            <td><b>-</b></td>
+                                        </tr>
                                     }
-                                </tr>
-                                <tr>
-                                    <td>Фамілія:</td>
-                                    @if (Model.ProfileData.LastName != "")
-                                    {
-                                        <td><b>@Model.ProfileData.LastName</b></td>
-                                    }
-                                    else
-                                    {
-                                        <td><b>-</b></td>
-                                    }
-                                </tr>
-                                <tr>
-                                    <td>Електронна пошта:</td>
-                                    <td><b><a href="mailto:@Model.UserData.Email">@Model.UserData.Email</a></b></td>
-                                </tr>
-                                <tr>
-                                    <td>Адреса:</td>
-                                    <td><b>Address</b></td>
-                                </tr>
-                                @if (!Model.UserData.PhoneNumber.IsNullOrWhiteSpace())
-                                {
                                     <tr>
-                                        <td>Номер телефону:</td>
-                                        <td><b>@Model.UserData.PhoneNumber</b></td>
+                                        <td>Статус:</td>
+                                        <td><b>active</b></td>
                                     </tr>
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td>Номер телефону:</td>
-                                        <td><b>-</b></td>
-                                    </tr>
-                                }
-                                <tr>
-                                    <td>Статус:</td>
-                                    <td><b>active</b></td>
-                                </tr>
                                 </tbody>
                             </table>
                             <div class="bs-callout bs-callout-danger">

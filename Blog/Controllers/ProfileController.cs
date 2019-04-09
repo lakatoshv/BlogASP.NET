@@ -21,6 +21,7 @@ namespace Blog.Controllers
         // GET: Profile
         public ActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             BlogContext db = new BlogContext();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
@@ -38,8 +39,16 @@ namespace Blog.Controllers
         {
             if (id == null) return RedirectToAction("Index", "Posts");
             BlogContext db = new BlogContext();
-            Profile profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(id)).FirstOrDefault();
-            return View();
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            ProfileViewModel profile = new ProfileViewModel();
+
+            profile.ProfileData = db.Profiles.Where(pr => pr.Id.Equals(id.Value)).FirstOrDefault();
+            if(profile.ProfileData != null && profile.ProfileData.ApplicationUser.IsNullOrWhiteSpace()) return RedirectToAction("Index", "Posts");
+            profile.Posts = db.Posts.Where(post => post.Author.Equals(profile.ProfileData.ApplicationUser)).ToList();
+            profile.UserData = userManager.FindByIdAsync(profile.ProfileData.ApplicationUser).Result;
+
+            return View(profile);
         }
 
         // GET: Profile/Create
@@ -127,7 +136,8 @@ namespace Blog.Controllers
             {
                 new Claim("FirstName", !model.ProfileData.FirstName.IsNullOrWhiteSpace() ? model.ProfileData.FirstName : ""),
                 new Claim("LastName", !model.ProfileData.LastName.IsNullOrWhiteSpace() ? model.ProfileData.LastName : ""),
-                new Claim("ProfileImg", !model.ProfileData.ProfileImg.IsNullOrWhiteSpace() ? model.ProfileData.ProfileImg : "")
+                new Claim("ProfileImg", !model.ProfileData.ProfileImg.IsNullOrWhiteSpace() ? model.ProfileData.ProfileImg : ""),
+                new Claim("ProfileId", id.Value.ToString())
             });
 
             var authenticationManager = HttpContext.GetOwinContext().Authentication;

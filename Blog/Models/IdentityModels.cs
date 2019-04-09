@@ -23,7 +23,8 @@ namespace Blog.Models
                 {
                     new Claim("FirstName", !profile.FirstName.IsNullOrWhiteSpace() ? profile.FirstName : ""),
                     new Claim("LastName", !profile.LastName.IsNullOrWhiteSpace() ? profile.LastName : ""),
-                    new Claim("ProfileImg", !profile.ProfileImg.IsNullOrWhiteSpace() ? profile.ProfileImg : "")
+                    new Claim("ProfileImg", !profile.ProfileImg.IsNullOrWhiteSpace() ? profile.ProfileImg : ""),
+                    new Claim("ProfileId", profile.Id.ToString())
                 });
 
             return userIdentity;

@@ -55,9 +55,10 @@
                     Теги: @Model.post.Tags
                 </p>
                 <p class="text-justify">@Model.post.Content</p>
+                @{ var authorPage = Url.Action("Details", "Profile") + "/" + Model.Profile.Id; }
                 <p class="post-meta">
                     Написав: <b>
-                        <a href="">@Model.post.Author</a><i>
+                        <a href="@authorPage">@Model.post.Author</a><i>
                             20.11.2018
                         </i>
                     </b>
@@ -110,19 +111,20 @@
                                         <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
                                             <span><I class="fa fa-3x fa-user-circle"></I></span>
                                             <small class="post_meta">
-                                                <a href="#" id="author@(comment.Id)">@comment.Author</a>
-                                                <span>@comment.CreatedAt</span>
+                                                @{var commentatorPage = Url.Action("Details", "Profile") + "/" + comment.Profile.Id;}
+                                                <a href="@commentatorPage" id="author@(comment.comment.Id)">@comment.comment.Author</a>
+                                                <span>@comment.comment.CreatedAt</span>
                                             </small>
                                         </div>
                                         <div class="comment_content">
-                                            <p id="content@(comment.Id)">@comment.CommentBody</p>
+                                            <p id="content@(comment.comment.Id)">@comment.comment.CommentBody</p>
                                             <p class="pull-right">
-                                                @if (User.Identity.GetUserName().Equals(comment.Author) )
+                                                @if (User.Identity.GetUserName().Equals(comment.comment.Author) )
                                                 {
                                                     <button
                                                         type="button"
                                                         class="btn btn-sm text-white btn-primary"
-                                                        id="@(comment.Id)"
+                                                        id="@(comment.comment.Id)"
                                                         onclick="setEditCommentValues(this.id)"
                                                         data-toggle="modal"
                                                         data-target="#edit-comment">
@@ -133,7 +135,7 @@
                                                     <button
                                                         type="button"
                                                         class="btn btn-sm text-white btn-danger"
-                                                        id="@(comment.Id)"
+                                                        id="@(comment.comment.Id)"
                                                         onclick="setDeleteCommentValues(this.id)"
                                                         data-toggle="modal"
                                                         data-target="#delete-comment">

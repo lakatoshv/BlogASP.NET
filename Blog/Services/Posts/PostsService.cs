@@ -16,6 +16,7 @@ namespace Blog.Services.Posts
             BlogContext db = new BlogContext();
             PostViewModel postModel = new PostViewModel();
             postModel.post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
+            postModel.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(postModel.post.Author)).FirstOrDefault();
             if (postModel.post == null) return null;
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
@@ -23,14 +24,21 @@ namespace Blog.Services.Posts
             ApplicationUser user = userManager.FindByIdAsync(author).Result;
             if (user != null)
                 postModel.post.Author = user.UserName;
-
+            IList<CommentViewModel> commentsViewModel = new List<CommentViewModel>();
             var comments = db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
             comments.ForEach(comment => {
                 ApplicationUser commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
+                CommentViewModel comm = new CommentViewModel();
+                comm.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(comment.Author)).FirstOrDefault();
+
                 if (commentAuthor != null)
                     comment.Author = commentAuthor.UserName;
+                
+                comm.comment = comment;
+
+                commentsViewModel.Add(comm);
             });
-            postModel.comments = comments;
+            postModel.comments = commentsViewModel;
 
 
             return postModel;
@@ -46,6 +54,7 @@ namespace Blog.Services.Posts
                 ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
                 if (user != null)
                     item.Author = user.UserName;
+                
             });
             return posts;
         }
