@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@model Blog.Models.Message
+@{
     ViewBag.Title = "Contact";
 }
 @Styles.Render("~/public/css/post.css")
@@ -31,29 +33,44 @@
         <h2 class="text-center" id="form-header"><i class="fa fa-envelope"></i> Форма зворотнього звязку</h2>
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6 pb-5">
-                <form action="mail.php" method="post">
+                @using (Html.BeginForm("SendMessage", "Message", FormMethod.Post, new { role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
                     <div class="card border-primary rounded-0">
                         <div class="card-body p-3">
                             <div class="row">
-                                <div class="col-lg-6 ml-auto text-center">
-                                    <div class="form-group">
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <div class="col-lg-6 ml-auto text-center">
+                                        <div class="form-group">
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
+                                                </div>
+
+                                                @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @id = "name", @placeholder = "Ім'я" })
                                             </div>
-                                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ім'я" required>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 mr-auto text-center">
-                                    <div class="form-group">
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+                                    <div class="col-lg-6 mr-auto text-center">
+                                        <div class="form-group">
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
+                                                </div>
+                                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "email", @placeholder = "Електронна пошта", @type = "email" })
                                             </div>
-                                            <input type="email" class="form-control" id="nombre" name="email" placeholder="Електронна пошта" required>
                                         </div>
                                     </div>
+                                }
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-font text-info"></i></div>
+                                    </div>
+                                    @Html.TextBoxFor(model => model.Subject, new { @class = "form-control", @id = "subject", @placeholder = "Тема"})
                                 </div>
                             </div>
                             <div class="form-group">
@@ -61,7 +78,7 @@
                                     <div class="input-group-prepend">
                                         <div class="input-group-text"><i class="fa fa-comment text-info"></i></div>
                                     </div>
-                                    <textarea class="form-control" placeholder="Повідомлення" required></textarea>
+                                    @Html.TextAreaFor(model => model.Body, new { @class = "form-control", @id = "body", @placeholder = "Повідомлення" })
                                 </div>
                             </div>
 
@@ -70,7 +87,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+                }
             </div>
         </div>
     </div>

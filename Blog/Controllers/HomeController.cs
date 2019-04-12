@@ -13,17 +13,16 @@ namespace Blog.Controllers
         {
             return RedirectToAction("Index", "Posts");
         }
-
+        
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
-            return View();
+            Message message = new Message();
+            return View(message);
         }
     }
 }
