@@ -200,7 +200,9 @@
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -216,32 +218,213 @@
     <Compile Include="Migrations\201903281454306_ProfileTable.Designer.cs">
       <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904121341232_MessageTable.cs" />
+    <Compile Include="Migrations\201904121341232_MessageTable.Designer.cs">
+      <DependentUpon>201904121341232_MessageTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904121352347_ChangeFieldTitleInMessages.cs" />
+    <Compile Include="Migrations\201904121352347_ChangeFieldTitleInMessages.Designer.cs">
+      <DependentUpon>201904121352347_ChangeFieldTitleInMessages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BlogContext.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Profile.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Posts\Interfaces\IPostsService.cs" />
     <Compile Include="Services\Posts\PostsService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Posts\CommentViewModel.cs" />
     <Compile Include="ViewModels\Posts\PostViewModel.cs" />
+    <Compile Include="ViewModels\Users\ProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\Blog.dll" />
+    <Content Include="bin\Blog.pdb" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="bin\Microsoft.AI.DependencyCollector.xml" />
+    <Content Include="bin\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.xml" />
+    <Content Include="bin\Microsoft.AI.Web.dll" />
+    <Content Include="bin\Microsoft.AI.Web.xml" />
+    <Content Include="bin\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="bin\Microsoft.AI.WindowsServer.xml" />
+    <Content Include="bin\Microsoft.ApplicationInsights.dll" />
+    <Content Include="bin\Microsoft.ApplicationInsights.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.xml" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.xml" />
+    <Content Include="bin\Microsoft.Owin.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\ru\EntityFramework.resources.dll" />
+    <Content Include="bin\ru\EntityFramework.SqlServer.resources.dll" />
+    <Content Include="bin\ru\Microsoft.AspNet.Identity.Core.resources.dll" />
+    <Content Include="bin\ru\Microsoft.AspNet.Identity.EntityFramework.resources.dll" />
+    <Content Include="bin\ru\Microsoft.AspNet.Identity.Owin.resources.dll" />
+    <Content Include="bin\ru\Microsoft.Owin.Host.SystemWeb.resources.dll" />
+    <Content Include="bin\ru\Microsoft.Owin.resources.dll" />
+    <Content Include="bin\ru\Microsoft.Owin.Security.Facebook.resources.dll" />
+    <Content Include="bin\ru\Microsoft.Owin.Security.Google.resources.dll" />
+    <Content Include="bin\ru\Microsoft.Owin.Security.MicrosoftAccount.resources.dll" />
+    <Content Include="bin\ru\Microsoft.Owin.Security.resources.dll" />
+    <Content Include="bin\ru\Microsoft.Owin.Security.Twitter.resources.dll" />
+    <Content Include="bin\ru\System.Web.Helpers.resources.dll" />
+    <Content Include="bin\ru\System.Web.Mvc.resources.dll" />
+    <Content Include="bin\ru\System.Web.Optimization.resources.dll" />
+    <Content Include="bin\ru\System.Web.Razor.resources.dll" />
+    <Content Include="bin\ru\System.Web.WebPages.Deployment.resources.dll" />
+    <Content Include="bin\ru\System.Web.WebPages.Razor.resources.dll" />
+    <Content Include="bin\ru\System.Web.WebPages.resources.dll" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="public\blog.ico" />
+    <Content Include="public\css\app.css" />
+    <Content Include="public\css\clean-blog.min.css" />
+    <Content Include="public\css\post.css" />
+    <Content Include="public\css\post_responsive.css" />
+    <Content Include="public\favicon.ico" />
+    <Content Include="public\font-awesome\css\font-awesome.css" />
+    <Content Include="public\font-awesome\css\font-awesome.min.css" />
+    <Content Include="public\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="public\img\about-bg.jpg" />
+    <Content Include="public\img\contact-bg.jpg" />
+    <Content Include="public\img\home-bg-v2.jpg" />
+    <Content Include="public\img\home-bg.jpg" />
+    <Content Include="public\img\post-bg.jpg" />
+    <Content Include="public\img\post-sample-image.jpg" />
+    <Content Include="public\index.php" />
+    <Content Include="public\js\app.js" />
+    <Content Include="public\js\clean-blog.min.js" />
+    <Content Include="public\plugins\bootstrap\css\bootstrap.css" />
+    <Content Include="public\plugins\bootstrap\css\bootstrap.min.css" />
+    <Content Include="public\plugins\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="public\plugins\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="public\plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="public\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="public\plugins\jquery\jquery.js" />
+    <Content Include="public\plugins\jquery\jquery.slim.js" />
+    <Content Include="public\robots.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="public\.htaccess" />
+    <Content Include="public\font-awesome\css\font-awesome.css.map" />
+    <Content Include="public\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="public\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="public\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="public\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="public\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="public\font-awesome\less\animated.less" />
+    <Content Include="public\font-awesome\less\bordered-pulled.less" />
+    <Content Include="public\font-awesome\less\core.less" />
+    <Content Include="public\font-awesome\less\fixed-width.less" />
+    <Content Include="public\font-awesome\less\font-awesome.less" />
+    <Content Include="public\font-awesome\less\icons.less" />
+    <Content Include="public\font-awesome\less\larger.less" />
+    <Content Include="public\font-awesome\less\list.less" />
+    <Content Include="public\font-awesome\less\mixins.less" />
+    <Content Include="public\font-awesome\less\path.less" />
+    <Content Include="public\font-awesome\less\rotated-flipped.less" />
+    <Content Include="public\font-awesome\less\screen-reader.less" />
+    <Content Include="public\font-awesome\less\stacked.less" />
+    <Content Include="public\font-awesome\less\variables.less" />
+    <Content Include="public\font-awesome\scss\font-awesome.scss" />
+    <Content Include="public\font-awesome\scss\_animated.scss" />
+    <Content Include="public\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="public\font-awesome\scss\_core.scss" />
+    <Content Include="public\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="public\font-awesome\scss\_icons.scss" />
+    <Content Include="public\font-awesome\scss\_larger.scss" />
+    <Content Include="public\font-awesome\scss\_list.scss" />
+    <Content Include="public\font-awesome\scss\_mixins.scss" />
+    <Content Include="public\font-awesome\scss\_path.scss" />
+    <Content Include="public\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="public\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="public\font-awesome\scss\_stacked.scss" />
+    <Content Include="public\font-awesome\scss\_variables.scss" />
+    <Content Include="public\plugins\bootstrap\css\bootstrap.css.map" />
+    <Content Include="public\plugins\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="public\plugins\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="public\plugins\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="public\plugins\bootstrap\js\bootstrap.js.map" />
+    <Content Include="public\plugins\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="public\web.config" />
+    <Content Include="bin\ApplicationInsights.config" />
+    <Content Include="bin\Blog.dll.config" />
+    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -291,6 +474,10 @@
     <Content Include="Views\Posts\Index.cshtml" />
     <Content Include="Views\Posts\Show.cshtml" />
     <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Profile\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -310,10 +497,17 @@
     <EmbeddedResource Include="Migrations\201903281454306_ProfileTable.resx">
       <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904121341232_MessageTable.resx">
+      <DependentUpon>201904121341232_MessageTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904121352347_ChangeFieldTitleInMessages.resx">
+      <DependentUpon>201904121352347_ChangeFieldTitleInMessages.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Comments\" />
+    <Folder Include="Views\Message\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
