@@ -479,6 +479,7 @@
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Profile\Details.cshtml" />
+    <Content Include="Views\Posts\UserPosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
