@@ -10,7 +10,7 @@ namespace Blog.Services.Posts.Interfaces
 {
     public interface IPostsService
     {
-        IList<Post> GetPosts();
+        IList<PostsViewModel> GetPosts();
         PostViewModel GetPost(int postId);
     }
 }

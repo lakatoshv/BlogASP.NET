@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using Blog.Models;
 using Blog.Services.Posts.Interfaces;
 using Blog.ViewModels.Posts;
@@ -44,19 +45,28 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IList<Post> GetPosts()
+        public IList<PostsViewModel> GetPosts()
         {
             BlogContext db = new BlogContext();
+            IList<PostsViewModel> postModel = new List<PostsViewModel>();
             var posts = db.Posts.ToList();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
+                PostsViewModel post = new PostsViewModel();
+                post.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(item.Author)).FirstOrDefault();
+
                 ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
                 if (user != null)
                     item.Author = user.UserName;
+
                 
+                post.Post = item;
+                
+                post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
+                postModel.Add(post);
             });
-            return posts;
+            return postModel;
         }
     }
 }

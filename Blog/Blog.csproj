@@ -243,6 +243,7 @@
     <Compile Include="Services\Posts\PostsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Posts\CommentViewModel.cs" />
+    <Compile Include="ViewModels\Posts\PostsViewModel.cs" />
     <Compile Include="ViewModels\Posts\PostViewModel.cs" />
     <Compile Include="ViewModels\Users\ProfileViewModel.cs" />
   </ItemGroup>
