@@ -30,8 +30,18 @@ namespace Blog.Controllers
         public ActionResult Show(int? id)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
+
+            var postModelToUpdate = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
+            if (postModelToUpdate != null)
+            {
+                postModelToUpdate.Seen++;
+                _db.Entry(postModelToUpdate).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+
             var postModel = _postsService.GetPost(id.Value);
             if(postModel == null) return RedirectToAction("Index", "Posts");
+
             return View(postModel);
         }
 
