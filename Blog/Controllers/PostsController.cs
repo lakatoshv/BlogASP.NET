@@ -44,6 +44,12 @@ namespace Blog.Controllers
 
             return View(postModel);
         }
+        
+        public ActionResult MyPosts()
+        {
+            var posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId());
+            return View(posts);
+        }
 
         // GET: Posts/Create
         public ActionResult Create()

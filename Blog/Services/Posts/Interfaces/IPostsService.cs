@@ -12,5 +12,6 @@ namespace Blog.Services.Posts.Interfaces
     {
         IList<PostsViewModel> GetPosts();
         PostViewModel GetPost(int postId);
+        IList<PostsViewModel> GetCurrentUserPosts(string currentUserId);
     }
 }

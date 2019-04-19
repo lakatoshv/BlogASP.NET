@@ -78,6 +78,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -479,7 +480,7 @@
     <Content Include="Views\Profile\Edit.cshtml" />
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Profile\Details.cshtml" />
-    <Content Include="Views\Posts\UserPosts.cshtml" />
+    <Content Include="Views\Posts\MyPosts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -45,6 +45,30 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
+        public IList<PostsViewModel> GetCurrentUserPosts(string currentUserId)
+        {
+            BlogContext db = new BlogContext();
+            IList<PostsViewModel> postModel = new List<PostsViewModel>();
+            var posts = db.Posts.Where(post => post.Author.Equals(currentUserId)).ToList();
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            posts.ForEach(item => {
+                PostsViewModel post = new PostsViewModel();
+                post.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(item.Author)).FirstOrDefault();
+
+                ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
+                if (user != null)
+                    item.Author = user.UserName;
+
+
+                post.Post = item;
+
+                post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
+                postModel.Add(post);
+            });
+            return postModel;
+        }
+
         public IList<PostsViewModel> GetPosts()
         {
             BlogContext db = new BlogContext();
