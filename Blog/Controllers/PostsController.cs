@@ -47,6 +47,7 @@ namespace Blog.Controllers
         
         public ActionResult MyPosts()
         {
+            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             var posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId());
             return View(posts);
         }
