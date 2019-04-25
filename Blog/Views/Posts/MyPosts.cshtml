@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using System.Diagnostics.Eventing.Reader
+@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "BlogASP.NET - Мої пости";
 }
@@ -7,143 +8,149 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-10 col-md-10 mx-auto">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-secondary">Block</button>
-                <button type="button" class="btn btn-secondary">Table</button>
-            </div>
+
+            <p><b>Мої пости</b></p>
+            @{
+                var list = Url.Action("MyPosts", "Posts", new { display = "list" });
+                var grid = Url.Action("MyPosts", "Posts", new { display = "grid" });
+            }
+            <ul class="list-inline">
+                <li><a href="@list" style="float: left; padding-right: 15px;"><span class="fa fa-list"></span></a></li>
+                <li><a href="@grid"><span class="fa fa-th"></span></a></li>
+            </ul>
             <div class="clearfix"></div>
             @{
                 var createPost = Url.Action("Create", "Posts");
-                var posts = new List<Blog.ViewModels.Posts.PostsViewModel>();
-                posts = Model;
+                var posts = new List<Blog.ViewModels.Posts.PostViewModel>();
+                posts = Model.Posts;
             }
             @if (User.Identity.IsAuthenticated)
             {
                 <a href="@createPost" class="btn btn-light">Написати пост</a>
             }
             <span></span>
-            @foreach (var item in posts)
+            @if (Model.DisplayType.Equals("list"))
             {
-                <div class="post-preview">
-                    @{
-                        var pathURL = Url.Action("Show", "Posts") + "/" + item.Post.Id;
-                    }
-                    <a href="@pathURL">
-                        <h2 class="post-title">
-                            @item.Post.Title
-                        </h2>
-                        <br />
-                        @if (User.Identity.GetUserName().Equals(item.Post.Author))
-                        {
-                            <p class="pull-right">
-                                @{
-                                    var edit = Url.Action("Edit", "Posts") + "/" + item.Post.Id;
-                                    var delete = Url.Action("Delete", "Posts");
-                                }
-                                <a type="button"
-                                   class="btn btn-sm text-white btn-primary"
-                                   href="@edit">
-                                    <i class="fa fa-edit"></i>
-                                    Редагувати
-                                </a>
+                foreach (var item in posts)
+                 {
+                     <div class="post-preview">
+                         @{
+                             var pathURL = Url.Action("Show", "Posts") + "/" + item.Post.Id;
+                         }
+                         <a href="@pathURL">
+                             <h2 class="post-title">
+                                 @item.Post.Title
+                             </h2>
+                             <br/>
+                             @if (User.Identity.GetUserName().Equals(item.Post.Author))
+                             {
+                                 <p class="pull-right">
+                                     @{
+                                         var edit = Url.Action("Edit", "Posts") + "/" + item.Post.Id;
+                                         var delete = Url.Action("Delete", "Posts");
+                                     }
+                                     <a type="button"
+                                        class="btn btn-sm text-white btn-primary"
+                                        href="@edit">
+                                         <i class="fa fa-edit"></i>
+                                         Редагувати
+                                     </a>
 
-                                <button type="button"
-                                        class="btn btn-sm text-white btn-danger"
-                                        id="@(item.Post.Id)"
-                                        onclick="setDeletePostValues(this.id)"
-                                        data-toggle="modal"
-                                        data-target="#delete-post">
-                                    <i class="fa fa-trash"></i>
-                                    Видалити
-                                </button>
-                            </p>
-                        }
-                        <img style="width: 100%; height: 300px;" src="@item.Post.Imgurl" />
-                        <h3 class="post-subtitle">
-                            @item.Post.Description
-                        </h3>
-                    </a>
-                    <p class="post-meta">
-                        <span><i class="fa fa-fw fa-eye"></i> @item.Post.Seen</span>
-                        <span><i class="fa fa-fw fa-thumbs-up"></i> @item.Post.Likes</span>
-                        <span><i class="fa fa-fw fa-thumbs-down"></i> @item.Post.Dislikes</span>
-                        <span><i class="fa fa-fw fa-comment"></i> @item.CommentsCount</span>
-                    </p>
-                    <p class="post-meta">
-                        Теги: @item.Post.Tags
-                    </p>
-                    <p class="post-meta">
-                        Написав:
-                        <b>
-                            @{ var authorPage = Url.Action("Details", "Profile") + "/" + item.Profile.Id; }
-                            <a href="@authorPage">@item.Post.Author</a>
-                            <i>
-                                @item.Post.CreatedAt
-                            </i>
-                        </b>
-                    </p>
+                                     <button type="button"
+                                             class="btn btn-sm text-white btn-danger"
+                                             id="@(item.Post.Id)"
+                                             onclick="setDeletePostValues(this.id)"
+                                             data-toggle="modal"
+                                             data-target="#delete-post">
+                                         <i class="fa fa-trash"></i>
+                                         Видалити
+                                     </button>
+                                 </p>
+                             }
+                             <img style="width: 100%; height: 300px;" src="@item.Post.Imgurl"/>
+                             <h3 class="post-subtitle">
+                                 @item.Post.Description
+                             </h3>
+                         </a>
+                         <p class="post-meta">
+                             <span><i class="fa fa-fw fa-eye"></i> @item.Post.Seen</span>
+                             <span><i class="fa fa-fw fa-thumbs-up"></i> @item.Post.Likes</span>
+                             <span><i class="fa fa-fw fa-thumbs-down"></i> @item.Post.Dislikes</span>
+                             <span><i class="fa fa-fw fa-comment"></i> @item.CommentsCount</span>
+                         </p>
+                         <p class="post-meta">
+                             Теги: @item.Post.Tags
+                         </p>
+                         <p class="post-meta">
+                             Написав:
+                             <b>
+                                 @{ var authorPage = Url.Action("Details", "Profile") + "/" + item.Profile.Id; }
+                                 <a href="@authorPage">@item.Post.Author</a>
+                                 <i>
+                                     @item.Post.CreatedAt
+                                 </i>
+                             </b>
+                         </p>
+                     </div>
+                     <br/>
+                     <hr>
+                 }
+
+                <!-- Pager -->
+                <div class="clearfix">
+                    <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
                 </div>
-                <br />
-                <hr>
             }
-
-            <!-- Pager -->
-            <div class="clearfix">
-                <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-            </div>
-
-            <p><b>Мої пости</b></p>
-            @if (User.Identity.IsAuthenticated)
+            @if (Model.DisplayType.Equals("grid"))
             {
-                <a href="@createPost" class="btn btn-light">Написати пост</a>
-            }
                 <table class="table table-hover table-condensed">
                     <thead>
-                        <tr>
-                            <th style="width:35%"><b>Назва:</b></th>
-                            <th style="width:10%"><b>Кількість переглядів:</b></th>
-                            <th style="width:10%"><b>Кількість лайків:</b></th>
-                            <th style="width:10%"><b>Кількість дизлайків:</b></th>
-                            <th style="width:15%"><b>Дата створення:</b></th>
-                            <th style="width:20%"></th>
-                        </tr>
+                    <tr>
+                        <th style="width: 35%"><b>Назва:</b></th>
+                        <th style="width: 10%"><b>Кількість переглядів:</b></th>
+                        <th style="width: 10%"><b>Кількість лайків:</b></th>
+                        <th style="width: 10%"><b>Кількість дизлайків:</b></th>
+                        <th style="width: 15%"><b>Дата створення:</b></th>
+                        <th style="width: 20%"></th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach (var post in posts)
-                        {
-                            <tr>
-                                <td>
-                                    @{
-                                        var pathURL = Url.Action("Show", "Posts") + "/" + post.Post.Id;
-                                    }
-                                    <a href="@pathURL">@post.Post.Title</a>
-                                </td>
-                                <td>@post.Post.Seen</td>
-                                <td>@post.Post.Likes</td>
-                                <td>@post.Post.Dislikes</td>
-                                <td>@post.Post.CreatedAt</td>
-                                @if (User.Identity.GetUserId().Equals(post.Post.Author))
-                                {
-                                    <td class="actions" data-th="">
-                                        @{
-                                            var edit = Url.Action("Edit", "Posts") + "/" + post.Post.Id;
-                                            var delete = Url.Action("Delete", "Posts");
-                                        }
-                                        <a class="btn btn-primary" href="@edit"><i class="fa fa-edit"></i></a>
-                                        <button type="button"
-                                                class="btn btn-sm text-white btn-danger"
-                                                id="@(post.Post.Id)"
-                                                onclick="setDeletePostValues(this.id)"
-                                                data-toggle="modal"
-                                                data-target="#delete-post">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </td>
+                    @foreach (var post in posts)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    var pathURL = Url.Action("Show", "Posts") + "/" + post.Post.Id;
                                 }
-                            </tr>
-                        }
+                                <a href="@pathURL">@post.Post.Title</a>
+                            </td>
+                            <td>@post.Post.Seen</td>
+                            <td>@post.Post.Likes</td>
+                            <td>@post.Post.Dislikes</td>
+                            <td>@post.Post.CreatedAt</td>
+                            @if (User.Identity.GetUserId().Equals(post.Post.Author))
+                            {
+                                <td class="actions" data-th="">
+                                    @{
+                                        var edit = Url.Action("Edit", "Posts") + "/" + post.Post.Id;
+                                        var delete = Url.Action("Delete", "Posts");
+                                    }
+                                    <a class="btn btn-primary" href="@edit"><i class="fa fa-edit"></i></a>
+                                    <button type="button"
+                                            class="btn btn-sm text-white btn-danger"
+                                            id="@(post.Post.Id)"
+                                            onclick="setDeletePostValues(this.id)"
+                                            data-toggle="modal"
+                                            data-target="#delete-post">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            }
+                        </tr>
+                    }
                     </tbody>
                 </table>
+            }
         </div>
     </div>
 </div>

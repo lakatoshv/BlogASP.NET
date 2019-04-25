@@ -12,19 +12,19 @@ namespace Blog.Services.Posts
 {
     public class PostsService : IPostsService
     {
-        public PostViewModel GetPost(int postId)
+        public PostShowViewModel GetPost(int postId)
         {
             BlogContext db = new BlogContext();
-            PostViewModel postModel = new PostViewModel();
-            postModel.post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
-            postModel.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(postModel.post.Author)).FirstOrDefault();
-            if (postModel.post == null) return null;
+            PostShowViewModel postModel = new PostShowViewModel();
+            postModel.Post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
+            postModel.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(postModel.Post.Author)).FirstOrDefault();
+            if (postModel.Post == null) return null;
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
-            var author = postModel.post.Author;
+            var author = postModel.Post.Author;
             ApplicationUser user = userManager.FindByIdAsync(author).Result;
             if (user != null)
-                postModel.post.Author = user.UserName;
+                postModel.Post.Author = user.UserName;
             IList<CommentViewModel> commentsViewModel = new List<CommentViewModel>();
             var comments = db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
             comments.ForEach(comment => {
@@ -39,21 +39,21 @@ namespace Blog.Services.Posts
 
                 commentsViewModel.Add(comm);
             });
-            postModel.comments = commentsViewModel;
+            postModel.Comments = commentsViewModel;
 
 
             return postModel;
         }
 
-        public IList<PostsViewModel> GetCurrentUserPosts(string currentUserId)
+        public IList<PostViewModel> GetCurrentUserPosts(string currentUserId)
         {
             BlogContext db = new BlogContext();
-            IList<PostsViewModel> postModel = new List<PostsViewModel>();
+            IList<PostViewModel> postModel = new List<PostViewModel>();
             var posts = db.Posts.Where(post => post.Author.Equals(currentUserId)).ToList();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
-                PostsViewModel post = new PostsViewModel();
+                PostViewModel post = new PostViewModel();
                 post.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(item.Author)).FirstOrDefault();
 
                 ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
@@ -69,15 +69,15 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IList<PostsViewModel> GetPosts()
+        public IList<PostViewModel> GetPosts()
         {
             BlogContext db = new BlogContext();
-            IList<PostsViewModel> postModel = new List<PostsViewModel>();
+            IList<PostViewModel> postModel = new List<PostViewModel>();
             var posts = db.Posts.ToList();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
-                PostsViewModel post = new PostsViewModel();
+                PostViewModel post = new PostViewModel();
                 post.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(item.Author)).FirstOrDefault();
 
                 ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;

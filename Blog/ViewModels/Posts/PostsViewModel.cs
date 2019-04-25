@@ -6,10 +6,9 @@ using System.Web;
 
 namespace Blog.ViewModels.Posts
 {
-    public class PostsViewModel
+    public class MyPostsViewModel
     {
-        public Post Post { get; set; }
-        public int CommentsCount { get; set; }
-        public Profile Profile { get; set; }
+        public IList<PostViewModel> Posts { get; set; }
+        public string DisplayType { get; set; }
     }
 }

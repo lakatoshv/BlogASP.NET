@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace Blog.Controllers
 {
@@ -45,10 +46,15 @@ namespace Blog.Controllers
             return View(postModel);
         }
         
-        public ActionResult MyPosts()
+        public ActionResult MyPosts(string display)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-            var posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId());
+            var posts = new MyPostsViewModel();
+            posts.Posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId());
+            if (display.IsNullOrWhiteSpace())
+                posts.DisplayType = "list";
+            else
+                posts.DisplayType = display;
             return View(posts);
         }
 
@@ -91,9 +97,9 @@ namespace Blog.Controllers
             try
             {
                 PostViewModel postModel = new PostViewModel();
-                postModel.post = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
-                postModel.post.Likes++;
-                _db.Entry(postModel.post).State = EntityState.Modified;
+                postModel.Post = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
+                postModel.Post.Likes++;
+                _db.Entry(postModel.Post).State = EntityState.Modified;
                 _db.SaveChanges();
 
                 return RedirectToAction("Show/" + id, "Posts");
@@ -114,9 +120,9 @@ namespace Blog.Controllers
             try
             {
                 PostViewModel postModel = new PostViewModel();
-                postModel.post = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
-                postModel.post.Dislikes++;
-                _db.Entry(postModel.post).State = EntityState.Modified;
+                postModel.Post = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
+                postModel.Post.Dislikes++;
+                _db.Entry(postModel.Post).State = EntityState.Modified;
                 _db.SaveChanges();
 
                 return RedirectToAction("Show/" + id, "Posts");
@@ -135,7 +141,7 @@ namespace Blog.Controllers
             if (id == null) return RedirectToAction("Index", "Posts");
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             var postModel = _postsService.GetPost(id.Value);
-            return View(postModel.post);
+            return View(postModel.Post);
         }
 
         // POST: Posts/Edit/5
@@ -147,13 +153,13 @@ namespace Blog.Controllers
             try
             {
                 var postModel = _postsService.GetPost(id.Value);
-                if (!postModel.post.Author.Equals(User.Identity.GetUserId()))
-                    return RedirectToAction("Show/" + postModel.post.Id, "Posts");
+                if (!postModel.Post.Author.Equals(User.Identity.GetUserId()))
+                    return RedirectToAction("Show/" + postModel.Post.Id, "Posts");
 
-                editedPost.Author = postModel.post.Author;
-                editedPost.Likes = postModel.post.Likes;
-                editedPost.Dislikes = postModel.post.Dislikes;
-                editedPost.Seen = postModel.post.Seen;
+                editedPost.Author = postModel.Post.Author;
+                editedPost.Likes = postModel.Post.Likes;
+                editedPost.Dislikes = postModel.Post.Dislikes;
+                editedPost.Seen = postModel.Post.Seen;
                 editedPost.CreatedAt = DateTime.Now;
                 _db.Entry(editedPost).State = EntityState.Modified;
                 _db.SaveChanges();

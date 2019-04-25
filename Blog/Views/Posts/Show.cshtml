@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
-@model Blog.ViewModels.Posts.PostViewModel
+@model Blog.ViewModels.Posts.PostShowViewModel
 @{
-    ViewBag.Title = Model.post.Title;
+    ViewBag.Title = Model.Post.Title;
     var tagIndex = 1;
 }
 
@@ -13,14 +13,14 @@
         <div class="col-lg-12 col-md-10 mx-auto">
             <div class="post-preview">
                 <h2 class="post-title text-center">
-                    @Model.post.Title
+                    @Model.Post.Title
                 </h2>
                 <br/>
-                @if (User.Identity.GetUserName().Equals(Model.post.Author))
+                @if (User.Identity.GetUserName().Equals(Model.Post.Author))
                 {
                     <p class="pull-right">
                         @{
-                            var edit = Url.Action("Edit", "Posts") + "/" + Model.post.Id;
+                            var edit = Url.Action("Edit", "Posts") + "/" + Model.Post.Id;
                             var delete = Url.Action("Delete", "Posts");
                         }
                         <a type="button"
@@ -33,7 +33,7 @@
                         <button
                             type="button"
                             class="btn btn-sm text-white btn-danger"
-                            id="@(Model.post.Id)"
+                            id="@(Model.Post.Id)"
                             onclick="setDeletePostValues(this.id)"
                             data-toggle="modal"
                             data-target="#delete-post">
@@ -42,30 +42,30 @@
                         </button>
                     </p>
                 }
-                <img style="width: 100%; height: 300px;" src="@Model.post.Imgurl" />
+                <img style="width: 100%; height: 300px;" src="@Model.Post.Imgurl" />
                 <h3 class="post-subtitle text-center">
-                    @Model.post.Description
+                    @Model.Post.Description
                 </h3>
                 <p class="post-meta">
-                    <span><i class="fa fa-fw fa-eye"></i> @Model.post.Seen</span>
-                    <span><i class="fa fa-fw fa-thumbs-up"></i> @Model.post.Likes</span>
-                    <span><i class="fa fa-fw fa-thumbs-down"></i> @Model.post.Dislikes</span>
+                    <span><i class="fa fa-fw fa-eye"></i> @Model.Post.Seen</span>
+                    <span><i class="fa fa-fw fa-thumbs-up"></i> @Model.Post.Likes</span>
+                    <span><i class="fa fa-fw fa-thumbs-down"></i> @Model.Post.Dislikes</span>
                 </p>
                 <p class="post-meta">
-                    Теги: @Model.post.Tags
+                    Теги: @Model.Post.Tags
                 </p>
-                <p class="text-justify">@Model.post.Content</p>
+                <p class="text-justify">@Model.Post.Content</p>
                 @{ var authorPage = Url.Action("Details", "Profile") + "/" + Model.Profile.Id; }
                 <p class="post-meta">
                     Написав: <b>
-                        <a href="@authorPage">@Model.post.Author</a><i>
+                        <a href="@authorPage">@Model.Post.Author</a><i>
                             20.11.2018
                         </i>
                     </b>
                 </p>
                 @{
-                    var like = Url.Action("Like", "Posts") + "/" + Model.post.Id;
-                    var dislike = Url.Action("Dislike", "Posts") + "/" + Model.post.Id;
+                    var like = Url.Action("Like", "Posts") + "/" + Model.Post.Id;
+                    var dislike = Url.Action("Dislike", "Posts") + "/" + Model.Post.Id;
                 }
                 <a class="btn btn-xs btn-info" href="@like"><span class="fa fa-thumbs-up"></span> Подобається</a>
                 <a class="btn btn-sm btn-danger" href="@dislike"><span class="fa fa-thumbs-down"></span> Неподобається</a>
@@ -88,8 +88,8 @@
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
-                                @Html.TextBoxFor(model => model.comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "post-id", Value = Model.post.Id, @type = "hidden" })
-                                @Html.TextAreaFor(model => model.comment.CommentBody, new { @class = "comment_text", @id = "comment", @placeholder = "Коментар" })
+                                @Html.TextBoxFor(model => model.Comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "post-id", Value = Model.Post.Id, @type = "hidden" })
+                                @Html.TextAreaFor(model => model.Comment.CommentBody, new { @class = "comment_text", @id = "comment", @placeholder = "Коментар" })
                                 <button class="btn btn-sm btn-success" type="submit">Додати коментар</button>
                             }
                         </div>
@@ -99,12 +99,12 @@
         }
         <!-- Comments -->
         <div class="comments">
-            <div class="comments_title">Comments <span>@Model.comments.Count</span></div>
+            <div class="comments_title">Comments <span>@Model.Comments.Count</span></div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="comments_container">
                         <ul class="comment_list">
-                            @foreach (var comment in Model.comments)
+                            @foreach (var comment in Model.Comments)
                             {
                                 <li class="comment">
                                     <div class="comment_body">
@@ -239,10 +239,10 @@
                 <div class="modal-body post_comment_form_container">
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary("", new { @class = "text-danger" })
-                    @Html.TextBoxFor(model => model.comment.Id, new { @id = "edit-id", @type = "hidden" })
-                    @Html.TextBoxFor(model => model.comment.PostID, new { @id = "edit-post-id", Value = Model.post.Id, @type = "hidden" })
-                    @Html.TextBoxFor(model => model.comment.Author, new { @class = "form-control comment_input comment_input_name", @id = "edit-author", @placeholder = "Електронна пошта" })
-                    @Html.TextAreaFor(model => model.comment.CommentBody, new { @class = "comment_text", @id = "edit-content", @placeholder = "Коментар" })
+                    @Html.TextBoxFor(model => model.Comment.Id, new { @id = "edit-id", @type = "hidden" })
+                    @Html.TextBoxFor(model => model.Comment.PostID, new { @id = "edit-post-id", Value = Model.Post.Id, @type = "hidden" })
+                    @Html.TextBoxFor(model => model.Comment.Author, new { @class = "form-control comment_input comment_input_name", @id = "edit-author", @placeholder = "Електронна пошта" })
+                    @Html.TextAreaFor(model => model.Comment.CommentBody, new { @class = "comment_text", @id = "edit-content", @placeholder = "Коментар" })
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-success" type="submit">Зберегти</button><button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>

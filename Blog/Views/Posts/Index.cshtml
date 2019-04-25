@@ -9,7 +9,7 @@
         <div class="col-lg-10 col-md-10 mx-auto">
             @{
                 var createPost = Url.Action("Create", "Posts");
-                var posts = new List<Blog.ViewModels.Posts.PostsViewModel>();
+                var posts = new List<Blog.ViewModels.Posts.PostViewModel>();
                 posts = Model;
             }
             @if (User.Identity.IsAuthenticated)
