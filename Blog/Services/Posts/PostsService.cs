@@ -86,6 +86,12 @@ namespace Blog.Services.Posts
 
                 
                 post.Post = item;
+
+                var tags = db.Tags.Where(tag => tag.PostId.Equals(item.Id)).ToList();
+                foreach (var tag in tags)
+                {
+                    post.Post.PostTags.Add(tag);
+                }
                 
                 post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
                 postModel.Add(post);

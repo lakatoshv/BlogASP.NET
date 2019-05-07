@@ -385,3 +385,4 @@ D:\New\BlogASP.NET\Blog\obj\Debug\Blog.pdb
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.ProfileTable.resources
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.MessageTable.resources
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.ChangeFieldTitleInMessages.resources
+D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.TagsTable.resources

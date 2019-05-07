@@ -13,6 +13,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
+using WebGrease.Css.Extensions;
 
 namespace Blog.Controllers
 {
@@ -68,16 +69,41 @@ namespace Blog.Controllers
 
         // POST: Posts/Create
         [HttpPost]
-        public ActionResult Create(Post post)
+        public ActionResult Create(Post postModel)
         {
             try
             {
                 //post.CreatedAt = DateTime.Now;
                 if (ModelState.IsValid)
                 {
-                    post.CreatedAt = DateTime.Now;
-                    post.Author = User.Identity.GetUserId();
-                    var result = _db.Posts.Add(post);
+                    postModel.CreatedAt = DateTime.Now;
+                    postModel.Author = User.Identity.GetUserId();
+                    var result = _db.Posts.Add(postModel);
+                    _db.SaveChanges();
+
+                    if (!postModel.Tags.IsNullOrWhiteSpace())
+                    {
+                        String[] tags = postModel.Tags.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var tag in tags)
+                        {
+                            var tagForAdd = new Tag()
+                            {
+                                Title = tag,
+                                PostId = postModel.Id
+                            };
+                            _db.Tags.Add(tagForAdd);
+                            
+                        }
+                    }
+                    _db.SaveChanges();
+                    _db.Tags.Where(tag => tag.PostId.Equals(postModel.Id)).ForEach(
+                        t =>
+                        {
+                            postModel.PostTags.Add(t);
+                        }
+
+                    );
+                    _db.Entry(postModel).State = EntityState.Modified;
                     _db.SaveChanges();
                     return RedirectToAction("index", "Posts");
                 }
