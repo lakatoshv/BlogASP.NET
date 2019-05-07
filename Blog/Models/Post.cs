@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Blog.Models
 {
@@ -22,7 +23,9 @@ namespace Blog.Models
         */
         public int Id { get; set; }
         public string Title { get; set; }
+        [AllowHtml]
         public string Description { get; set; }
+        [AllowHtml]
         public string Content { get; set; }
         public string Author { get; set; }
         public int Seen { get; set; }
@@ -30,6 +33,7 @@ namespace Blog.Models
         public int Dislikes { get; set; }
         public DateTime CreatedAt { get; set; }
         public string Tags { get; set; }
+        public ICollection<Tag> PostTags { get; set; }
         public string Imgurl { get; set; }
     }
 }
