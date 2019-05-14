@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Blog.Core.Dtos;
 using Microsoft.Ajax.Utilities;
 using WebGrease.Css.Extensions;
 
@@ -29,7 +30,7 @@ namespace Blog.Controllers
             return View(posts);
         }
         // GET: Posts/Show/5
-        public ActionResult Show(int? id)
+        public ActionResult Show(int? id, string sorts)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
 
@@ -47,15 +48,19 @@ namespace Blog.Controllers
             return View(postModel);
         }
         
-        public ActionResult MyPosts(string display)
+        public ActionResult MyPosts(string display,string sortBy, string orderBy)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             var posts = new MyPostsViewModel();
-            posts.Posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId());
-            if (display.IsNullOrWhiteSpace())
-                posts.DisplayType = "list";
-            else
-                posts.DisplayType = display;
+            posts.DisplayType = display ?? "list";
+            var sortParameters = new SortParametersDto()
+            {
+                OrderBy = orderBy ?? "asc",
+                SortBy = sortBy ?? "Title"
+            };
+
+            posts.Posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters);
+            
             return View(posts);
         }
 

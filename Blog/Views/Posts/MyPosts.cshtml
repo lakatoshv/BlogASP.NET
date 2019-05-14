@@ -21,20 +21,24 @@
             <div class="clearfix"></div>
             <ul class="list-inline">
                 <li>Сортувати</li>
-                <li>за: 
-                    <select>
-                        <option value="">Назвою</option>
-                        <option value="">Автором</option>
-                        <option value="">Лайками</option>
-                        <option value="">Дизлайками</option>
+                <li>
+                    за:
+                    <select id="sort-by">
+                        <option value="CreatedAt">Датою</option>
+                        <option value="Title">Назвою</option>
+                        <option value="Author">Автором</option>
+                        <option value="Likes">Лайками</option>
+                        <option value="Dislikes">Дизлайками</option>
                     </select>
                 </li>
-                <li>тип сортування: 
-                    <select>
-                        <option value="">За зростанням</option>
-                        <option value="">За спаданням</option>
+                <li>
+                    тип сортування:
+                    <select id="order-by">
+                        <option value="asc">За зростанням</option>
+                        <option value="desc">За спаданням</option>
                     </select>
                 </li>
+                <li><a id="sorting" class="btn btn-default button-background">Сортувати</a></li>
             </ul>
             <div class="clearfix"></div>
             @{
@@ -212,4 +216,18 @@
     function onAjaxSuccess(data) {
         location.reload();
     }
+
+    function cheked(select) {
+        // берём значение из select и что-то с ним делаем
+        return select.val();
+    };
+
+    /* сортування */
+    $("#sorting").click(function () {
+        var value_sort = cheked($("#sort-by"));
+        var type_sort = cheked($("#order-by"));
+        document.cookie = "sort=" + value_sort;
+        document.cookie = "type_sort=" + type_sort;
+        location.href = '@Url.Action("MyPosts", "Posts")?sortBy=' + value_sort + '&orderBy=' + type_sort;
+    });
 </script>

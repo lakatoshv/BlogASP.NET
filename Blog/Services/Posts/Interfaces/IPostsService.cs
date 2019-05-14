@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blog.Core.Dtos;
 
 namespace Blog.Services.Posts.Interfaces
 {
@@ -12,6 +13,6 @@ namespace Blog.Services.Posts.Interfaces
     {
         IList<PostViewModel> GetPosts();
         PostShowViewModel GetPost(int postId);
-        IList<PostViewModel> GetCurrentUserPosts(string currentUserId);
+        IList<PostViewModel> GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters);
     }
 }

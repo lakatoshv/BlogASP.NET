@@ -7,6 +7,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
+using System.Linq.Expressions;
+using System.Security.Claims;
+using Antlr.Runtime.Misc;
+using Blog.Core.Dtos;
 
 namespace Blog.Services.Posts
 {
@@ -25,6 +30,13 @@ namespace Blog.Services.Posts
             ApplicationUser user = userManager.FindByIdAsync(author).Result;
             if (user != null)
                 postModel.Post.Author = user.UserName;
+
+            var tags = db.Tags.Where(tag => tag.PostId.Equals(postId)).ToList();
+            foreach (var tag in tags)
+            {
+                postModel.Post.PostTags.Add(tag);
+            }
+
             IList<CommentViewModel> commentsViewModel = new List<CommentViewModel>();
             var comments = db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
             comments.ForEach(comment => {
@@ -45,11 +57,12 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IList<PostViewModel> GetCurrentUserPosts(string currentUserId)
+        public IList<PostViewModel> GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters)
         {
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
-            var posts = db.Posts.Where(post => post.Author.Equals(currentUserId)).ToList();
+            var posts = this.SortPosts(currentUserId, sortParameters).ToList();
+
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
@@ -62,6 +75,13 @@ namespace Blog.Services.Posts
 
 
                 post.Post = item;
+                post.Post.PostTags = new List<Tag>();
+
+                var tags = db.Tags.Where(tag => tag.PostId.Equals(item.Id)).ToList();
+                foreach (var tag in tags)
+                {
+                    post.Post.PostTags.Add(tag);
+                }
 
                 post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
                 postModel.Add(post);
@@ -97,6 +117,62 @@ namespace Blog.Services.Posts
                 postModel.Add(post);
             });
             return postModel;
+        }
+
+        public IQueryable<Post> SortPosts(string currentUserId, SortParametersDto sortParameters)
+        {
+            BlogContext db = new BlogContext();
+            if (sortParameters.SortBy.Equals("CreatedAt") && sortParameters.OrderBy.Equals("asc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.CreatedAt);
+            if (sortParameters.SortBy.Equals("CreatedAt") && sortParameters.OrderBy.Equals("desc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.CreatedAt);
+
+            if (sortParameters.SortBy.Equals("Title") && sortParameters.OrderBy.Equals("asc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Title);
+            if (sortParameters.SortBy.Equals("Title") && sortParameters.OrderBy.Equals("desc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.Title);
+
+            if (sortParameters.SortBy.Equals("Author") && sortParameters.OrderBy.Equals("asc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Author);
+            if (sortParameters.SortBy.Equals("Author") && sortParameters.OrderBy.Equals("desc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.Author);
+
+            if (sortParameters.SortBy.Equals("Likes") && sortParameters.OrderBy.Equals("asc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Likes);
+            if (sortParameters.SortBy.Equals("Likes") && sortParameters.OrderBy.Equals("desc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.Likes);
+
+            if (sortParameters.SortBy.Equals("Dislikes") && sortParameters.OrderBy.Equals("asc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Dislikes);
+            if (sortParameters.SortBy.Equals("Dislikes") && sortParameters.OrderBy.Equals("desc"))
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.Dislikes);
+
+            else
+                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Id);
+            /*
+            Expression<Func<Post, object>> sortExpression;
+            switch (sortParameters.SortBy)
+            {
+                case :
+                    sortExpression = (x => x.CreatedAt);
+                    break;
+                case "Title":
+                    sortExpression = (x => x.Title);
+                    break;
+                case "Author":
+                    sortExpression = (x => x.Author);
+                    break;
+                case "Likes":
+                    sortExpression = (x => x.Likes);
+                    break;
+                case "Dislikes":
+                    sortExpression = (x => x.Dislikes);
+                    break;
+                default:
+                    sortExpression = (x => x.Id);
+                    break;
+            }
+            */
         }
     }
 }
