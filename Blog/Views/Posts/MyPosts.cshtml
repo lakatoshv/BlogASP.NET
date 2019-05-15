@@ -3,7 +3,13 @@
 @{
     ViewBag.Title = "BlogASP.NET - Мої пости";
 }
-
+<style>
+    .left li {
+        float: left;
+        vertical-align: middle;
+        margin-right: 15px;
+    }
+</style>
 <!-- Main Content -->
 <div class="container">
     <div class="row">
@@ -19,10 +25,10 @@
                 <li><a href="@grid"><span class="fa fa-th"></span></a></li>
             </ul>
             <div class="clearfix"></div>
-            <ul class="list-inline">
+            <ul class="list-inline left">
                 <li>Сортувати</li>
+                <li>за:</li>
                 <li>
-                    за:
                     <select id="sort-by">
                         <option value="CreatedAt">Датою</option>
                         <option value="Title">Назвою</option>
@@ -31,14 +37,16 @@
                         <option value="Dislikes">Дизлайками</option>
                     </select>
                 </li>
+                <li>тип сортування:</li>
                 <li>
-                    тип сортування:
-                    <select id="order-by">
-                        <option value="asc">За зростанням</option>
-                        <option value="desc">За спаданням</option>
-                    </select>
+                        <select id="order-by">
+                            <option value="asc">За зростанням</option>
+                            <option value="desc">За спаданням</option>
+                        </select>
                 </li>
-                <li><a id="sorting" class="btn btn-default button-background">Сортувати</a></li>
+                <li>
+                    <a id="sorting" class="btn btn-default button-background">Сортувати</a>
+                </li>
             </ul>
             <div class="clearfix"></div>
             @{

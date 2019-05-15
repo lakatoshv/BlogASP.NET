@@ -61,7 +61,7 @@ namespace Blog.Services.Posts
         {
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
-            var posts = this.SortPosts(currentUserId, sortParameters).ToList();
+            var posts = this.SortPosts(db.Posts.Where(post => post.Author.Equals(currentUserId)), sortParameters).ToList();
 
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
@@ -89,11 +89,11 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IList<PostViewModel> GetPosts()
+        public IList<PostViewModel> GetPosts(SortParametersDto sortParameters)
         {
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
-            var posts = db.Posts.ToList();
+            var posts = this.SortPosts(db.Posts, sortParameters).ToList();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
@@ -119,36 +119,36 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IQueryable<Post> SortPosts(string currentUserId, SortParametersDto sortParameters)
+        public IOrderedEnumerable<Post> SortPosts(IEnumerable<Post> posts, SortParametersDto sortParameters)
         {
             BlogContext db = new BlogContext();
             if (sortParameters.SortBy.Equals("CreatedAt") && sortParameters.OrderBy.Equals("asc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.CreatedAt);
+                return posts.OrderBy(x => x.CreatedAt);
             if (sortParameters.SortBy.Equals("CreatedAt") && sortParameters.OrderBy.Equals("desc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.CreatedAt);
+                return posts.OrderByDescending(x => x.CreatedAt);
 
             if (sortParameters.SortBy.Equals("Title") && sortParameters.OrderBy.Equals("asc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Title);
+                return posts.OrderBy(x => x.Title);
             if (sortParameters.SortBy.Equals("Title") && sortParameters.OrderBy.Equals("desc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.Title);
+                return posts.OrderByDescending(x => x.Title);
 
             if (sortParameters.SortBy.Equals("Author") && sortParameters.OrderBy.Equals("asc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Author);
+                return posts.OrderBy(x => x.Author);
             if (sortParameters.SortBy.Equals("Author") && sortParameters.OrderBy.Equals("desc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.Author);
+                return posts.OrderByDescending(x => x.Author);
 
             if (sortParameters.SortBy.Equals("Likes") && sortParameters.OrderBy.Equals("asc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Likes);
+                return posts.OrderBy(x => x.Likes);
             if (sortParameters.SortBy.Equals("Likes") && sortParameters.OrderBy.Equals("desc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.Likes);
+                return posts.OrderByDescending(x => x.Likes);
 
             if (sortParameters.SortBy.Equals("Dislikes") && sortParameters.OrderBy.Equals("asc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Dislikes);
+                return posts.OrderBy(x => x.Dislikes);
             if (sortParameters.SortBy.Equals("Dislikes") && sortParameters.OrderBy.Equals("desc"))
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderByDescending(x => x.Dislikes);
+                return posts.OrderByDescending(x => x.Dislikes);
 
             else
-                return db.Posts.Where(post => post.Author.Equals(currentUserId)).OrderBy(x => x.Id);
+                return posts.OrderBy(x => x.Id);
             /*
             Expression<Func<Post, object>> sortExpression;
             switch (sortParameters.SortBy)
