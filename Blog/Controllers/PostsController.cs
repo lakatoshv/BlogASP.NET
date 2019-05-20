@@ -53,7 +53,7 @@ namespace Blog.Controllers
             return View(postModel);
         }
 
-        public ActionResult MyPosts(string display, string sortBy, string orderBy)
+        public ActionResult MyPosts(string display, string sortBy, string orderBy, string search)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             var posts = new MyPostsViewModel();
@@ -64,7 +64,7 @@ namespace Blog.Controllers
                 SortBy = sortBy ?? "Title"
             };
 
-            posts.Posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters);
+            posts.Posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters, search);
 
             return View(posts);
         }

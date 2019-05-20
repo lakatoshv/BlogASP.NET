@@ -9,6 +9,14 @@
         vertical-align: middle;
         margin-right: 15px;
     }
+    .search {
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+    }
+
+    .input-group-text {
+        border: none;
+    }
 </style>
 <!-- Main Content -->
 <div class="container">
@@ -16,6 +24,13 @@
         <div class="col-lg-10 col-md-10 mx-auto">
 
             <p><b>Мої пости</b></p>
+            <div class="input-group md-form form-sm form-2 pl-0 col-5">
+                <input class="form-control search" type="text" placeholder="Search" aria-label="Search" name="search" id="search">
+
+                <button class="input-group-append" type="submit" id="search-btn">
+                    <span class="input-group-text"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                </button>
+            </div>
             @{
                 var list = Url.Action("MyPosts", "Posts", new { display = "list" });
                 var grid = Url.Action("MyPosts", "Posts", new { display = "grid" });
@@ -237,5 +252,11 @@
         document.cookie = "sort=" + value_sort;
         document.cookie = "type_sort=" + type_sort;
         location.href = '@Url.Action("MyPosts", "Posts")?sortBy=' + value_sort + '&orderBy=' + type_sort;
+    });
+
+    $("#search-btn").click(function () {
+        debugger 
+        var search = $("#search").val();
+        location.href = '@Url.Action("Index", "Posts")?search=' + search;
     });
 </script>

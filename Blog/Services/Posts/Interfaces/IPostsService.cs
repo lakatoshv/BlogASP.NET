@@ -13,6 +13,6 @@ namespace Blog.Services.Posts.Interfaces
     {
         IList<PostViewModel> GetPosts(SortParametersDto sortParameters, string search);
         PostShowViewModel GetPost(int postId);
-        IList<PostViewModel> GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters);
+        IList<PostViewModel> GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters, string search);
     }
 }

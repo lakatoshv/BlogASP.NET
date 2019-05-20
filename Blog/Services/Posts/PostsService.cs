@@ -58,11 +58,16 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IList<PostViewModel> GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters)
+        public IList<PostViewModel> GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters, string search)
         {
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
-            var posts = this.SortPosts(db.Posts.Where(post => post.Author.Equals(currentUserId)), sortParameters).ToList();
+
+            IEnumerable<Post> postsEnumerable = db.Posts.Where(post => post.Author.Equals(currentUserId));
+            if (!search.IsNullOrWhiteSpace())
+                postsEnumerable = postsEnumerable.Where(post => post.Title.Equals(search));
+
+            var posts = this.SortPosts(postsEnumerable, sortParameters).ToList();
 
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
