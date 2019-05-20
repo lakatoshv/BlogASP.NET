@@ -11,7 +11,7 @@ namespace Blog.Services.Posts.Interfaces
 {
     public interface IPostsService
     {
-        IList<PostViewModel> GetPosts(SortParametersDto sortParameters);
+        IList<PostViewModel> GetPosts(SortParametersDto sortParameters, string search);
         PostShowViewModel GetPost(int postId);
         IList<PostViewModel> GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters);
     }

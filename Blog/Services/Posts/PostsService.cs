@@ -12,6 +12,7 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using Antlr.Runtime.Misc;
 using Blog.Core.Dtos;
+using Microsoft.Ajax.Utilities;
 
 namespace Blog.Services.Posts
 {
@@ -89,11 +90,16 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IList<PostViewModel> GetPosts(SortParametersDto sortParameters)
+        public IList<PostViewModel> GetPosts(SortParametersDto sortParameters, string search)
         {
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
-            var posts = this.SortPosts(db.Posts, sortParameters).ToList();
+
+            IEnumerable<Post> postsEnumerable = db.Posts;
+            if (!search.IsNullOrWhiteSpace())
+                postsEnumerable = postsEnumerable.Where(post => post.Title.Equals(search));
+
+            var posts = this.SortPosts(postsEnumerable, sortParameters).ToList();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {

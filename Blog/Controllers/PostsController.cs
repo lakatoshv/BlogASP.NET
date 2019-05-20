@@ -24,14 +24,14 @@ namespace Blog.Controllers
         private BlogContext _db = new BlogContext();
         
         // GET: Posts
-        public ActionResult Index(string sortBy, string orderBy)
+        public ActionResult Index(string search, string sortBy, string orderBy)
         {
             var sortParameters = new SortParametersDto()
             {
                 OrderBy = orderBy ?? "asc",
                 SortBy = sortBy ?? "Title"
             };
-            var posts = _postsService.GetPosts(sortParameters);
+            var posts = _postsService.GetPosts(sortParameters, search);
             return View(posts);
         }
         // GET: Posts/Show/5
@@ -52,7 +52,7 @@ namespace Blog.Controllers
 
             return View(postModel);
         }
-        
+
         public ActionResult MyPosts(string display, string sortBy, string orderBy)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
@@ -65,7 +65,7 @@ namespace Blog.Controllers
             };
 
             posts.Posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters);
-            
+
             return View(posts);
         }
 
