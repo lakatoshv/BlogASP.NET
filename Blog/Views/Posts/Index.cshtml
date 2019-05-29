@@ -1,4 +1,8 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Blog.ViewModels.Posts
+@using Microsoft.AspNet.Identity
+@model Blog.ViewModels.Posts.PostsViewModel
+@using Blog.Helpers
+
 @{
     ViewBag.Title = "BlogASP.NET - Головна";
 }
@@ -9,10 +13,12 @@
         margin-right: 15px;
         margin-top: 10px;
     }
+
     .search {
         background-color: #e9ecef;
         border: 1px solid #ced4da;
     }
+
     .input-group-text {
         border: none;
     }
@@ -55,7 +61,7 @@
             @{
                 var createPost = Url.Action("Create", "Posts");
                 var posts = new List<Blog.ViewModels.Posts.PostViewModel>();
-                posts = Model;
+                posts = Model.Posts.ToList();
             }
             @if (User.Identity.IsAuthenticated)
             {
@@ -126,11 +132,11 @@
                 <br />
                 <hr>
             }
-
-            <!-- Pager -->
-            <div class="clearfix">
-                <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

@@ -310,9 +310,9 @@ C:\AspNet\BlogAsp.Net\Blog\obj\Debug\Blog.csproj.CopyComplete
 C:\AspNet\BlogAsp.Net\Blog\obj\Debug\Blog.dll
 C:\AspNet\BlogAsp.Net\Blog\obj\Debug\Blog.pdb
 C:\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.Comment.resources
-D:\New\BlogASP.NET\Blog\obj\Debug\Blog.csprojAssemblyReference.cache
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.Initial.resources
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.Comment.resources
+D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.CreatedAtFieldInPosts.resources
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.ProfileTable.resources
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.MessageTable.resources
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.ChangeFieldTitleInMessages.resources
@@ -335,7 +335,12 @@ D:\New\BlogASP.NET\Blog\bin\roslyn\VBCSCompiler.exe.config
 D:\New\BlogASP.NET\Blog\bin\Blog.dll.config
 D:\New\BlogASP.NET\Blog\bin\Blog.dll
 D:\New\BlogASP.NET\Blog\bin\Blog.pdb
+D:\New\BlogASP.NET\Blog\bin\PagedList.dll
+D:\New\BlogASP.NET\Blog\bin\PagedList.Mvc.dll
 D:\New\BlogASP.NET\Blog\bin\System.Linq.Dynamic.dll
+D:\New\BlogASP.NET\Blog\bin\PagedList.xml
+D:\New\BlogASP.NET\Blog\bin\PagedList.Mvc.xml
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.csproj.CopyComplete
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.dll
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.pdb
+D:\New\BlogASP.NET\Blog\obj\Debug\Blog.csprojAssemblyReference.cache

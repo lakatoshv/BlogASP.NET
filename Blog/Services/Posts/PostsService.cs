@@ -12,6 +12,7 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using Antlr.Runtime.Misc;
 using Blog.Core.Dtos;
+using Blog.Core.HelperClasses;
 using Microsoft.Ajax.Utilities;
 
 namespace Blog.Services.Posts
@@ -95,7 +96,7 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IList<PostViewModel> GetPosts(SortParametersDto sortParameters, string search)
+        public PostsViewModel GetPosts(SortParametersDto sortParameters, string search)
         {
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
@@ -127,7 +128,11 @@ namespace Blog.Services.Posts
                 post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
                 postModel.Add(post);
             });
-            return postModel;
+            PostsViewModel postsViewModel = new PostsViewModel();
+            postsViewModel.Posts = postModel.Skip((sortParameters.CurrentPage - 1) * sortParameters.PageSize).Take(sortParameters.PageSize).ToList();
+            postsViewModel.PageInfo = new PageInfo { PageNumber = sortParameters.CurrentPage, PageSize = sortParameters.PageSize, TotalItems = postModel.Count };
+
+            return postsViewModel;
         }
 
         public IOrderedEnumerable<Post> SortPosts(IEnumerable<Post> posts, SortParametersDto sortParameters)

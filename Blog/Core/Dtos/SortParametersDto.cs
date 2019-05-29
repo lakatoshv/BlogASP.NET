@@ -9,5 +9,7 @@ namespace Blog.Core.Dtos
     {
         public string OrderBy { get; set; }
         public  string SortBy { get; set; }
+        public int CurrentPage { get; set; }
+        public int PageSize { get; set; }
     }
 }
