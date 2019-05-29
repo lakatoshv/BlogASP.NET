@@ -79,6 +79,12 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -210,10 +216,12 @@
     <Compile Include="Core\Attributes\StringValueAttribute.cs" />
     <Compile Include="Core\Dtos\SortParametersDto.cs" />
     <Compile Include="Core\Enums\SortBy.cs" />
+    <Compile Include="Core\HelperClasses\PageInfo.cs" />
     <Compile Include="Core\HelperClasses\GetStringValueFromEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\PagingHelpers.cs" />
     <Compile Include="Migrations\201808302205064_Initial.cs" />
     <Compile Include="Migrations\201808302205064_Initial.Designer.cs">
       <DependentUpon>201808302205064_Initial.cs</DependentUpon>
@@ -221,6 +229,10 @@
     <Compile Include="Migrations\201812091731226_Comment.cs" />
     <Compile Include="Migrations\201812091731226_Comment.Designer.cs">
       <DependentUpon>201812091731226_Comment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902270928076_CreatedAtFieldInPosts.cs" />
+    <Compile Include="Migrations\201902270928076_CreatedAtFieldInPosts.Designer.cs">
+      <DependentUpon>201902270928076_CreatedAtFieldInPosts.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201903281454306_ProfileTable.cs" />
     <Compile Include="Migrations\201903281454306_ProfileTable.Designer.cs">
@@ -356,6 +368,7 @@
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -508,6 +521,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812091731226_Comment.resx">
       <DependentUpon>201812091731226_Comment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902270928076_CreatedAtFieldInPosts.resx">
+      <DependentUpon>201902270928076_CreatedAtFieldInPosts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903281454306_ProfileTable.resx">
       <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>

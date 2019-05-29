@@ -15,6 +15,7 @@ using System.Web.Mvc;
 using Blog.Core.Dtos;
 using Microsoft.Ajax.Utilities;
 using WebGrease.Css.Extensions;
+using PagedList;
 
 namespace Blog.Controllers
 {
@@ -24,12 +25,14 @@ namespace Blog.Controllers
         private BlogContext _db = new BlogContext();
         
         // GET: Posts
-        public ActionResult Index(string search, string sortBy, string orderBy)
+        public ActionResult Index(string search, string sortBy, string orderBy, int page = 1)
         {
             var sortParameters = new SortParametersDto()
             {
                 OrderBy = orderBy ?? "asc",
-                SortBy = sortBy ?? "Title"
+                SortBy = sortBy ?? "Title",
+                CurrentPage = page,
+                PageSize = 10
             };
             var posts = _postsService.GetPosts(sortParameters, search);
             return View(posts);
@@ -56,7 +59,7 @@ namespace Blog.Controllers
         public ActionResult MyPosts(string display, string sortBy, string orderBy, string search)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-            var posts = new MyPostsViewModel();
+            var posts = new PostsViewModel();
             posts.DisplayType = display ?? "list";
             var sortParameters = new SortParametersDto()
             {
