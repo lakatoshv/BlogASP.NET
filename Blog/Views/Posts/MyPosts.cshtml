@@ -1,5 +1,8 @@
-﻿@using System.Diagnostics.Eventing.Reader
+﻿@using Blog.ViewModels.Posts
 @using Microsoft.AspNet.Identity
+@model Blog.ViewModels.Posts.PostsViewModel
+@using Blog.Helpers
+
 @{
     ViewBag.Title = "BlogASP.NET - Мої пости";
 }
@@ -8,7 +11,9 @@
         float: left;
         vertical-align: middle;
         margin-right: 15px;
+        margin-top: 10px;
     }
+
     .search {
         background-color: #e9ecef;
         border: 1px solid #ced4da;
@@ -54,10 +59,10 @@
                 </li>
                 <li>тип сортування:</li>
                 <li>
-                        <select id="order-by">
-                            <option value="asc">За зростанням</option>
-                            <option value="desc">За спаданням</option>
-                        </select>
+                    <select id="order-by">
+                        <option value="asc">За зростанням</option>
+                        <option value="desc">За спаданням</option>
+                    </select>
                 </li>
                 <li>
                     <a id="sorting" class="btn btn-default button-background">Сортувати</a>
@@ -67,7 +72,7 @@
             @{
                 var createPost = Url.Action("Create", "Posts");
                 var posts = new List<Blog.ViewModels.Posts.PostViewModel>();
-                posts = Model.Posts;
+                posts = Model.Posts.ToList();
             }
             @if (User.Identity.IsAuthenticated)
             {
@@ -140,11 +145,11 @@
                     <br />
                     <hr>
                 }
-
-                <!-- Pager -->
-                <div class="clearfix">
-                    <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
+                    </ul>
+                </nav>
             }
             @if (Model.DisplayType.Equals("grid"))
             {
@@ -255,7 +260,7 @@
     });
 
     $("#search-btn").click(function () {
-        debugger 
+        debugger
         var search = $("#search").val();
         location.href = '@Url.Action("Index", "Posts")?search=' + search;
     });
