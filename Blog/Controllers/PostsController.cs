@@ -56,18 +56,22 @@ namespace Blog.Controllers
             return View(postModel);
         }
 
-        public ActionResult MyPosts(string display, string sortBy, string orderBy, string search)
+        public ActionResult MyPosts(string display, string sortBy, string orderBy, string search, int page = 1)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             var posts = new PostsViewModel();
-            posts.DisplayType = display ?? "list";
+            
             var sortParameters = new SortParametersDto()
             {
                 OrderBy = orderBy ?? "asc",
-                SortBy = sortBy ?? "Title"
-            };
+                SortBy = sortBy ?? "Title",
+                CurrentPage = page,
+                PageSize = 10,
+                DisplayType = display ?? "list"
+        };
 
-            posts.Posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters, search);
+            posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters, search);
+            posts.DisplayType = display ?? "list";
 
             return View(posts);
         }

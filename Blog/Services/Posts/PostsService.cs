@@ -59,7 +59,7 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        public IList<PostViewModel> GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters, string search)
+        public PostsViewModel GetCurrentUserPosts(string currentUserId, SortParametersDto sortParameters, string search)
         {
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
@@ -93,7 +93,14 @@ namespace Blog.Services.Posts
                 post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
                 postModel.Add(post);
             });
-            return postModel;
+            PostsViewModel postsViewModel = new PostsViewModel();
+            if (!sortParameters.DisplayType.Equals("grid"))
+                postsViewModel.Posts = postModel.Skip((sortParameters.CurrentPage - 1) * sortParameters.PageSize)
+                    .Take(sortParameters.PageSize).ToList();
+            else
+                postsViewModel.Posts = postModel;
+            postsViewModel.PageInfo = new PageInfo { PageNumber = sortParameters.CurrentPage, PageSize = sortParameters.PageSize, TotalItems = postModel.Count };
+            return postsViewModel;
         }
 
         public PostsViewModel GetPosts(SortParametersDto sortParameters, string search)
