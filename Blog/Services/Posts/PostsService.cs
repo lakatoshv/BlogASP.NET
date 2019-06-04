@@ -19,6 +19,8 @@ namespace Blog.Services.Posts
 {
     public class PostsService : IPostsService
     {
+        private CommentsService _commentsService = new CommentsService();
+
         public PostShowViewModel GetPost(int postId)
         {
             BlogContext db = new BlogContext();
@@ -38,22 +40,30 @@ namespace Blog.Services.Posts
             {
                 postModel.Post.PostTags.Add(tag);
             }
+            
+            return postModel;
+        }
+        public PostShowViewModel GetPostWithComments(int postId, SortParametersDto sortParameters)
+        {
+            BlogContext db = new BlogContext();
+            PostShowViewModel postModel = new PostShowViewModel();
+            postModel.Post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
+            postModel.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(postModel.Post.Author)).FirstOrDefault();
+            if (postModel.Post == null) return null;
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+            var author = postModel.Post.Author;
+            ApplicationUser user = userManager.FindByIdAsync(author).Result;
+            if (user != null)
+                postModel.Post.Author = user.UserName;
 
-            IList<CommentViewModel> commentsViewModel = new List<CommentViewModel>();
-            var comments = db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
-            comments.ForEach(comment => {
-                ApplicationUser commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
-                CommentViewModel comm = new CommentViewModel();
-                comm.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(comment.Author)).FirstOrDefault();
+            var tags = db.Tags.Where(tag => tag.PostId.Equals(postId)).ToList();
+            foreach (var tag in tags)
+            {
+                postModel.Post.PostTags.Add(tag);
+            }
 
-                if (commentAuthor != null)
-                    comment.Author = commentAuthor.UserName;
-                
-                comm.comment = comment;
-
-                commentsViewModel.Add(comm);
-            });
-            postModel.Comments = commentsViewModel;
+            postModel.Comments = _commentsService.GetPagedCommentsByPostId(postId, author, sortParameters);
 
 
             return postModel;
