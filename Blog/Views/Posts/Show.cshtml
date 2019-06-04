@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Blog.Helpers
+@using Microsoft.AspNet.Identity
 @model Blog.ViewModels.Posts.PostShowViewModel
 @{
     ViewBag.Title = Model.Post.Title;
@@ -99,12 +100,12 @@
         }
         <!-- Comments -->
         <div class="comments">
-            <div class="comments_title">Comments <span>@Model.Comments.Count</span></div>
+            <div class="comments_title">Comments <span>@Model.Comments.PageInfo.TotalItems</span></div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="comments_container">
                         <ul class="comment_list">
-                            @foreach (var comment in Model.Comments)
+                            @foreach (var comment in Model.Comments.Comments)
                             {
                                 <li class="comment">
                                     <div class="comment_body">
@@ -182,6 +183,11 @@
                                 <hr>
                             }
                         </ul>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                @Html.PageLinks(Model.Comments.PageInfo, x => Url.Action("Show", "Posts", new { id = Model.Post.Id, page = x }))
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

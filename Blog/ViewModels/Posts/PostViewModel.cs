@@ -10,7 +10,7 @@ namespace Blog.ViewModels.Posts
     {
         public Post Post { get; set; }
         public Comment Comment { get; set; }
-        public IList<CommentViewModel> Comments { get; set; }
+        public CommentsViewModel Comments { get; set; }
         public int CommentsCount { get; set; }
         public Profile Profile { get; set; }
     }

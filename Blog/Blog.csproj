@@ -264,9 +264,12 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Posts\CommentsService.cs" />
+    <Compile Include="Services\Posts\Interfaces\ICommentsService.cs" />
     <Compile Include="Services\Posts\Interfaces\IPostsService.cs" />
     <Compile Include="Services\Posts\PostsService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Posts\CommentsViewModel.cs" />
     <Compile Include="ViewModels\Posts\CommentViewModel.cs" />
     <Compile Include="ViewModels\Posts\PostsViewModel.cs" />
     <Compile Include="ViewModels\Posts\PostViewModel.cs" />
