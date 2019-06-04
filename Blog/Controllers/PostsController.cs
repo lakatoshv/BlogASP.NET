@@ -38,9 +38,15 @@ namespace Blog.Controllers
             return View(posts);
         }
         // GET: Posts/Show/5
-        public ActionResult Show(int? id, string sorts)
+        public ActionResult Show(int? id, string sorts, int page = 1)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
+
+            var sortParameters = new SortParametersDto()
+            {
+                CurrentPage = page,
+                PageSize = 10
+            };
 
             var postModelToUpdate = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
             if (postModelToUpdate != null)
@@ -50,7 +56,7 @@ namespace Blog.Controllers
                 _db.SaveChanges();
             }
 
-            var postModel = _postsService.GetPost(id.Value);
+            var postModel = _postsService.GetPostWithComments(id.Value, sortParameters);
             if(postModel == null) return RedirectToAction("Index", "Posts");
 
             return View(postModel);

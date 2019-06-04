@@ -132,11 +132,14 @@
                 <br />
                 <hr>
             }
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
-                </ul>
-            </nav>
+            @if (Model.PageInfo.TotalPages > 1)
+            {
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new {page = x}))
+                    </ul>
+                </nav>
+            }
         </div>
     </div>
 </div>
