@@ -16,12 +16,14 @@ namespace Blog
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "Blog.Controllers" }
             );
             routes.MapRoute(
                 name: "my-posts",
                 url: "my-posts",
-                defaults: new { controller = "Posts", action = "UserPosts", id = UrlParameter.Optional }
+                defaults: new { controller = "Posts", action = "UserPosts", id = UrlParameter.Optional },
+                namespaces: new[] { "Blog.Controllers" }
             );
         }
     }

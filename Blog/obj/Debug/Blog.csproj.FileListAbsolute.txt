@@ -343,3 +343,4 @@ D:\New\BlogASP.NET\Blog\bin\PagedList.Mvc.xml
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.csproj.CopyComplete
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.dll
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.pdb
+D:\New\BlogASP.NET\Blog\obj\Debug\Blog.csprojAssemblyReference.cache
