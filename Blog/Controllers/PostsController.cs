@@ -23,7 +23,7 @@ namespace Blog.Controllers
     {
         private PostsService _postsService = new PostsService();
         private BlogContext _db = new BlogContext();
-        
+
         // GET: Posts
         public ActionResult Index(string search, string sortBy, string orderBy, int page = 1)
         {
@@ -62,9 +62,9 @@ namespace Blog.Controllers
             return View(postModel);
         }
 
+        [Authorize]
         public ActionResult MyPosts(string display, string sortBy, string orderBy, string search, int page = 1)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             var posts = new PostsViewModel();
             
             var sortParameters = new SortParametersDto()
@@ -83,15 +83,16 @@ namespace Blog.Controllers
         }
 
         // GET: Posts/Create
+        [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
-            if(!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-
-            else return View();
+            return View();
         }
 
         // POST: Posts/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Post postModel)
         {
             try
@@ -139,9 +140,10 @@ namespace Blog.Controllers
         }
 
         // GET: Like/5
+        [HttpGet]
+        [Authorize]
         public ActionResult Like(int? id)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
@@ -162,9 +164,10 @@ namespace Blog.Controllers
         }
 
         // GET: Dislike/5
+        [HttpGet]
+        [Authorize]
         public ActionResult Dislike(int? id)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
@@ -185,19 +188,20 @@ namespace Blog.Controllers
         }
 
         // GET: Posts/Edit/5
+        [HttpGet]
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             var postModel = _postsService.GetPost(id.Value);
             return View(postModel.Post);
         }
 
         // POST: Posts/Edit/5
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(int? id, Post editedPost)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
@@ -224,17 +228,18 @@ namespace Blog.Controllers
         }
 
         // GET: Posts/Delete/5
+        [HttpGet]
+        [Authorize]
         public ActionResult Delete(int id)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             return View();
         }
 
         // POST: Posts/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
