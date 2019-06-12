@@ -1,28 +1,23 @@
 ﻿using Blog.Models;
 using Blog.Services.Posts;
-using Blog.Services.Posts.Interfaces;
 using Blog.ViewModels.Posts;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Blog.Core.Dtos;
 using Microsoft.Ajax.Utilities;
 using WebGrease.Css.Extensions;
-using PagedList;
 
 namespace Blog.Controllers
 {
     public class PostsController : Controller
     {
-        private PostsService _postsService = new PostsService();
-        private BlogContext _db = new BlogContext();
+        private readonly PostsService _postsService = new PostsService();
+        private readonly BlogContext _db = new BlogContext();
 
         // GET: Posts
         public ActionResult Index(string search, string sortBy, string orderBy, int page = 1)
@@ -48,8 +43,8 @@ namespace Blog.Controllers
                 PageSize = 10
             };
 
-            var postModelToUpdate = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
-            if (postModelToUpdate != null)
+            var postModelToUpdate = _db.Posts.FirstOrDefault(post => post.Id.Equals(id.Value));
+            if (postModelToUpdate != null && page == 1)
             {
                 postModelToUpdate.Seen++;
                 _db.Entry(postModelToUpdate).State = EntityState.Modified;
@@ -65,8 +60,6 @@ namespace Blog.Controllers
         [Authorize]
         public ActionResult MyPosts(string display, string sortBy, string orderBy, string search, int page = 1)
         {
-            var posts = new PostsViewModel();
-            
             var sortParameters = new SortParametersDto()
             {
                 OrderBy = orderBy ?? "asc",
@@ -74,9 +67,9 @@ namespace Blog.Controllers
                 CurrentPage = page,
                 PageSize = 10,
                 DisplayType = display ?? "list"
-        };
+            };
 
-            posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters, search);
+            var posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters, search);
             posts.DisplayType = display ?? "list";
 
             return View(posts);
@@ -102,12 +95,12 @@ namespace Blog.Controllers
                 {
                     postModel.CreatedAt = DateTime.Now;
                     postModel.Author = User.Identity.GetUserId();
-                    var result = _db.Posts.Add(postModel);
+                    _db.Posts.Add(postModel);
                     _db.SaveChanges();
 
                     if (!postModel.Tags.IsNullOrWhiteSpace())
                     {
-                        String[] tags = postModel.Tags.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        String[] tags = postModel.Tags.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                         foreach (var tag in tags)
                         {
                             var tagForAdd = new Tag()
@@ -148,9 +141,13 @@ namespace Blog.Controllers
             try
             {
                 PostViewModel postModel = new PostViewModel();
-                postModel.Post = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
-                postModel.Post.Likes++;
-                _db.Entry(postModel.Post).State = EntityState.Modified;
+                postModel.Post = _db.Posts.FirstOrDefault(post => post.Id.Equals(id.Value));
+                if (postModel.Post != null)
+                {
+                    postModel.Post.Likes++;
+                    _db.Entry(postModel.Post).State = EntityState.Modified;
+                }
+
                 _db.SaveChanges();
 
                 return RedirectToAction("Show/" + id, "Posts");
@@ -159,7 +156,7 @@ namespace Blog.Controllers
             {
                 return RedirectToAction("Index", "Posts");
                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
         }
 
@@ -172,9 +169,13 @@ namespace Blog.Controllers
             try
             {
                 PostViewModel postModel = new PostViewModel();
-                postModel.Post = _db.Posts.Where(post => post.Id.Equals(id.Value)).FirstOrDefault();
-                postModel.Post.Dislikes++;
-                _db.Entry(postModel.Post).State = EntityState.Modified;
+                postModel.Post = _db.Posts.FirstOrDefault(post => post.Id.Equals(id.Value));
+                if (postModel.Post != null)
+                {
+                    postModel.Post.Dislikes++;
+                    _db.Entry(postModel.Post).State = EntityState.Modified;
+                }
+
                 _db.SaveChanges();
 
                 return RedirectToAction("Show/" + id, "Posts");
@@ -183,7 +184,7 @@ namespace Blog.Controllers
             {
                 return RedirectToAction("Index", "Posts");
                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
         }
 
@@ -223,7 +224,7 @@ namespace Blog.Controllers
             {
                 return RedirectToAction("Index", "Posts");
                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
         }
 
@@ -238,7 +239,7 @@ namespace Blog.Controllers
         // POST: Posts/Delete/5
         [HttpPost]
         [Authorize]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int? id, FormCollection collection)
         {
             if (id == null)
             {
@@ -247,17 +248,21 @@ namespace Blog.Controllers
             try
             {
                 BlogContext db = new BlogContext();
-                Post postForDelete = db.Posts.Where(post => post.Id.Equals(id)).FirstOrDefault();
-                if (!postForDelete.Author.Equals(User.Identity.GetUserId()))
+                Post postForDelete = db.Posts.FirstOrDefault(post => post.Id.Equals(id));
+                if (postForDelete != null && !postForDelete.Author.Equals(User.Identity.GetUserId()))
                     return RedirectToAction("Index", "Posts");
 
-                db.Posts.Remove(postForDelete);
-                db.SaveChanges();
+                if (postForDelete != null)
+                {
+                    db.Posts.Remove(postForDelete);
+                    db.SaveChanges();
+                }
+
                 return RedirectToAction("Index");
             }
             catch
             {
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             return RedirectToAction("Index");
         }

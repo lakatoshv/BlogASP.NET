@@ -213,6 +213,7 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Core\Attributes\CheckPermissions.cs" />
     <Compile Include="Core\Attributes\StringValueAttribute.cs" />
     <Compile Include="Core\Dtos\SortParametersDto.cs" />
     <Compile Include="Core\Enums\SortBy.cs" />
@@ -509,6 +510,7 @@
     <Content Include="Views\Posts\Edit.cshtml" />
     <Content Include="Views\Profile\Details.cshtml" />
     <Content Include="Views\Posts\MyPosts.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
