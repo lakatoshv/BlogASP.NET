@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Blog.Core.Attributes;
 using Blog.Core.Dtos;
 using Microsoft.Ajax.Utilities;
 using WebGrease.Css.Extensions;
@@ -20,6 +21,7 @@ namespace Blog.Controllers
         private readonly BlogContext _db = new BlogContext();
 
         // GET: Posts
+        [HttpGet]
         public ActionResult Index(string search, string sortBy, string orderBy, int page = 1)
         {
             var sortParameters = new SortParametersDto()
@@ -32,7 +34,9 @@ namespace Blog.Controllers
             var posts = _postsService.GetPosts(sortParameters, search);
             return View(posts);
         }
+
         // GET: Posts/Show/5
+        [HttpGet]
         public ActionResult Show(int? id, string sorts, int page = 1)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
@@ -57,6 +61,7 @@ namespace Blog.Controllers
             return View(postModel);
         }
 
+        [HttpGet]
         [Authorize]
         public ActionResult MyPosts(string display, string sortBy, string orderBy, string search, int page = 1)
         {
@@ -191,6 +196,7 @@ namespace Blog.Controllers
         // GET: Posts/Edit/5
         [HttpGet]
         [Authorize]
+        [CheckPermissionsToEditForPosts]
         public ActionResult Edit(int? id)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
@@ -201,6 +207,7 @@ namespace Blog.Controllers
         // POST: Posts/Edit/5
         [HttpPost]
         [Authorize]
+        [CheckPermissionsToEditForPosts]
         public ActionResult Edit(int? id, Post editedPost)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
@@ -231,6 +238,7 @@ namespace Blog.Controllers
         // GET: Posts/Delete/5
         [HttpGet]
         [Authorize]
+        [CheckPermissionsToEditForPosts]
         public ActionResult Delete(int id)
         {
             return View();
@@ -239,6 +247,7 @@ namespace Blog.Controllers
         // POST: Posts/Delete/5
         [HttpPost]
         [Authorize]
+        [CheckPermissionsToEditForPosts]
         public ActionResult Delete(int? id, FormCollection collection)
         {
             if (id == null)
