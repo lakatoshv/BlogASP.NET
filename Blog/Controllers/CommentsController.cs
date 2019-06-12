@@ -10,13 +10,13 @@ using Blog.Core.Attributes;
 
 namespace Blog.Controllers
 {
+    [Authorize]
     public class CommentsController : Controller
     {
         private readonly BlogContext _db = new BlogContext();
 
         // GET: Comments/Create
         [HttpGet]
-        [Authorize]
         [CheckPermissionsToEditForComments]
         public ActionResult Create()
         {
@@ -26,7 +26,6 @@ namespace Blog.Controllers
 
         // POST: Comments/Create
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         [CheckPermissionsToEditForComments]
         public ActionResult Create(Comment comment)
@@ -52,7 +51,6 @@ namespace Blog.Controllers
 
         // GET: Comments/Edit/5
         [HttpGet]
-        [Authorize]
         [CheckPermissionsToEditForComments]
         public ActionResult Edit(int id)
         {
@@ -62,7 +60,6 @@ namespace Blog.Controllers
 
         // POST: Comments/Edit/5
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         [CheckPermissionsToEditForComments]
         public ActionResult Edit(Comment comment)
@@ -103,7 +100,6 @@ namespace Blog.Controllers
 
         // POST: Comments/Delete/5
         [HttpPost]
-        [Authorize]
         [CheckPermissionsToEditForComments]
         public ActionResult Delete(int? id)
         {
