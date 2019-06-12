@@ -1,21 +1,21 @@
 ﻿using Blog.Models;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Blog.Controllers
 {
     public class CommentsController : Controller
     {
-        BlogContext db = new BlogContext();
+        private readonly BlogContext _db = new BlogContext();
+
         // GET: Comments/Create
+        [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
@@ -24,7 +24,7 @@ namespace Blog.Controllers
 
         // POST: Comments/Create
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Comment comment)
         {
@@ -35,8 +35,8 @@ namespace Blog.Controllers
                 comment.Author = User.Identity.GetUserId();
                 if (ModelState.IsValid)
                 {
-                    var result = db.Comments.Add(comment);
-                    db.SaveChanges();
+                    _db.Comments.Add(comment);
+                    _db.SaveChanges();
                     return RedirectToAction("Show/" + comment.PostID, "Posts");
                 }
                 return null;
@@ -48,6 +48,8 @@ namespace Blog.Controllers
         }
 
         // GET: Comments/Edit/5
+        [HttpGet]
+        [Authorize]
         public ActionResult Edit(int id)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
@@ -56,34 +58,33 @@ namespace Blog.Controllers
 
         // POST: Comments/Edit/5
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Comment comment)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-            if (comment.Id == null && comment.PostID == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
             try
             {
-                var originalComment = db.Comments.Where(comm => comm.Id.Equals(comment.Id)).FirstOrDefault();
-                if(!originalComment.Author.Equals(User.Identity.GetUserId()))
+                var originalComment = _db.Comments.FirstOrDefault(comm => comm.Id.Equals(comment.Id));
+                if (originalComment != null && !originalComment.Author.Equals(User.Identity.GetUserId()))
                     return RedirectToAction("Show/" + comment.PostID, "Posts");
 
                 comment.Author = User.Identity.GetUserId();
                 comment.CreatedAt = DateTime.Now;
-                db.Entry(comment).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(comment).State = EntityState.Modified;
+                _db.SaveChanges();
 
                 return RedirectToAction("Show/" + comment.PostID, "Posts");
             }
-                catch (DataException /* dex */)
-                {
-                    //Log the error (uncomment dex variable name and add a line here to write a log.
-                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-                }
+            catch (DataException /* dex */)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
             return View(comment);
+            
+            
         }
 
         /*
@@ -97,8 +98,8 @@ namespace Blog.Controllers
 
         // POST: Comments/Delete/5
         [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Delete(int id)
+        [Authorize]
+        public ActionResult Delete(int? id)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (id == null)
@@ -107,19 +108,23 @@ namespace Blog.Controllers
             }
             try
             {
-                Comment comment = db.Comments.Where(comm => comm.Id.Equals(id)).FirstOrDefault();
-                if (!comment.Author.Equals(User.Identity.GetUserId()))
+                Comment comment = _db.Comments.FirstOrDefault(comm => comm.Id.Equals(id));
+                if (comment != null && !comment.Author.Equals(User.Identity.GetUserId()))
                     return RedirectToAction("Show/" + comment.PostID, "Posts");
 
-                db.Comments.Remove(comment);
-                db.SaveChanges();
-                return RedirectToAction("Show/" + comment.PostID, "Posts");
+                if (comment != null)
+                {
+                    _db.Comments.Remove(comment);
+                    _db.SaveChanges();
+                }
+
+                if (comment != null) return RedirectToAction("Show/" + comment.PostID, "Posts");
             }
             catch
             {
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Posts");
         }
     }
 }
