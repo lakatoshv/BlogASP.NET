@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Blog.Core.Attributes;
 
 namespace Blog.Controllers
 {
@@ -16,6 +17,7 @@ namespace Blog.Controllers
         // GET: Comments/Create
         [HttpGet]
         [Authorize]
+        [CheckPermissionsToEditForComments]
         public ActionResult Create()
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
@@ -26,6 +28,7 @@ namespace Blog.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
+        [CheckPermissionsToEditForComments]
         public ActionResult Create(Comment comment)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
@@ -50,6 +53,7 @@ namespace Blog.Controllers
         // GET: Comments/Edit/5
         [HttpGet]
         [Authorize]
+        [CheckPermissionsToEditForComments]
         public ActionResult Edit(int id)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
@@ -60,6 +64,7 @@ namespace Blog.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
+        [CheckPermissionsToEditForComments]
         public ActionResult Edit(Comment comment)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
@@ -99,6 +104,7 @@ namespace Blog.Controllers
         // POST: Comments/Delete/5
         [HttpPost]
         [Authorize]
+        [CheckPermissionsToEditForComments]
         public ActionResult Delete(int? id)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
