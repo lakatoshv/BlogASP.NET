@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
@@ -46,31 +44,10 @@ namespace Blog.Controllers
             profile.ProfileData = db.Profiles.Where(pr => pr.Id.Equals(id.Value)).FirstOrDefault();
             if(profile.ProfileData != null && profile.ProfileData.ApplicationUser.IsNullOrWhiteSpace()) return RedirectToAction("Index", "Posts");
             profile.Posts = db.Posts.Where(post => post.Author.Equals(profile.ProfileData.ApplicationUser)).ToList();
-            profile.UserData = userManager.FindByIdAsync(profile.ProfileData.ApplicationUser).Result;
+            if (profile.ProfileData != null)
+                profile.UserData = userManager.FindByIdAsync(profile.ProfileData.ApplicationUser).Result;
 
             return View(profile);
-        }
-
-        // GET: Profile/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Profile/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         // GET: Profile/Edit/5
@@ -82,7 +59,7 @@ namespace Blog.Controllers
             BlogContext db = new BlogContext();
             ProfileViewModel profile = new ProfileViewModel();
             profile.ProfileData = db.Profiles.Where(pr => pr.Id.Equals(id.Value)).FirstOrDefault();
-            if (!profile.ProfileData.ApplicationUser.Equals(User.Identity.GetUserId())) return RedirectToAction("Index", "Posts");
+            if (profile.ProfileData == null || !profile.ProfileData.ApplicationUser.Equals(User.Identity.GetUserId())) return RedirectToAction("Index", "Posts");
 
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
@@ -109,7 +86,7 @@ namespace Blog.Controllers
                 
                 userModel.Email = model.UserData.Email;
                 userModel.PhoneNumber = model.UserData.PhoneNumber;
-                IdentityResult result = await userManager.UpdateAsync(userModel);
+                await userManager.UpdateAsync(userModel);
                 Profile profileModel = model.ProfileData;
                 profileModel.ApplicationUser = userId;
                 profileModel.Id = id.Value;
@@ -121,7 +98,7 @@ namespace Blog.Controllers
             {
                 return RedirectToAction("Index", "Posts");
                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
 
             var identity = new ClaimsIdentity(User.Identity);
@@ -149,28 +126,6 @@ namespace Blog.Controllers
                 );
 
             return RedirectToAction("Show/" + id, "Posts");
-        }
-
-        // GET: Profile/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Profile/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
