@@ -1,16 +1,10 @@
-﻿
-using System.Collections;
-using Blog.Models;
+﻿using Blog.Models;
 using Blog.Services.Posts.Interfaces;
 using Blog.ViewModels.Posts;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic;
-using System.Linq.Expressions;
-using System.Security.Claims;
-using Antlr.Runtime.Misc;
 using Blog.Core.Dtos;
 using Blog.Core.HelperClasses;
 using Microsoft.Ajax.Utilities;
@@ -19,7 +13,7 @@ namespace Blog.Services.Posts
 {
     public class PostsService : IPostsService
     {
-        private CommentsService _commentsService = new CommentsService();
+        private readonly CommentsService _commentsService = new CommentsService();
 
         public PostShowViewModel GetPost(int postId)
         {
@@ -78,7 +72,7 @@ namespace Blog.Services.Posts
             if (!search.IsNullOrWhiteSpace())
                 postsEnumerable = postsEnumerable.Where(post => post.Title.Equals(search));
 
-            var posts = this.SortPosts(postsEnumerable, sortParameters).ToList();
+            var posts = SortPosts(postsEnumerable, sortParameters).ToList();
 
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
@@ -122,7 +116,7 @@ namespace Blog.Services.Posts
             if (!search.IsNullOrWhiteSpace())
                 postsEnumerable = postsEnumerable.Where(post => post.Title.Equals(search));
 
-            var posts = this.SortPosts(postsEnumerable, sortParameters).ToList();
+            var posts = SortPosts(postsEnumerable, sortParameters).ToList();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
@@ -154,7 +148,6 @@ namespace Blog.Services.Posts
 
         public IOrderedEnumerable<Post> SortPosts(IEnumerable<Post> posts, SortParametersDto sortParameters)
         {
-            BlogContext db = new BlogContext();
             if (sortParameters.SortBy.Equals("CreatedAt") && sortParameters.OrderBy.Equals("asc"))
                 return posts.OrderBy(x => x.CreatedAt);
             if (sortParameters.SortBy.Equals("CreatedAt") && sortParameters.OrderBy.Equals("desc"))
