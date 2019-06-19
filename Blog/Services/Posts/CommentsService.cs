@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Blog.Core.Dtos;
 using Blog.Core.HelperClasses;
 using Blog.Models;
@@ -19,7 +17,6 @@ namespace Blog.Services.Posts
             BlogContext db = new BlogContext();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
-            ApplicationUser user = userManager.FindByIdAsync(author).Result;
 
             CommentsViewModel commentsViewModel = new CommentsViewModel
             {
@@ -29,7 +26,7 @@ namespace Blog.Services.Posts
             comments.ForEach(comment => {
                 ApplicationUser commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
                 CommentViewModel comm = new CommentViewModel();
-                comm.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(comment.Author)).FirstOrDefault();
+                comm.Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(comment.Author));
 
                 if (commentAuthor != null)
                     comment.Author = commentAuthor.UserName;
