@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Web;
 using System.Web.Mvc;
 using Antlr.Runtime.Misc;
 using Blog.Core.HelperClasses;
@@ -39,7 +38,7 @@ namespace Blog.Helpers
             }
             
             li.InnerHtml = a.ToString();
-            result.Append(li.ToString());
+            result.Append(li);
         }
 
         return MvcHtmlString.Create(result.ToString());
