@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Blog.Core.Enums
+﻿namespace Blog.Core.Enums
 {
     public enum OrderBy
     {
