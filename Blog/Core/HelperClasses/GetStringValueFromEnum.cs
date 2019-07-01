@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 using Blog.Core.Attributes;
 
 namespace Blog.Core.HelperClasses
@@ -13,15 +10,11 @@ namespace Blog.Core.HelperClasses
 
         private Type _enumType;
         private static Hashtable _stringValues = new Hashtable();
-
-        /// <summary>
-        /// Creates a new <see cref="StringEnum"/> instance.
-        /// </summary>
-        /// <param name="enumType">Enum type.</param>
+        
         public GetStringValueFromEnum(Type enumType)
         {
             if (!enumType.IsEnum)
-                throw new ArgumentException(String.Format("Supplied type must be an Enum.  Type was {0}", enumType.ToString()));
+                throw new ArgumentException(String.Format("Supplied type must be an Enum.  Type was {0}", enumType));
 
             _enumType = enumType;
         }
@@ -40,7 +33,10 @@ namespace Blog.Core.HelperClasses
                 enumType = (Enum)Enum.Parse(_enumType, valueName);
                 stringValue = GetStringValue(enumType);
             }
-            catch (Exception) { }//Swallow!
+            catch (Exception)
+            {
+                // ignored
+            } //Swallow!
 
             return stringValue;
         }
@@ -57,7 +53,7 @@ namespace Blog.Core.HelperClasses
             {
                 //Check for our custom attribute
                 StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
-                if (attrs.Length > 0)
+                if (attrs != null && attrs.Length > 0)
                     values.Add(attrs[0].Value);
 
             }
@@ -78,7 +74,7 @@ namespace Blog.Core.HelperClasses
             {
                 //Check for our custom attribute
                 StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
-                if (attrs.Length > 0)
+                if (attrs != null && attrs.Length > 0)
                     values.Add(new DictionaryEntry(Convert.ChangeType(Enum.Parse(_enumType, fi.Name), underlyingType), attrs[0].Value));
 
             }
@@ -128,13 +124,13 @@ namespace Blog.Core.HelperClasses
             Type type = value.GetType();
 
             if (_stringValues.ContainsKey(value))
-                output = (_stringValues[value] as StringValueAttribute).Value;
+                output = (_stringValues[value] as StringValueAttribute)?.Value;
             else
             {
                 //Look for our 'StringValueAttribute' in the field's custom attributes
                 FieldInfo fi = type.GetField(value.ToString());
                 StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
-                if (attrs.Length > 0)
+                if (attrs != null && attrs.Length > 0)
                 {
                     _stringValues.Add(value, attrs[0]);
                     output = attrs[0].Value;
@@ -169,14 +165,14 @@ namespace Blog.Core.HelperClasses
             string enumStringValue = null;
 
             if (!type.IsEnum)
-                throw new ArgumentException(String.Format("Supplied type must be an Enum.  Type was {0}", type.ToString()));
+                throw new ArgumentException(String.Format("Supplied type must be an Enum.  Type was {0}", type));
 
             //Look for our string value associated with fields in this enum
             foreach (FieldInfo fi in type.GetFields())
             {
                 //Check for our custom attribute
                 StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
-                if (attrs.Length > 0)
+                if (attrs != null && attrs.Length > 0)
                     enumStringValue = attrs[0].Value;
 
                 //Check for equality then select actual enum value.
