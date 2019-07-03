@@ -218,6 +218,7 @@
     <Compile Include="Core\Attributes\CheckPermissions.cs" />
     <Compile Include="Core\Attributes\StringValueAttribute.cs" />
     <Compile Include="Core\Dtos\SortParametersDto.cs" />
+    <Compile Include="Core\Enums\OrderBy.cs" />
     <Compile Include="Core\Enums\SortBy.cs" />
     <Compile Include="Core\HelperClasses\PageInfo.cs" />
     <Compile Include="Core\HelperClasses\GetStringValueFromEnum.cs" />

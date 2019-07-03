@@ -1,10 +1,5 @@
-﻿using Blog.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using Blog.Core.HelperClasses;
-using PagedList;
 
 namespace Blog.ViewModels.Posts
 {
