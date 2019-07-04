@@ -1,7 +1,75 @@
-﻿
+﻿@using Blog.ViewModels.Posts
+@using Microsoft.AspNet.Identity
+@model Blog.Areas.Admin.ViewModels.Posts.PostsViewModel
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 mx-auto">
+            @{
+                var createPost = Url.Action("Create", "Posts");
+                var posts = new List<Blog.Areas.Admin.ViewModels.Posts.PostViewModel>();
+                posts = Model.Posts.ToList();
+            }
+            <a href="@createPost" class="btn btn-light">Написати пост</a>
+            <span></span>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th><b>Назва:</b></th>
+                            <th><b>Теги:</b></th>
+                            <th><b>Автор:</b></th>
+                            <th><b>К-сть переглядів:</b></th>
+                            <th><b>К-сть лайків:</b></th>
+                            <th><b>К-сть дизлайків:</b></th>
+                            <th><b>К-сть коментарів:</b></th>
+                            <th><b>Дата створення:</b></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th><b>Назва:</b></th>
+                            <th><b>Теги:</b></th>
+                            <th><b>Автор:</b></th>
+                            <th><b>К-сть переглядів:</b></th>
+                            <th><b>К-сть лайків:</b></th>
+                            <th><b>К-сть дизлайків:</b></th>
+                            <th><b>К-сть коментарів:</b></th>
+                            <th><b>Дата створення:</b></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in posts)
+                        {
+                            <tr>
+                                <td>@item.Post.Title</td>
+                                <td>@item.Post.Tags</td>
+                                <td>@item.Post.Author</td>
+                                <td>@item.Post.Seen</td>
+                                <td>@item.Post.Likes</td>
+                                <td>@item.Post.Dislikes</td>
+                                <td>@item.CommentsCount</td>
+                                <td>@item.Post.CreatedAt</td>
+                                <td class="actions" data-th="">
+                                    <a class="btn btn-primary" href="#edit"><i class="fa fa-edit"></i></a>
+                                    <button type="button"
+                                            class="btn btn-sm text-white btn-danger"
+                                            id="post.Post.Id"
+                                            onclick="setDeletePostValues(this.id)"
+                                            data-toggle="modal"
+                                            data-target="#delete-post">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Blog.Areas.Admin.Services.Posts;
 using Blog.Models;
 
 namespace Blog.Areas.Admin.Controllers
@@ -6,11 +7,14 @@ namespace Blog.Areas.Admin.Controllers
     [Authorize(Roles = "Administrator")]
     public class PostsController : Controller
     {
+        private readonly PostsService _postsService = new PostsService();
+        private readonly BlogContext _db = new BlogContext();
         // GET: Admin/Posts
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            return View();
+            var posts = _postsService.GetPosts(search);
+            return View(posts);
         }
 
         // GET: Admin/Posts/Create
