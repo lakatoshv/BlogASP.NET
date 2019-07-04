@@ -38,6 +38,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        @Html.ActionLink("Пости", "Index", "Posts", new { area = "Admin" }, new { @class = "navbar-brand" })
+                    </li>
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
@@ -46,8 +49,8 @@
                                 actionName: "Login",
                                 controllerName: "Account",
                                 routeValues: null,
-                                htmlAttributes: new { @class = "nav-link" }
-                            )
+                                htmlAttributes: new {@class = "nav-link"}
+                                )
                         </li>
                         <li class="nav-item">
                             @Html.ActionLink(
@@ -55,24 +58,24 @@
                                 actionName: "Register",
                                 controllerName: "Account",
                                 routeValues: null,
-                                htmlAttributes: new { @class = "nav-link" }
-                            )
+                                htmlAttributes: new {@class = "nav-link"}
+                                )
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
                             @{
-                                var profile = ((ClaimsIdentity)HttpContext.Current.User.Identity).Claims;
+                                var profile = ((ClaimsIdentity) HttpContext.Current.User.Identity).Claims;
                                 var name = profile.First(item => item.Type == "FirstName").Value + " " + profile.First(item => item.Type == "LastName").Value;
                             }
                             @Html.ActionLink(
-                            linkText: name,
-                            actionName: "Index",
-                            controllerName: "Profile",
-                            routeValues: null,
-                            htmlAttributes: new {@class = "nav-link"}
-                            )
+                                linkText: name,
+                                actionName: "Index",
+                                controllerName: "Profile",
+                                routeValues: null,
+                                htmlAttributes: new {@class = "nav-link"}
+                                )
                         </li>
                         <li class="nav-item">
                             @Html.ActionLink(
@@ -80,8 +83,8 @@
                                 actionName: "LogOut",
                                 controllerName: "Account",
                                 routeValues: null,
-                                htmlAttributes: new { @class = "nav-link" }
-                            )
+                                htmlAttributes: new {@class = "nav-link"}
+                                )
                         </li>
                     }
                     <!--

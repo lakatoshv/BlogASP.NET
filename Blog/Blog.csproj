@@ -209,6 +209,15 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
+    <Compile Include="Areas\Admin\Services\Posts\CommentsService.cs" />
+    <Compile Include="Areas\Admin\Services\Posts\Interfaces\ICommentsService.cs" />
+    <Compile Include="Areas\Admin\Services\Posts\Interfaces\IPostsService.cs" />
+    <Compile Include="Areas\Admin\Services\Posts\PostsService.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Posts\CommentsViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Posts\CommentViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Posts\PostsViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Posts\PostViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Users\ProfileViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
