@@ -46,9 +46,17 @@
                         @foreach (var item in posts)
                         {
                             <tr>
-                                <td>@item.Post.Title</td>
+                                <td>
+                                    @{
+                                        var pathUrl = Url.Action("Show", "Posts", new { area = "" }) + "/" + item.Post.Id;
+                                    }
+                                    <a href="@pathUrl" title="@item.Post.Title">@item.Post.Title</a>
+                                </td>
                                 <td>@item.Post.Tags</td>
-                                <td>@item.Post.Author</td>
+                                <td>
+                                    @{ var authorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id; }
+                                    <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
+                                </td>
                                 <td>@item.Post.Seen</td>
                                 <td>@item.Post.Likes</td>
                                 <td>@item.Post.Dislikes</td>
