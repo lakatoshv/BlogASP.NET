@@ -79,18 +79,40 @@ namespace Blog.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Posts/Edit/5
+        // GET: Posts/Edit/5
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null) return RedirectToAction("Index", "Posts");
+            var postModel = _postsService.GetPost(id.Value);
+            return View(postModel.Post);
         }
 
-        // POST: Admin/Posts/Edit/5
+        // POST: Posts/Edit/5
         [HttpPost]
         public ActionResult Edit(int? id, Post editedPost)
         {
-            return View();
+            if (id == null) return RedirectToAction("Index", "Posts");
+            try
+            {
+                var postModel = _postsService.GetPost(id.Value);
+
+                editedPost.Author = postModel.Post.Author;
+                editedPost.Likes = postModel.Post.Likes;
+                editedPost.Dislikes = postModel.Post.Dislikes;
+                editedPost.Seen = postModel.Post.Seen;
+                editedPost.CreatedAt = DateTime.Now;
+                _db.Entry(editedPost).State = EntityState.Modified;
+                _db.SaveChanges();
+
+                return RedirectToAction("Show/" + id, "Posts", new { area = "" });
+            }
+            catch (System.Data.DataException /* dex */)
+            {
+                return RedirectToAction("Index", "Posts");
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
         }
 
         // GET: Admin/Posts/Delete/5

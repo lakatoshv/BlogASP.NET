@@ -6,7 +6,7 @@
 }
 <div class="container">
     <div class="row">
-        <div class="col-lg-10 col-md-10 mx-auto">
+        <div class="col-lg-12 col-md-12 mx-auto">
             @{
                 var createPost = Url.Action("Create", "Posts");
                 var posts = new List<Blog.Areas.Admin.ViewModels.Posts.PostViewModel>();
@@ -15,66 +15,74 @@
             <a href="@createPost" class="btn btn-light">Написати пост</a>
             <span></span>
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" cellspacing="0">
                     <thead>
-                        <tr>
-                            <th><b>Назва:</b></th>
-                            <th><b>Теги:</b></th>
-                            <th><b>Автор:</b></th>
-                            <th><b>К-сть переглядів:</b></th>
-                            <th><b>К-сть лайків:</b></th>
-                            <th><b>К-сть дизлайків:</b></th>
-                            <th><b>К-сть коментарів:</b></th>
-                            <th><b>Дата створення:</b></th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th width="20%"><b>Назва:</b></th>
+                        <th width="5%"><b>Теги:</b></th>
+                        <th><b>Автор:</b></th>
+                        <th><b>К-сть переглядів:</b></th>
+                        <th><b>К-сть лайків:</b></th>
+                        <th><b>К-сть дизлайків:</b></th>
+                        <th><b>К-сть коментарів:</b></th>
+                        <th><b>Дата створення:</b></th>
+                        <th></th>
+                    </tr>
                     </thead>
                     <tfoot>
-                        <tr>
-                            <th><b>Назва:</b></th>
-                            <th><b>Теги:</b></th>
-                            <th><b>Автор:</b></th>
-                            <th><b>К-сть переглядів:</b></th>
-                            <th><b>К-сть лайків:</b></th>
-                            <th><b>К-сть дизлайків:</b></th>
-                            <th><b>К-сть коментарів:</b></th>
-                            <th><b>Дата створення:</b></th>
-                            <th></th>
-                        </tr>
+                    <tr>
+                        <th><b>Назва:</b></th>
+                        <th><b>Теги:</b></th>
+                        <th><b>Автор:</b></th>
+                        <th><b>К-сть переглядів:</b></th>
+                        <th><b>К-сть лайків:</b></th>
+                        <th><b>К-сть дизлайків:</b></th>
+                        <th><b>К-сть коментарів:</b></th>
+                        <th><b>Дата створення:</b></th>
+                        <th></th>
+                    </tr>
                     </tfoot>
                     <tbody>
-                        @foreach (var item in posts)
-                        {
-                            <tr>
-                                <td>
-                                    @{
-                                        var pathUrl = Url.Action("Show", "Posts", new { area = "" }) + "/" + item.Post.Id;
-                                    }
-                                    <a href="@pathUrl" title="@item.Post.Title">@item.Post.Title</a>
-                                </td>
-                                <td>@item.Post.Tags</td>
-                                <td>
-                                    @{ var authorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id; }
-                                    <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
-                                </td>
-                                <td>@item.Post.Seen</td>
-                                <td>@item.Post.Likes</td>
-                                <td>@item.Post.Dislikes</td>
-                                <td>@item.CommentsCount</td>
-                                <td>@item.Post.CreatedAt</td>
-                                <td class="actions" data-th="">
-                                    <a class="btn btn-primary" href="#edit"><i class="fa fa-edit"></i></a>
-                                    <button type="button"
-                                            class="btn btn-sm text-white btn-danger"
-                                            id="post.Post.Id"
-                                            onclick="setDeletePostValues(this.id)"
-                                            data-toggle="modal"
-                                            data-target="#delete-post">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        }
+                    @foreach (var item in posts)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    var pathUrl = Url.Action("Show", "Posts", new { area = "" }) + "/" + item.Post.Id;
+                                }
+                                <a href="@pathUrl" title="@item.Post.Title">@item.Post.Title</a>
+                            </td>
+                            <td>@item.Post.Tags</td>
+                            <td>
+                                @{ var authorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id; }
+                                <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
+                            </td>
+                            <td>@item.Post.Seen</td>
+                            <td>@item.Post.Likes</td>
+                            <td>@item.Post.Dislikes</td>
+                            <td>@item.CommentsCount</td>
+                            <td>@item.Post.CreatedAt</td>
+                            <td class="actions" data-th="">
+                                @{
+                                    var edit = Url.Action("Edit", "Posts") + "/" + item.Post.Id;
+                                    var delete = Url.Action("Delete", "Posts");
+                                }
+                                <a type="button"
+                                   class="btn btn-sm text-white btn-primary"
+                                   href="@edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <button type="button"
+                                        class="btn btn-sm text-white btn-danger"
+                                        id="post.Post.Id"
+                                        onclick="setDeletePostValues(this.id)"
+                                        data-toggle="modal"
+                                        data-target="#delete-post">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
                     </tbody>
                 </table>
             </div>
