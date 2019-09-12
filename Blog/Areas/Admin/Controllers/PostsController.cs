@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Blog.Areas.Admin.Services.Posts;
 using Blog.Models;
@@ -115,18 +116,41 @@ namespace Blog.Areas.Admin.Controllers
             }
         }
 
-        // GET: Admin/Posts/Delete/5
+        // GET: Posts/Delete/5
         [HttpGet]
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Admin/Posts/Delete/5
+        // POST: Posts/Delete/5
         [HttpPost]
-        public ActionResult Delete()
+        public ActionResult Delete(int? id, FormCollection collection)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            try
+            {
+                BlogContext db = new BlogContext();
+                Post postForDelete = db.Posts.FirstOrDefault(post => post.Id.Equals(id));
+                if (postForDelete != null && !postForDelete.Author.Equals(User.Identity.GetUserId()))
+                    return RedirectToAction("Index", "Posts");
+
+                if (postForDelete != null)
+                {
+                    db.Posts.Remove(postForDelete);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+            return RedirectToAction("Index");
         }
     }
 }
