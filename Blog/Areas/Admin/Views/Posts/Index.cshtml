@@ -54,7 +54,7 @@
                             </td>
                             <td>@item.Post.Tags</td>
                             <td>
-                                @{ var authorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id; }
+                                @{ var authorPage = item.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id : ""; }
                                 <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
                             </td>
                             <td>@item.Post.Seen</td>
@@ -74,7 +74,7 @@
                                 </a>
                                 <button type="button"
                                         class="btn btn-sm text-white btn-danger"
-                                        id="post.Post.Id"
+                                        id="@item.Post.Id"
                                         onclick="setDeletePostValues(this.id)"
                                         data-toggle="modal"
                                         data-target="#delete-post">
@@ -89,3 +89,44 @@
         </div>
     </div>
 </div>
+
+<div id="delete-post" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Видалити цей пост?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <input type='hidden' id="delete-id" />
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deletePost('Delete/')">
+                    <i class="fa fa-trash"></i>
+                    Видалити
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function setDeletePostValues(id) {
+        $("#delete-id").val(id);
+    }
+
+    function deletePost(url) {
+        var id = $("#delete-id").val();
+        ajaxQuery(id, url);
+    }
+    function ajaxQuery(id, url) {
+        $.post(
+            url + id,
+            onAjaxSuccess
+        );
+    }
+    function onAjaxSuccess(data) {
+        location.reload();
+    }
+</script>
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
