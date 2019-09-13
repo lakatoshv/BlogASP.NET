@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -15,6 +16,7 @@ namespace Blog.Areas.Admin.Controllers
     public class PostsController : Controller
     {
         private readonly PostsService _postsService = new PostsService();
+        private readonly CommentsService _commentsService = new CommentsService();
         private readonly BlogContext _db = new BlogContext();
         // GET: Admin/Posts
         [HttpGet]
@@ -134,12 +136,15 @@ namespace Blog.Areas.Admin.Controllers
             try
             {
                 BlogContext db = new BlogContext();
-                Post postForDelete = db.Posts.FirstOrDefault(post => post.Id.Equals(id));
-                if (postForDelete != null && !postForDelete.Author.Equals(User.Identity.GetUserId()))
-                    return RedirectToAction("Index", "Posts");
+                Post postForDelete = db.Posts.FirstOrDefault(post => post.Id.Equals(id.Value));
 
                 if (postForDelete != null)
                 {
+                    _commentsService.GetCommentsForPost(id.Value).ForEach(comment =>
+                        {
+                            db.Comments.Remove(comment);
+                        });
+                    
                     db.Posts.Remove(postForDelete);
                     db.SaveChanges();
                 }
