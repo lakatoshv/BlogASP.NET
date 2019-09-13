@@ -18,6 +18,7 @@ namespace Blog.Controllers
     public class PostsController : Controller
     {
         private readonly PostsService _postsService = new PostsService();
+        private readonly CommentsService _commentsService = new CommentsService();
         private readonly BlogContext _db = new BlogContext();
 
         // GET: Posts
@@ -263,6 +264,10 @@ namespace Blog.Controllers
 
                 if (postForDelete != null)
                 {
+                    _commentsService.GetCommentsForPost(id.Value).ForEach(comment =>
+                    {
+                        db.Comments.Remove(comment);
+                    });
                     db.Posts.Remove(postForDelete);
                     db.SaveChanges();
                 }

@@ -12,6 +12,11 @@ namespace Blog.Services.Posts
 {
     public class CommentsService : ICommentsService
     {
+        public IList<Comment> GetCommentsForPost(int postId)
+        {
+            BlogContext db = new BlogContext();
+            return db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
+        }
         public CommentsViewModel GetPagedCommentsByPostId(int postId, string author, SortParametersDto sortParameters)
         {
             BlogContext db = new BlogContext();
