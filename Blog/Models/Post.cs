@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Blog.Core.Enums;
 
 namespace Blog.Models
 {
@@ -33,5 +34,6 @@ namespace Blog.Models
         public string Tags { get; set; }
         public ICollection<Tag> PostTags { get; set; }
         public string ImgUrl { get; set; }
+        public Status Status { get; set; } = Status.NotApproved;
     }
 }

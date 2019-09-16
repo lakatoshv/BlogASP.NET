@@ -344,3 +344,5 @@ D:\New\BlogASP.NET\Blog\obj\Debug\Blog.csproj.CopyComplete
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.dll
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.pdb
 D:\New\BlogASP.NET\Blog\obj\Debug\Blog.csprojAssemblyReference.cache
+D:\New\BlogASP.NET\Blog\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\New\BlogASP.NET\Blog\obj\Debug\Blog.Migrations.AddStatusFieldIntoPostTable.resources
