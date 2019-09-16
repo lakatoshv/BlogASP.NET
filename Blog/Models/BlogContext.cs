@@ -25,7 +25,7 @@ namespace Blog.Models
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
@@ -39,7 +39,7 @@ namespace Blog.Models
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
@@ -53,7 +53,7 @@ namespace Blog.Models
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
@@ -67,7 +67,7 @@ namespace Blog.Models
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
@@ -81,7 +81,7 @@ namespace Blog.Models
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             base.Seed(context);

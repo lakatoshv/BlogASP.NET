@@ -1,19 +1,17 @@
 namespace Blog.Migrations
 {
     using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
-    using Blog.Models;
+    using Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Blog.Models.BlogContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<BlogContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Blog.Models.BlogContext context)
+        protected override void Seed(BlogContext context)
         {
             context.Posts.Add(new Post
             {
@@ -26,7 +24,7 @@ namespace Blog.Migrations
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
@@ -40,7 +38,7 @@ namespace Blog.Migrations
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
@@ -54,7 +52,7 @@ namespace Blog.Migrations
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
@@ -68,7 +66,7 @@ namespace Blog.Migrations
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             context.Posts.Add(new Post
@@ -82,7 +80,7 @@ namespace Blog.Migrations
                 Likes = 0,
                 Dislikes = 0,
                 CreatedAt = DateTime.Now,
-                Imgurl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
+                ImgUrl = "https://habrastorage.org/webt/od/ie/1k/odie1kfvgxwkus8qxtmateofkek.png",
                 Tags = "Development under Windows, Mathematics, Astronomy, Algorithms, Python",
             });
             base.Seed(context);
