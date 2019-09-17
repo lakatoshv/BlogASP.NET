@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
 using Blog.Core.Dtos;
+using Blog.Core.Enums;
 using Blog.Core.HelperClasses;
 using Microsoft.Ajax.Utilities;
 
@@ -18,9 +19,11 @@ namespace Blog.Services.Posts
         public PostShowViewModel GetPost(int postId)
         {
             BlogContext db = new BlogContext();
-            PostShowViewModel postModel = new PostShowViewModel();
-            postModel.Post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
-            postModel.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(postModel.Post.Author)).FirstOrDefault();
+            PostShowViewModel postModel = new PostShowViewModel
+            {
+                Post = db.Posts.FirstOrDefault(post => post.Id.Equals(postId))
+            };
+            postModel.Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
             if (postModel.Post == null) return null;
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
@@ -40,9 +43,11 @@ namespace Blog.Services.Posts
         public PostShowViewModel GetPostWithComments(int postId, SortParametersDto sortParameters)
         {
             BlogContext db = new BlogContext();
-            PostShowViewModel postModel = new PostShowViewModel();
-            postModel.Post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
-            postModel.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(postModel.Post.Author)).FirstOrDefault();
+            PostShowViewModel postModel = new PostShowViewModel
+            {
+                Post = db.Posts.FirstOrDefault(post => post.Id.Equals(postId))
+            };
+            postModel.Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
             if (postModel.Post == null) return null;
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
@@ -77,8 +82,10 @@ namespace Blog.Services.Posts
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
-                PostViewModel post = new PostViewModel();
-                post.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(item.Author)).FirstOrDefault();
+                PostViewModel post = new PostViewModel
+                {
+                    Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(item.Author))
+                };
 
                 ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
                 if (user != null)
@@ -94,7 +101,7 @@ namespace Blog.Services.Posts
                     post.Post.PostTags.Add(tag);
                 }
 
-                post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
+                post.CommentsCount = db.Comments.Count(comment => comment.PostID.Equals(item.Id));
                 postModel.Add(post);
             });
             PostsViewModel postsViewModel = new PostsViewModel();
@@ -112,38 +119,48 @@ namespace Blog.Services.Posts
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
 
-            IEnumerable<Post> postsEnumerable = db.Posts;
+            IEnumerable<Post> postsEnumerable = db.Posts.Where(post => post.Status == Status.Approved);
             if (!search.IsNullOrWhiteSpace())
                 postsEnumerable = postsEnumerable.Where(post => post.Title.Equals(search));
-
-            var posts = SortPosts(postsEnumerable, sortParameters).ToList();
-            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
-            var userManager = new UserManager<ApplicationUser>(store);
-            posts.ForEach(item => {
-                PostViewModel post = new PostViewModel();
-                post.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(item.Author)).FirstOrDefault();
-
-                ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
-                if (user != null)
-                    item.Author = user.UserName;
-
-                
-                post.Post = item;
-
-                var tags = db.Tags.Where(tag => tag.PostId.Equals(item.Id)).ToList();
-                foreach (var tag in tags)
+                List<Post> posts = SortPosts(postsEnumerable, sortParameters).ToList();
+                var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+                var userManager = new UserManager<ApplicationUser>(store);
+                posts.ForEach(item =>
                 {
-                    post.Post.PostTags.Add(tag);
-                }
-                
-                post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
-                postModel.Add(post);
-            });
-            PostsViewModel postsViewModel = new PostsViewModel();
-            postsViewModel.Posts = postModel.Skip((sortParameters.CurrentPage - 1) * sortParameters.PageSize).Take(sortParameters.PageSize).ToList();
-            postsViewModel.PageInfo = new PageInfo { PageNumber = sortParameters.CurrentPage, PageSize = sortParameters.PageSize, TotalItems = postModel.Count };
+                    PostViewModel post = new PostViewModel
+                    {
+                        Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(item.Author))
+                    };
 
-            return postsViewModel;
+                    ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
+                    if (user != null)
+                        item.Author = user.UserName;
+
+
+                    post.Post = item;
+
+                    var tags = db.Tags.Where(tag => tag.PostId.Equals(item.Id)).ToList();
+                    foreach (var tag in tags)
+                    {
+                        post.Post.PostTags.Add(tag);
+                    }
+
+                    post.CommentsCount = db.Comments.Count(comment => comment.PostID.Equals(item.Id));
+                    postModel.Add(post);
+                });
+                PostsViewModel postsViewModel = new PostsViewModel
+                {
+                    Posts = postModel.Skip((sortParameters.CurrentPage - 1) * sortParameters.PageSize)
+                        .Take(sortParameters.PageSize).ToList(),
+                    PageInfo = new PageInfo
+                    {
+                        PageNumber = sortParameters.CurrentPage,
+                        PageSize = sortParameters.PageSize,
+                        TotalItems = postModel.Count
+                    }
+                };
+
+                return postsViewModel;
         }
 
         public IOrderedEnumerable<Post> SortPosts(IEnumerable<Post> posts, SortParametersDto sortParameters)
