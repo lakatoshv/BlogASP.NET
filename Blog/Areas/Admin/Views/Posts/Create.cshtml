@@ -1,4 +1,5 @@
-﻿@model Blog.Models.Post
+﻿@using Blog.Core.Enums
+@model Blog.Models.Post
 @{
     ViewBag.Title = "Створити пост";
     var tagIndex = 1;
@@ -51,39 +52,39 @@
                     Основна картинка
                 </label>
                 <!--
-                    <div class="radio">
-                        <label>
-                            <input class="form-check-input" type="radio" name="type" id="upload" value="upload">
-                            <label for="upload">Вибрати файл з комп'ютера</label>
-                        </label>
-                        <div class="upload" style="display: none;">
-                            <div id="objects">
-                                <div class="form-group" id="add-image1" >
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
-                                    <label for="gallery_img" tag="" class="optional">Картинка:</label>
-                                    <dd>
-                                        <input type="hidden" name="MAX_FILE_SIZE" value="2097152" id="MAX_FILE_SIZE">
-                                        <input type="file" name="gallery_img" id="gallery_img" class="form-control">
-                                    </dd>
-                                </div>
-                            </div>
-                            <p id="add-input" class="btn btn-default">Додати ще одну картинку</p>
+            <div class="radio">
+                <label>
+                    <input class="form-check-input" type="radio" name="type" id="upload" value="upload">
+                    <label for="upload">Вибрати файл з комп'ютера</label>
+                </label>
+                <div class="upload" style="display: none;">
+                    <div id="objects">
+                        <div class="form-group" id="add-image1" >
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+                            <label for="gallery_img" tag="" class="optional">Картинка:</label>
+                            <dd>
+                                <input type="hidden" name="MAX_FILE_SIZE" value="2097152" id="MAX_FILE_SIZE">
+                                <input type="file" name="gallery_img" id="gallery_img" class="form-control">
+                            </dd>
                         </div>
                     </div>
-                    <div class="radio">
-                        <label>
-                            <input class="form-check-input" type="radio" name="type" id="addurl" value="addurl">
-                            <label for="addurl">Вказати URL-адресу</label>
-                        </label>
-                        <div class="addurl" style="display: none;">
-                            <div class="form-group">
-                                <label for="img_url" tag="" class="optional">URL-адреса:</label>
-                                <input type="text" name="img_url" id="img_url" value="" class="form-control">
-                                <p>Наприклад: https://some_image.com/example.jpg</p>
-                            </div>
-                        </div>
+                    <p id="add-input" class="btn btn-default">Додати ще одну картинку</p>
+                </div>
+            </div>
+            <div class="radio">
+                <label>
+                    <input class="form-check-input" type="radio" name="type" id="addurl" value="addurl">
+                    <label for="addurl">Вказати URL-адресу</label>
+                </label>
+                <div class="addurl" style="display: none;">
+                    <div class="form-group">
+                        <label for="img_url" tag="" class="optional">URL-адреса:</label>
+                        <input type="text" name="img_url" id="img_url" value="" class="form-control">
+                        <p>Наприклад: https://some_image.com/example.jpg</p>
                     </div>
-                -->
+                </div>
+            </div>
+        -->
                 <div class="addurl">
                     <div class="form-group">
                         <label for="img_url"
@@ -100,65 +101,80 @@
 
                 @Html.TextBoxFor(model => model.Tags, new { @class = "form-control", @id = "tags", @placeholder = "Теги" })
 
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="status"
+                           tag=""
+                           class="optional">
+                        Статус:
+                    </label>
+
+                    @Html.DropDownListFor(
+                        m => m.Status,
+                        EnumHelper.GetSelectList(typeof(Status)),
+                        "Виберіть статус",
+                        new { @class = "form-control" })
+                </div>
+
                 <!--
-                <div class="form-group">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <span class="fa fa-list"></span> Теги:
-                        </div>
-                        <div class="panel-body">
-                            <ul class="list-group">
-
-                                <li class="list-group-item" *ngFor="let tag of _tags">
-                                    <div class="checkbox">
-                                        <label>
-                                            { {tag} }
-                                        </label>
-                                    </div>
-                                    <div class="pull-right action-buttons">
-                                        <button type="button" (click)="_editTag(tag)"><span class="fa fa-pencil"></span></button>
-                                        <button type="button" (click)="_onDeleteTagAction(tag)"><span class="fa fa-trash"></span></button>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-
-                    <label for="alias"
-                           tag=""
-                           class="optional">
-                        { {_tagLabel} }:
-                    </label>
-
-                    <input type="text"
-                           name="tags"
-                           id="tags"
-                           #tag
-                           value="{ {_selectedTag.value} }"
-                           class="form-control">
-
-                    <input type="button"
-                           name="tagAction"
-                           id="tagAction"
-                           value="{ {_tagLabel} }"
-                           class="btn btn-default"
-                           (click)="_tagAction(tag.value, _action)">
+        <div class="form-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="fa fa-list"></span> Теги:
                 </div>
+                <div class="panel-body">
+                    <ul class="list-group">
 
-                <div class="form-group">
-                    <label for="alias"
-                           tag=""
-                           class="optional">
-                        Тема посту на англійській і без пропусків(посилання):
-                    </label>
-                    <input type="text"
-                           name="alias"
-                           id="alias"
-                           value=""
-                           class="form-control">
+                        <li class="list-group-item" *ngFor="let tag of _tags">
+                            <div class="checkbox">
+                                <label>
+                                    { {tag} }
+                                </label>
+                            </div>
+                            <div class="pull-right action-buttons">
+                                <button type="button" (click)="_editTag(tag)"><span class="fa fa-pencil"></span></button>
+                                <button type="button" (click)="_onDeleteTagAction(tag)"><span class="fa fa-trash"></span></button>
+                            </div>
+                        </li>
+
+                    </ul>
                 </div>
-                -->
+            </div>
+
+            <label for="alias"
+                   tag=""
+                   class="optional">
+                { {_tagLabel} }:
+            </label>
+
+            <input type="text"
+                   name="tags"
+                   id="tags"
+                   #tag
+                   value="{ {_selectedTag.value} }"
+                   class="form-control">
+
+            <input type="button"
+                   name="tagAction"
+                   id="tagAction"
+                   value="{ {_tagLabel} }"
+                   class="btn btn-default"
+                   (click)="_tagAction(tag.value, _action)">
+        </div>
+
+        <div class="form-group">
+            <label for="alias"
+                   tag=""
+                   class="optional">
+                Тема посту на англійській і без пропусків(посилання):
+            </label>
+            <input type="text"
+                   name="alias"
+                   id="alias"
+                   value=""
+                   class="form-control">
+        </div>
+        -->
                 <input type="submit"
                        name="submit"
                        id="submit"

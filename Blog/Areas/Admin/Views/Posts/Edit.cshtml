@@ -1,4 +1,5 @@
-﻿@model Blog.Models.Post
+﻿@using Blog.Core.Enums
+@model Blog.Models.Post
 @{
     ViewBag.Title = "Редагувати пост";
     var tagIndex = 1;
@@ -99,6 +100,21 @@
                 </div>
 
                 @Html.TextBoxFor(model => model.Tags, new { @class = "form-control", @id = "tags", @placeholder = "Теги" })
+
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label for="status"
+                           tag=""
+                           class="optional">
+                        Статус:
+                    </label>
+
+                    @Html.DropDownListFor(
+                        m => m.Status, 
+                        EnumHelper.GetSelectList(typeof(Status)),
+                        "Виберіть статус",
+                        new { @class = "form-control" })
+                </div>
 
 
                 <!--
