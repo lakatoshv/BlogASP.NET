@@ -11,12 +11,19 @@ namespace Blog.Areas.Admin.Services.Posts
 {
     public class PostsService : IPostsService
     {
-        public PostShowViewModel GetPost(int postId)
+        public Post GePost(int postId)
         {
             BlogContext db = new BlogContext();
-            PostShowViewModel postModel = new PostShowViewModel();
-            postModel.Post = db.Posts.Where(post => post.Id.Equals(postId)).FirstOrDefault();
-            postModel.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(postModel.Post.Author)).FirstOrDefault();
+            return db.Posts.FirstOrDefault(post => post.Id.Equals(postId));
+        }
+        public PostShowViewModel GetPostModel(int postId)
+        {
+            BlogContext db = new BlogContext();
+            PostShowViewModel postModel = new PostShowViewModel
+            {
+                Post = db.Posts.FirstOrDefault(post => post.Id.Equals(postId))
+            };
+            postModel.Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
             if (postModel.Post == null) return null;
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
@@ -48,8 +55,10 @@ namespace Blog.Areas.Admin.Services.Posts
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
-                PostViewModel post = new PostViewModel();
-                post.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(item.Author)).FirstOrDefault();
+                PostViewModel post = new PostViewModel
+                {
+                    Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(item.Author))
+                };
 
                 ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
                 if (user != null)
@@ -65,7 +74,7 @@ namespace Blog.Areas.Admin.Services.Posts
                     post.Post.PostTags.Add(tag);
                 }
 
-                post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
+                post.CommentsCount = db.Comments.Count(comment => comment.PostID.Equals(item.Id));
                 postModel.Add(post);
             });
 
@@ -85,9 +94,11 @@ namespace Blog.Areas.Admin.Services.Posts
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
             posts.ForEach(item => {
-                PostViewModel post = new PostViewModel();
-                post.Profile = db.Profiles.Where(pr => pr.ApplicationUser.Equals(item.Author)).FirstOrDefault();
-                post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
+                PostViewModel post = new PostViewModel
+                {
+                    Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(item.Author)),
+                    CommentsCount = db.Comments.Count(comment => comment.PostID.Equals(item.Id))
+                };
                 ApplicationUser user = userManager.FindByIdAsync(item.Author).Result;
                 if (user != null)
                     item.Author = user.UserName;
@@ -101,7 +112,7 @@ namespace Blog.Areas.Admin.Services.Posts
                     post.Post.PostTags.Add(tag);
                 }
                 
-                post.CommentsCount = db.Comments.Where(comment => comment.PostID.Equals(item.Id)).Count();
+                post.CommentsCount = db.Comments.Count(comment => comment.PostID.Equals(item.Id));
                 postModel.Add(post);
             });
             return new PostsViewModel { Posts = postModel };

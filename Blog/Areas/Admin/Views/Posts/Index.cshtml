@@ -1,4 +1,5 @@
-﻿@using Blog.ViewModels.Posts
+﻿@using Blog.Core.Enums
+@using Blog.ViewModels.Posts
 @using Microsoft.AspNet.Identity
 @model Blog.Areas.Admin.ViewModels.Posts.PostsViewModel
 @{
@@ -21,8 +22,10 @@
                         <th width="20%"><b>Назва:</b></th>
                         <th width="5%"><b>Теги:</b></th>
                         <th><b>Автор:</b></th>
+                        <th><b>Статус:</b></th>
                         <th><b>К-сть переглядів:</b></th>
                         <th><b>К-сть лайків:</b></th>
+                        <th><b>Статус:</b></th>
                         <th><b>К-сть дизлайків:</b></th>
                         <th><b>К-сть коментарів:</b></th>
                         <th><b>Дата створення:</b></th>
@@ -34,6 +37,7 @@
                         <th><b>Назва:</b></th>
                         <th><b>Теги:</b></th>
                         <th><b>Автор:</b></th>
+                        <th><b>Статус:</b></th>
                         <th><b>К-сть переглядів:</b></th>
                         <th><b>К-сть лайків:</b></th>
                         <th><b>К-сть дизлайків:</b></th>
@@ -56,6 +60,9 @@
                             <td>
                                 @{ var authorPage = item.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id : ""; }
                                 <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
+                            </td>
+                            <td>
+                                @item.Post.Status
                             </td>
                             <td>@item.Post.Seen</td>
                             <td>@item.Post.Likes</td>
@@ -129,4 +136,5 @@
         location.reload();
     }
 </script>
+
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
