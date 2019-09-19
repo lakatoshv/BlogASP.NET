@@ -1,0 +1,98 @@
+﻿@model List<Blog.Models.Comment>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 mx-auto">
+            @{
+                var createComment = Url.Action("Create", "Comments");
+                var comments = @Model;
+            }
+            <a href="@createComment" class="btn btn-light">Написати коментар</a>
+            <span></span>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th width="5%"><b>Id посту:</b></th>
+                            <th><b>Автор:</b></th>
+                            <th><b>Коментар:</b></th>
+                            <th><b>Дата створення:</b></th>
+                            <th><b>К-сть лайків:</b></th>
+                            <th><b>К-сть дизлайків:</b></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th width="5%"><b>Id посту:</b></th>
+                            <th><b>Автор:</b></th>
+                            <th><b>Коментар:</b></th>
+                            <th><b>Дата створення:</b></th>
+                            <th><b>К-сть лайків:</b></th>
+                            <th><b>К-сть дизлайків:</b></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    @foreach (var item in comments)
+                    {
+                        <tr>
+                            <td>
+                                @{
+                                    var postUrl = Url.Action("Show", "Posts", new {area = ""}) + "/" + item.PostID;
+                                }
+                                <a href="@postUrl">@item.PostID</a>
+                            </td>
+                            <td>@item.Author</td>
+                            <td>
+                                @item.CommentBody
+                            </td>
+                            <td>@item.CreatedAt</td>
+                            <td>@item.Likes</td>
+                            <td>@item.Dislikes</td>
+                            <td class="actions" data-th="">
+                                @{
+                                    var edit = Url.Action("Edit", "Comments") + "/" + item.Id;
+                                    var delete = Url.Action("Delete", "Comments");
+                                }
+                                <a type="button"
+                                   class="btn btn-sm text-white btn-primary"
+                                   href="@edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <button type="button"
+                                        class="btn btn-sm text-white btn-danger"
+                                        id="@item.Id"
+                                        onclick="setDeleteCommentValues(this.id)"
+                                        data-toggle="modal"
+                                        data-target="#delete-comment">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-post" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Видалити цей коментар?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <input type='hidden' id="delete-id" />
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deleteComment('Delete/')">
+                    <i class="fa fa-trash"></i>
+                    Видалити
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+            </div>
+        </div>
+
+    </div>
+</div>
