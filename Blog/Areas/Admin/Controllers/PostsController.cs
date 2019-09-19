@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Blog.Areas.Admin.Services.Posts;
+using Blog.Core.Enums;
 using Blog.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
@@ -87,7 +88,7 @@ namespace Blog.Areas.Admin.Controllers
         public ActionResult Edit(int? id)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
-            var postModel = _postsService.GetPost(id.Value);
+            var postModel = _postsService.GetPostModel(id.Value);
             return View(postModel.Post);
         }
 
@@ -98,7 +99,7 @@ namespace Blog.Areas.Admin.Controllers
             if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
-                var postModel = _postsService.GetPost(id.Value);
+                var postModel = _postsService.GetPostModel(id.Value);
 
                 editedPost.Author = postModel.Post.Author;
                 editedPost.Likes = postModel.Post.Likes;
@@ -106,6 +107,28 @@ namespace Blog.Areas.Admin.Controllers
                 editedPost.Seen = postModel.Post.Seen;
                 editedPost.CreatedAt = DateTime.Now;
                 _db.Entry(editedPost).State = EntityState.Modified;
+                _db.SaveChanges();
+
+                return RedirectToAction("Show/" + id, "Posts", new { area = "" });
+            }
+            catch (System.Data.DataException /* dex */)
+            {
+                return RedirectToAction("Index", "Posts");
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+        }
+
+        // POST: Posts/Edit/5
+        [HttpPost]
+        public ActionResult ChangeStatus(int? id, Status status)
+        {
+            if (id == null) return RedirectToAction("Index", "Posts");
+            try
+            {
+                var post = _postsService.GePost(id.Value);
+                post.Status = status;
+                _db.Entry(post).State = EntityState.Modified;
                 _db.SaveChanges();
 
                 return RedirectToAction("Show/" + id, "Posts", new { area = "" });
