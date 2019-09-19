@@ -12,14 +12,18 @@ namespace Blog.Areas.Admin.Services.Posts
 {
     public class CommentsService : ICommentsService
     {
+        private readonly BlogContext _db = new BlogContext();
+        public IList<Comment> GetAllComments()
+        {
+            return _db.Comments.ToList();
+        }
+
         public IList<Comment> GetCommentsForPost(int postId)
         {
-            BlogContext db = new BlogContext();
-            return db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
+            return _db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
         }
         public CommentsViewModel GetPagedCommentsByPostId(int postId, string author, SortParametersDto sortParameters)
         {
-            BlogContext db = new BlogContext();
             var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
             var userManager = new UserManager<ApplicationUser>(store);
 
@@ -27,11 +31,13 @@ namespace Blog.Areas.Admin.Services.Posts
             {
                 Comments = new List<CommentViewModel>()
             };
-            var comments = db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
+            var comments = _db.Comments.Where(comment => comment.PostID.Equals(postId)).ToList();
             comments.ForEach(comment => {
                 ApplicationUser commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
-                CommentViewModel comm = new CommentViewModel();
-                comm.Profile = db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(comment.Author));
+                CommentViewModel comm = new CommentViewModel
+                {
+                    Profile = _db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(comment.Author))
+                };
 
                 if (commentAuthor != null)
                     comment.Author = commentAuthor.UserName;
