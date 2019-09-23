@@ -13,6 +13,43 @@ namespace Blog.Areas.Admin.Services.Posts
     public class CommentsService : ICommentsService
     {
         private readonly BlogContext _db = new BlogContext();
+        public CommentWithPostsViewModel GetPostsWithCommentModel(string search)
+        {
+            CommentWithPostsViewModel postModel = new CommentWithPostsViewModel
+            {
+                Posts = _db.Posts.ToList()
+            };
+
+            return postModel;
+        }
+
+        public CommentWithPostViewModel GetPostWithCommentModel(string search, int commentId)
+        {
+            var comment = _db.Comments.FirstOrDefault(comm => comm.Id.Equals(commentId));
+            if (comment == null)
+                return null;
+            var postModel = new CommentWithPostViewModel
+            {
+                Post = new PostViewModel { Post = _db.Posts.FirstOrDefault(post => post.Id.Equals(comment.PostID)) },
+                Comment = new CommentViewModel { Comment = comment}
+            };
+
+            if (postModel.Post != null)
+            {
+                postModel.Post.Profile =
+                    _db.Profiles.FirstOrDefault(profile => profile.ApplicationUser.Equals(postModel.Comment.Comment.Author));
+            }
+            if (postModel.Comment != null)
+            {
+                postModel.Comment.Profile = _db.Profiles.FirstOrDefault(profile =>
+                    profile.ApplicationUser.Equals(postModel.Comment.Comment.Author));
+            }
+
+
+
+            return postModel;
+        }
+
         public IList<Comment> GetAllComments()
         {
             return _db.Comments.ToList();
@@ -49,6 +86,12 @@ namespace Blog.Areas.Admin.Services.Posts
             commentsViewModel.Comments = commentsViewModel.Comments.Skip((sortParameters.CurrentPage - 1) * sortParameters.PageSize).Take(sortParameters.PageSize).ToList();
             commentsViewModel.PageInfo = new PageInfo { PageNumber = sortParameters.CurrentPage, PageSize = sortParameters.PageSize, TotalItems = comments.Count };
             return commentsViewModel;
+        }
+
+        public void CreateComment(Comment comment)
+        {
+            _db.Comments.Add(comment);
+            _db.SaveChanges();
         }
     }
 }

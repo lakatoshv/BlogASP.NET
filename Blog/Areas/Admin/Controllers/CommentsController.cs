@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 using Blog.Areas.Admin.Services.Posts;
 using Blog.Models;
@@ -15,6 +16,22 @@ namespace Blog.Areas.Admin.Controllers
         public ActionResult Index()
         {
             return View(_commentsService.GetAllComments().ToList());
+        }
+
+        // GET: test/Comments/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var comment = _commentsService.GetPostWithCommentModel("", id.Value);
+            if (comment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(comment);
         }
 
         // GET: Admin/Comments/Create

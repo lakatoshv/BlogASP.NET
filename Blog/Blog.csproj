@@ -207,6 +207,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
     <Compile Include="Areas\Admin\Services\Posts\CommentsService.cs" />
@@ -215,9 +216,11 @@
     <Compile Include="Areas\Admin\Services\Posts\PostsService.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\CommentsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\CommentViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\Posts\CommentWithPostViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\PostsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\PostViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Users\ProfileViewModel.cs" />
+    <Compile Include="Areas\test\Controllers\CommentsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -395,6 +398,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="obj\Debug\Blog.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\Blog.dll" />
+    <Content Include="obj\Debug\Blog.pdb" />
     <Content Include="public\blog.ico" />
     <Content Include="public\css\app.css" />
     <Content Include="public\css\clean-blog.min.css" />
@@ -2142,6 +2148,24 @@
     <Content Include="Areas\Admin\Views\Posts\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Posts\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Posts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Index.cshtml" />
+    <Content Include="obj\Debug\Blog.csproj.CopyComplete" />
+    <Content Include="obj\Debug\Blog.csproj.CoreCompileInputs.cache" />
+    <Content Include="obj\Debug\Blog.csproj.GenerateResource.cache" />
+    <Content Include="obj\Debug\Blog.csprojAssemblyReference.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="Areas\test\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\test\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\test\Views\Comments\Create.cshtml" />
+    <Content Include="Areas\test\Views\Comments\Delete.cshtml" />
+    <Content Include="Areas\test\Views\Comments\Details.cshtml" />
+    <Content Include="Areas\test\Views\Comments\Edit.cshtml" />
+    <Content Include="Areas\test\Views\Comments\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2233,10 +2257,19 @@
     <EmbeddedResource Include="Migrations\201909161609576_AddStatusFieldIntoPostTable.resx">
       <DependentUpon>201909161609576_AddStatusFieldIntoPostTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="obj\Debug\Blog.Migrations.AddStatusFieldIntoPostTable.resources" />
+    <EmbeddedResource Include="obj\Debug\Blog.Migrations.ChangeFieldTitleInMessages.resources" />
+    <EmbeddedResource Include="obj\Debug\Blog.Migrations.Comment.resources" />
+    <EmbeddedResource Include="obj\Debug\Blog.Migrations.CreatedAtFieldInPosts.resources" />
+    <EmbeddedResource Include="obj\Debug\Blog.Migrations.Initial.resources" />
+    <EmbeddedResource Include="obj\Debug\Blog.Migrations.MessageTable.resources" />
+    <EmbeddedResource Include="obj\Debug\Blog.Migrations.ProfileTable.resources" />
+    <EmbeddedResource Include="obj\Debug\Blog.Migrations.TagsTable.resources" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="obj\Debug\TempPE\" />
     <Folder Include="Views\Message\" />
   </ItemGroup>
   <PropertyGroup>
