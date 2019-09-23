@@ -44,7 +44,10 @@
                             </td>
                             <td>@item.Author</td>
                             <td>
-                                @item.CommentBody
+                                @{
+                                    var commentUrl = Url.Action("Details", "Comments", new { area = "Admin" }) + "/" + item.Id;
+                                }
+                                <a href="@commentUrl">@item.CommentBody</a>
                             </td>
                             <td>@item.CreatedAt</td>
                             <td>@item.Likes</td>
