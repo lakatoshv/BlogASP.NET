@@ -58,5 +58,40 @@ namespace Blog.Areas.Admin.Controllers
             postsWithCommentModel.Comment = comment;
             return View(postsWithCommentModel);
         }
+
+        // GET: Posts/Delete/5
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: Posts/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            try
+            {
+                BlogContext db = new BlogContext();
+                var commentForDelete = db.Comments.FirstOrDefault(comment => comment.Id.Equals(id.Value));
+
+                if (commentForDelete != null)
+                {
+                    db.Comments.Remove(commentForDelete);
+                    db.SaveChanges();
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

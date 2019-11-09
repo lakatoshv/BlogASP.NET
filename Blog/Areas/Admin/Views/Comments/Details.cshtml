@@ -19,31 +19,28 @@
                         @Model.Post.Post.Title
                     </h2>
                     <br />
-                    @if (User.Identity.GetUserName().Equals(Model.Post.Post.Author))
-                    {
-                        <p class="pull-right">
-                            @{
-                                var edit = Url.Action("Edit", "Posts") + "/" + Model.Post.Post.Id;
-                                var delete = Url.Action("Delete", "Posts");
-                            }
-                            <a type="button"
-                               class="btn btn-sm text-white btn-primary"
-                               href="@edit">
+                    <p class="pull-right">
+                        @{
+                            var edit = Url.Action("Edit", "Posts") + "/" + Model.Post.Post.Id;
+                            var delete = Url.Action("Delete", "Posts");
+                        }
+                        <a type="button"
+                            class="btn btn-sm text-white btn-primary"
+                            href="@edit">
                                 <i class="fa fa-edit"></i>
                                 Редагувати
-                            </a>
+                        </a>
 
-                            <button type="button"
-                                    class="btn btn-sm text-white btn-danger"
-                                    id="@(Model.Post.Post.Id)"
-                                    onclick="setDeletePostValues(this.id)"
-                                    data-toggle="modal"
-                                    data-target="#delete-post">
+                        <button type="button"
+                            class="btn btn-sm text-white btn-danger"
+                            id="@(Model.Post.Post.Id)"
+                            onclick="setDeletePostValues(this.id)"
+                            data-toggle="modal"
+                            data-target="#delete-post">
                                 <i class="fa fa-trash"></i>
                                 Видалити
-                            </button>
-                        </p>
-                    }
+                        </button>
+                    </p>
                     <img style="width: 100%; height: 300px;" src="@Model.Post.Post.ImgUrl" />
                     <h3 class="post-subtitle text-center">
                         @Model.Post.Post.Description
@@ -104,21 +101,20 @@
                                                     <i class="fa fa-edit"></i>
                                                     Редагувати
                                                 </button>
-
-                                                <button type="button"
-                                                        class="btn btn-sm text-white btn-danger"
-                                                        id="@(Model.Comment.Comment.Id)"
-                                                        onclick="setDeleteCommentValues(this.id)"
-                                                        data-toggle="modal"
-                                                        data-target="#delete-comment">
-                                                    <i class="fa fa-trash"></i>
-                                                    Видалити
-                                                </button>
                                             }
                                             <button type="button"
-                                                    class="btn btn-sm btn-outline-success ml-2">
-                                                <i class="fa fa-reply"></i>
-                                                Відповісти
+                                                class="btn btn-sm text-white btn-danger"
+                                                id="@(Model.Comment.Comment.Id)"
+                                                onclick="setDeleteCommentValues(this.id)"
+                                                data-toggle="modal"
+                                                data-target="#delete-comment">
+                                                    <i class="fa fa-trash"></i>
+                                                    Видалити
+                                            </button>
+                                            <button type="button"
+                                                class="btn btn-sm btn-outline-success ml-2">
+                                                    <i class="fa fa-reply"></i>
+                                                    Відповісти
                                             </button>
                                         </p>
                                     </div>
@@ -165,7 +161,7 @@
         );
     }
     function onAjaxSuccess(data) {
-        location.reload();
+        window.location.href = "@Url.Action("Index", "Comments")"
     }
 </script>
 
@@ -180,7 +176,7 @@
             </div>
             <input type='hidden' id="delete-comment-id" />
             <div class="modal-footer">
-                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deleteComment('/Comments/Delete/')">
+                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deleteComment('/Admin/Comments/Delete/')">
                     <i class="fa fa-trash"></i>
                     Видалити
                 </button>
@@ -202,7 +198,7 @@
             </div>
             <input type='hidden' id="delete-post-id" />
             <div class="modal-footer">
-                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deletePost('/Posts/Delete/')">
+                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deletePost('/Admin/Posts/Delete/')">
                     <i class="fa fa-trash"></i>
                     Видалити
                 </button>

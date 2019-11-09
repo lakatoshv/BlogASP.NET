@@ -33,46 +33,46 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                    @foreach (var item in comments)
-                    {
-                        <tr>
-                            <td>
-                                @{
-                                    var postUrl = Url.Action("Show", "Posts", new {area = ""}) + "/" + item.PostID;
-                                }
-                                <a href="@postUrl">@item.PostID</a>
-                            </td>
-                            <td>@item.Author</td>
-                            <td>
-                                @{
-                                    var commentUrl = Url.Action("Details", "Comments", new { area = "Admin" }) + "/" + item.Id;
-                                }
-                                <a href="@commentUrl">@item.CommentBody</a>
-                            </td>
-                            <td>@item.CreatedAt</td>
-                            <td>@item.Likes</td>
-                            <td>@item.Dislikes</td>
-                            <td class="actions" data-th="">
-                                @{
-                                    var edit = Url.Action("Edit", "Comments") + "/" + item.Id;
-                                    var delete = Url.Action("Delete", "Comments");
-                                }
-                                <a type="button"
-                                   class="btn btn-sm text-white btn-primary"
-                                   href="@edit">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                <button type="button"
-                                        class="btn btn-sm text-white btn-danger"
-                                        id="@item.Id"
-                                        onclick="setDeleteCommentValues(this.id)"
-                                        data-toggle="modal"
-                                        data-target="#delete-comment">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    }
+                        @foreach (var item in comments)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        var postUrl = Url.Action("Show", "Posts", new { area = "" }) + "/" + item.PostID;
+                                    }
+                                    <a href="@postUrl">@item.PostID</a>
+                                </td>
+                                <td>@item.Author</td>
+                                <td>
+                                    @{
+                                        var commentUrl = Url.Action("Details", "Comments", new { area = "Admin" }) + "/" + item.Id;
+                                    }
+                                    <a href="@commentUrl">@item.CommentBody</a>
+                                </td>
+                                <td>@item.CreatedAt</td>
+                                <td>@item.Likes</td>
+                                <td>@item.Dislikes</td>
+                                <td class="actions" data-th="">
+                                    @{
+                                        var edit = Url.Action("Edit", "Comments") + "/" + item.Id;
+                                        var delete = Url.Action("Delete", "Comments");
+                                    }
+                                    <a type="button"
+                                       class="btn btn-sm text-white btn-primary"
+                                       href="@edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-sm text-white btn-danger"
+                                            id="@item.Id"
+                                            onclick="setDeleteCommentValues(this.id)"
+                                            data-toggle="modal"
+                                            data-target="#delete-comment">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -80,7 +80,7 @@
     </div>
 </div>
 
-<div id="delete-post" class="modal fade" role="dialog">
+<div id="delete-comment" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -99,3 +99,26 @@
 
     </div>
 </div>
+
+
+<script>
+    function setDeleteCommentValues(id) {
+        $("#delete-id").val(id);
+    }
+
+    function deleteComment(url) {
+        var id = $("#delete-id").val();
+        ajaxQuery(id, url);
+    }
+    function ajaxQuery(id, url) {
+        $.post(
+            url + id,
+            onAjaxSuccess
+        );
+    }
+    function onAjaxSuccess(data) {
+        location.reload();
+    }
+</script>
+
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
