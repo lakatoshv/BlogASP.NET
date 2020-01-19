@@ -7,6 +7,7 @@ namespace Blog.Areas.Admin.ViewModels.Posts
     {
         public IList<PostViewModel> Posts { get; set; }
         public string DisplayType { get; set; }
+        public bool OnlyWithCommentsInfo { get; set; }
         public PageInfo PageInfo { get; set; }
     }
 }

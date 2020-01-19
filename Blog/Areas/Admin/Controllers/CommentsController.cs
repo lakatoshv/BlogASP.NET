@@ -15,7 +15,7 @@ namespace Blog.Areas.Admin.Controllers
         // GET: Admin/Comments
         public ActionResult Index()
         {
-            return View(_commentsService.GetAllComments().ToList());
+            return View(_commentsService.GetAllComments());
         }
 
         // GET: test/Comments/Details/5

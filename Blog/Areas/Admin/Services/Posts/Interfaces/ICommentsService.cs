@@ -8,7 +8,7 @@ namespace Blog.Areas.Admin.Services.Posts.Interfaces
     interface ICommentsService
     {
         CommentWithPostsViewModel GetPostsWithCommentModel(string search);
-        IList<Comment> GetAllComments();
+        CommentsViewModel GetAllComments();
         IList<Comment> GetCommentsForPost(int postId);
         CommentsViewModel GetPagedCommentsByPostId(int postId, string author, SortParametersDto sortParameters);
     }

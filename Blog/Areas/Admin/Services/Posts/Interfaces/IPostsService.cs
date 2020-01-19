@@ -11,6 +11,6 @@ namespace Blog.Areas.Admin.Services.Posts.Interfaces
 
         PostsViewModel GetCurrentUserPosts(string currentUserId, string search);
 
-        PostsViewModel GetPosts(string search);
+        PostsViewModel GetPosts(string search, bool onlyWithComments = false);
     }
 }

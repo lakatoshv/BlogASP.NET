@@ -50,9 +50,32 @@ namespace Blog.Areas.Admin.Services.Posts
             return postModel;
         }
 
-        public IList<Comment> GetAllComments()
+        public CommentsViewModel GetAllComments()
         {
-            return _db.Comments.ToList();
+            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var userManager = new UserManager<ApplicationUser>(store);
+
+            CommentsViewModel commentsViewModel = new CommentsViewModel
+            {
+                Comments = new List<CommentViewModel>()
+            };
+
+            var comments = _db.Comments.ToList();
+            comments.ForEach(comment => {
+                ApplicationUser commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
+                CommentViewModel comm = new CommentViewModel
+                {
+                    Profile = _db.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(comment.Author))
+                };
+
+                if (commentAuthor != null)
+                    comment.Author = commentAuthor.UserName;
+
+                comm.Comment = comment;
+
+                commentsViewModel.Comments.Add(comm);
+            });
+            return commentsViewModel;
         }
 
         public IList<Comment> GetCommentsForPost(int postId)
