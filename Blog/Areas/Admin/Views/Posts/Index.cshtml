@@ -18,33 +18,44 @@
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" cellspacing="0">
                     <thead>
-                    <tr>
-                        <th width="20%"><b>Назва:</b></th>
-                        <th width="5%"><b>Теги:</b></th>
-                        <th><b>Автор:</b></th>
-                        <th><b>Статус:</b></th>
-                        <th><b>К-сть переглядів:</b></th>
-                        <th><b>К-сть лайків:</b></th>
-                        <th><b>Статус:</b></th>
-                        <th><b>К-сть дизлайків:</b></th>
-                        <th><b>К-сть коментарів:</b></th>
-                        <th><b>Дата створення:</b></th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th width="20%"><b>Назва:</b></th>
+                            @if (!Model.OnlyWithCommentsInfo)
+                            {
+                                <th width="5%"><b>Теги:</b></th>
+                                <th><b>Автор:</b></th>
+                                <th><b>Статус:</b></th>
+                                <th><b>К-сть переглядів:</b></th>
+                                <th><b>К-сть лайків:</b></th>
+                                <th><b>К-сть дизлайків:</b></th>
+                            }
+                            <th><b>К-сть коментарів:</b></th>
+                            @if (!Model.OnlyWithCommentsInfo)
+                            {
+                                <th><b>Дата створення:</b></th>
+                            }
+                            <th></th>
+                        </tr>
                     </thead>
                     <tfoot>
-                    <tr>
-                        <th><b>Назва:</b></th>
-                        <th><b>Теги:</b></th>
-                        <th><b>Автор:</b></th>
-                        <th><b>Статус:</b></th>
-                        <th><b>К-сть переглядів:</b></th>
-                        <th><b>К-сть лайків:</b></th>
-                        <th><b>К-сть дизлайків:</b></th>
-                        <th><b>К-сть коментарів:</b></th>
-                        <th><b>Дата створення:</b></th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th width="20%"><b>Назва:</b></th>
+                            @if (!Model.OnlyWithCommentsInfo)
+                            {
+                                <th width="5%"><b>Теги:</b></th>
+                                <th><b>Автор:</b></th>
+                                <th><b>Статус:</b></th>
+                                <th><b>К-сть переглядів:</b></th>
+                                <th><b>К-сть лайків:</b></th>
+                                <th><b>К-сть дизлайків:</b></th>
+                            }
+                            <th><b>К-сть коментарів:</b></th>
+                            @if (!Model.OnlyWithCommentsInfo)
+                            {
+                                <th><b>Дата створення:</b></th>
+                            }
+                            <th></th>
+                        </tr>
                     </tfoot>
                     <tbody>
                     @foreach (var item in posts)
@@ -56,36 +67,42 @@
                                 }
                                 <a href="@pathUrl" title="@item.Post.Title">@item.Post.Title</a>
                             </td>
-                            <td>@item.Post.Tags</td>
-                            <td>
-                                @{ var authorPage = item.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id : ""; }
-                                <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
-                            </td>
-                            <td>
-                                @item.Post.Status
-                            </td>
-                            <td>@item.Post.Seen</td>
-                            <td>@item.Post.Likes</td>
-                            <td>@item.Post.Dislikes</td>
+                            @if (!Model.OnlyWithCommentsInfo)
+                            {
+                                <td>@item.Post.Tags</td>
+                                <td>
+                                    @{ var authorPage = item.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id : ""; }
+                                    <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
+                                </td>
+                                <td>
+                                    @item.Post.Status
+                                </td>
+                                <td>@item.Post.Seen</td>
+                                <td>@item.Post.Likes</td>
+                                <td>@item.Post.Dislikes</td>
+                            }
                             <td>@item.CommentsCount</td>
-                            <td>@item.Post.CreatedAt</td>
+                            @if (!Model.OnlyWithCommentsInfo)
+                            {
+                                <td>@item.Post.CreatedAt</td>
+                            }
                             <td class="actions" data-th="">
                                 @{
                                     var edit = Url.Action("Edit", "Posts") + "/" + item.Post.Id;
                                     var delete = Url.Action("Delete", "Posts");
                                 }
                                 <a type="button"
-                                   class="btn btn-sm text-white btn-primary"
-                                   href="@edit">
-                                    <i class="fa fa-edit"></i>
+                                    class="btn btn-sm text-white btn-primary"
+                                    href="@edit">
+                                       <i class="fa fa-edit"></i>
                                 </a>
                                 <button type="button"
-                                        class="btn btn-sm text-white btn-danger"
-                                        id="@item.Post.Id"
-                                        onclick="setDeletePostValues(this.id)"
-                                        data-toggle="modal"
-                                        data-target="#delete-post">
-                                    <i class="fa fa-trash"></i>
+                                    class="btn btn-sm text-white btn-danger"
+                                    id="@item.Post.Id"
+                                    onclick="setDeletePostValues(this.id)"
+                                    data-toggle="modal"
+                                    data-target="#delete-post">
+                                        <i class="fa fa-trash"></i>
                                 </button>
                             </td>
                         </tr>

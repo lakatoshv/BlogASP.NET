@@ -21,9 +21,10 @@ namespace Blog.Areas.Admin.Controllers
         private readonly BlogContext _db = new BlogContext();
         // GET: Admin/Posts
         [HttpGet]
-        public ActionResult Index(string search)
+        public ActionResult Index(string search, bool onlyWithComments = false, bool onlyWithCommentsInfo = false)
         {
-            var posts = _postsService.GetPosts(search);
+            var posts = _postsService.GetPosts(search, onlyWithComments);
+            posts.OnlyWithCommentsInfo = onlyWithComments;
             return View(posts);
         }
 

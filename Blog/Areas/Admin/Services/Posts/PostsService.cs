@@ -81,7 +81,7 @@ namespace Blog.Areas.Admin.Services.Posts
             return new PostsViewModel { Posts = postModel };
         }
 
-        public PostsViewModel GetPosts(string search)
+        public PostsViewModel GetPosts(string search, bool onlyWithComments = false)
         {
             BlogContext db = new BlogContext();
             IList<PostViewModel> postModel = new List<PostViewModel>();
@@ -115,6 +115,9 @@ namespace Blog.Areas.Admin.Services.Posts
                 post.CommentsCount = db.Comments.Count(comment => comment.PostID.Equals(item.Id));
                 postModel.Add(post);
             });
+
+            if (onlyWithComments)
+                postModel = postModel.Where(x => x.CommentsCount > 0).ToList();
             return new PostsViewModel { Posts = postModel };
         }
     }
