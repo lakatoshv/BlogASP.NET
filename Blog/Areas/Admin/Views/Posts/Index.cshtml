@@ -81,7 +81,10 @@
                                 <td>@item.Post.Likes</td>
                                 <td>@item.Post.Dislikes</td>
                             }
-                            <td>@item.CommentsCount</td>
+                        <td>
+                            @{ var commentsPage = item.Profile != null ? Url.Action("PostComments", "Comments", new { area = "Admin", postId = item.Post.Id }) : ""; }
+                            <a href="@commentsPage" title="Переглянути коментарі до посту">@item.CommentsCount</a>
+                        </td>
                             @if (!Model.OnlyWithCommentsInfo)
                             {
                                 <td>@item.Post.CreatedAt</td>

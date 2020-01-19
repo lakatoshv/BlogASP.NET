@@ -2240,6 +2240,7 @@
     <Content Include="Areas\test\Views\Comments\Details.cshtml" />
     <Content Include="Areas\test\Views\Comments\Edit.cshtml" />
     <Content Include="Areas\test\Views\Comments\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\PostComments.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
