@@ -1,0 +1,127 @@
+﻿@using Blog.Core.Enums
+@using Blog.ViewModels.Posts
+@using Microsoft.AspNet.Identity
+
+@model Blog.Areas.Admin.ViewModels.Posts.PostShowViewModel
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 mx-auto">
+            <h2 class="post-title text-center">
+                @Model.Post.Title
+            </h2>
+            <br />
+            @{
+                var createComment = Url.Action("Create", "Comments");
+                var comments = @Model.Comments.Comments.ToList();
+            }
+            <a href="@createComment" class="btn btn-light">Написати коментар</a><br />
+            <span></span>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th><b>Автор:</b></th>
+                            <th><b>Коментар:</b></th>
+                            <th><b>Дата створення:</b></th>
+                            <th><b>К-сть лайків:</b></th>
+                            <th><b>К-сть дизлайків:</b></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th><b>Автор:</b></th>
+                            <th><b>Коментар:</b></th>
+                            <th><b>Дата створення:</b></th>
+                            <th><b>К-сть лайків:</b></th>
+                            <th><b>К-сть дизлайків:</b></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in comments)
+                        {
+                            <tr>
+                                <td>
+                                    @{ var authorPage = item.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id : ""; }
+                                    <a href="@authorPage" title="@item.Comment.Author">@item.Comment.Author</a>
+                                </td>
+                                <td>
+                                    @{
+                                        var commentUrl = Url.Action("Details", "Comments", new { area = "Admin" }) + "/" + item.Comment.Id;
+                                    }
+                                    <a href="@commentUrl">@item.Comment.CommentBody</a>
+                                </td>
+                                <td>@item.Comment.CreatedAt</td>
+                                <td>@item.Comment.Likes</td>
+                                <td>@item.Comment.Dislikes</td>
+                                <td class="actions" data-th="">
+                                    @{
+                                        var edit = Url.Action("Edit", "Comments") + "/" + item.Comment.Id;
+                                        var delete = Url.Action("Delete", "Comments");
+                                    }
+                                    <a type="button"
+                                       class="btn btn-sm text-white btn-primary"
+                                       href="@edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-sm text-white btn-danger"
+                                            id="@item.Comment.Id"
+                                            onclick="setDeleteCommentValues(this.id)"
+                                            data-toggle="modal"
+                                            data-target="#delete-comment">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-comment" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Видалити цей коментар?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <input type='hidden' id="delete-id" />
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deleteComment('Delete/')">
+                    <i class="fa fa-trash"></i>
+                    Видалити
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    function setDeleteCommentValues(id) {
+        $("#delete-id").val(id);
+    }
+
+    function deleteComment(url) {
+        var id = $("#delete-id").val();
+        ajaxQuery(id, url);
+    }
+    function ajaxQuery(id, url) {
+        $.post(
+            url + id,
+            onAjaxSuccess
+        );
+    }
+    function onAjaxSuccess(data) {
+        location.reload();
+    }
+</script>
+
+@Scripts.Render("~/public/plugins/jquery/jquery.js")

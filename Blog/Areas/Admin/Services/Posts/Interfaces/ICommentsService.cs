@@ -10,6 +10,7 @@ namespace Blog.Areas.Admin.Services.Posts.Interfaces
         CommentWithPostsViewModel GetPostsWithCommentModel(string search);
         CommentsViewModel GetAllComments();
         IList<Comment> GetCommentsForPost(int postId);
+        PostShowViewModel GetCommentsWithPost(int postId);
         CommentsViewModel GetPagedCommentsByPostId(int postId, string author, SortParametersDto sortParameters);
     }
 }

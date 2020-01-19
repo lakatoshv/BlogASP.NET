@@ -19,6 +19,17 @@ namespace Blog.Areas.Admin.Controllers
         }
 
         // GET: test/Comments/Details/5
+        public ActionResult PostComments(int? postId)
+        {
+            if (postId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return View(_commentsService.GetCommentsWithPost(postId.Value));
+        }
+
+        // GET: test/Comments/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
