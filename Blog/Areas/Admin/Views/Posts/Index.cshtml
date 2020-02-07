@@ -1,10 +1,13 @@
 ﻿@using Blog.Core.Enums
 @using Blog.ViewModels.Posts
 @using Microsoft.AspNet.Identity
+@using Blog.Core.Enums
 @model Blog.Areas.Admin.ViewModels.Posts.PostsViewModel
 @{
     ViewBag.Title = "Index";
 }
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 mx-auto">
@@ -58,58 +61,62 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                    @foreach (var item in posts)
-                    {
-                        <tr>
-                            <td>
-                                @{
-                                    var pathUrl = Url.Action("Show", "Posts", new { area = "" }) + "/" + item.Post.Id;
-                                }
-                                <a href="@pathUrl" title="@item.Post.Title">@item.Post.Title</a>
-                            </td>
-                            @if (!Model.OnlyWithCommentsInfo)
-                            {
-                                <td>@item.Post.Tags</td>
+                        @foreach (var item in posts)
+                        {
+                            <tr>
                                 <td>
-                                    @{ var authorPage = item.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id : ""; }
-                                    <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
+                                    @{
+                                        var pathUrl = Url.Action("Show", "Posts", new { area = "" }) + "/" + item.Post.Id;
+                                    }
+                                    <a href="@pathUrl" title="@item.Post.Title">@item.Post.Title</a>
                                 </td>
-                                <td>
-                                    @item.Post.Status
-                                </td>
-                                <td>@item.Post.Seen</td>
-                                <td>@item.Post.Likes</td>
-                                <td>@item.Post.Dislikes</td>
-                            }
-                        <td>
-                            @{ var commentsPage = item.Profile != null ? Url.Action("PostComments", "Comments", new { area = "Admin", postId = item.Post.Id }) : ""; }
-                            <a href="@commentsPage" title="Переглянути коментарі до посту">@item.CommentsCount</a>
-                        </td>
-                            @if (!Model.OnlyWithCommentsInfo)
-                            {
-                                <td>@item.Post.CreatedAt</td>
-                            }
-                            <td class="actions" data-th="">
-                                @{
-                                    var edit = Url.Action("Edit", "Posts") + "/" + item.Post.Id;
-                                    var delete = Url.Action("Delete", "Posts");
+                                @if (!Model.OnlyWithCommentsInfo)
+                                {
+                                    <td>@item.Post.Tags</td>
+                                    <td>
+                                        @{ var authorPage = item.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id : ""; }
+                                        <a href="@authorPage" title="@item.Post.Author">@item.Post.Author</a>
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(
+                                            m => item.Post.Status,
+                                            EnumHelper.GetSelectList(typeof(Status)),
+                                            new { @class = "form-control", @id = "status-" + item.Post.Id })
+                                        <button class="btn btn-sm btn-success btn-@item.Post.Id" style="display: none" onclick="changeStatus(@item.Post.Id)">Зберегти</button>
+                                    </td>
+                                    <td>@item.Post.Seen</td>
+                                    <td>@item.Post.Likes</td>
+                                    <td>@item.Post.Dislikes</td>
                                 }
-                                <a type="button"
-                                    class="btn btn-sm text-white btn-primary"
-                                    href="@edit">
-                                       <i class="fa fa-edit"></i>
-                                </a>
-                                <button type="button"
-                                    class="btn btn-sm text-white btn-danger"
-                                    id="@item.Post.Id"
-                                    onclick="setDeletePostValues(this.id)"
-                                    data-toggle="modal"
-                                    data-target="#delete-post">
+                                <td>
+                                    @{ var commentsPage = item.Profile != null ? Url.Action("PostComments", "Comments", new { area = "Admin", postId = item.Post.Id }) : ""; }
+                                    <a href="@commentsPage" title="Переглянути коментарі до посту">@item.CommentsCount</a>
+                                </td>
+                                @if (!Model.OnlyWithCommentsInfo)
+                                {
+                                    <td>@item.Post.CreatedAt</td>
+                                }
+                                <td class="actions" data-th="">
+                                    @{
+                                        var edit = Url.Action("Edit", "Posts") + "/" + item.Post.Id;
+                                        var delete = Url.Action("Delete", "Posts");
+                                    }
+                                    <a type="button"
+                                       class="btn btn-sm text-white btn-primary"
+                                       href="@edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <button type="button"
+                                            class="btn btn-sm text-white btn-danger"
+                                            id="@item.Post.Id"
+                                            onclick="setDeletePostValues(this.id)"
+                                            data-toggle="modal"
+                                            data-target="#delete-post">
                                         <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    }
+                                    </button>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -155,6 +162,14 @@
     function onAjaxSuccess(data) {
         location.reload();
     }
-</script>
 
-@Scripts.Render("~/public/plugins/jquery/jquery.js")
+    $("select").change(function () {
+        $(this).next("button").show();
+    });
+    function changeStatus(id) {
+        debugger
+        var value = $("#status-" + id).val();
+        var url = "@Url.Action("ChangeStatus", "Posts")" + "/" + id + "?status=" + value;
+        ajaxQuery('', url);
+    }
+</script>
