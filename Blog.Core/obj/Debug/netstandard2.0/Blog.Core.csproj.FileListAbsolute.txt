@@ -1,0 +1,15 @@
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\netstandard2.0\Blog.Core.csprojAssemblyReference.cache
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\netstandard2.0\Blog.Core.AssemblyInfoInputs.cache
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\netstandard2.0\Blog.Core.AssemblyInfo.cs
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\Blog.Core.deps.json
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\Blog.Core.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\System.Web.Mvc.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\System.Web.Razor.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\System.Web.WebPages.Razor.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\System.Web.WebPages.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\Microsoft.Web.Infrastructure.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\System.Web.WebPages.Deployment.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\netstandard2.0\Blog.Core.csproj.CopyComplete
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\netstandard2.0\Blog.Core.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\netstandard2.0\Blog.Core.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\netstandard2.0\Blog.Core.pdb
