@@ -108,3 +108,6 @@ D:\Projects\AspNet\BlogASP.NET\Blog.Data.Models\bin\Debug\Blog.Core.pdb
 D:\Projects\AspNet\BlogASP.NET\Blog.Data.Models\obj\Debug\Blog.Data.Models.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Blog.Data.Models\obj\Debug\Blog.Data.Models.dll
 D:\Projects\AspNet\BlogASP.NET\Blog.Data.Models\obj\Debug\Blog.Data.Models.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog.Data.Models\bin\Debug\EntityFramework.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Data.Models\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Data.Models\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
