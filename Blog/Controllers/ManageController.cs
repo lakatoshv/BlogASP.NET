@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Blog.Core.Enums;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -9,22 +10,40 @@ using Blog.Models;
 
 namespace Blog.Controllers
 {
+    /// <summary>
+    /// Manage controller.
+    /// </summary>
+    /// <seealso cref="Controller" />
     [Authorize]
     public class ManageController : Controller
     {
+        /// <summary>
+        /// The sign in manager
+        /// </summary>
         private ApplicationSignInManager _signInManager;
+
+        /// <summary>
+        /// The user manager
+        /// </summary>
         private ApplicationUserManager _userManager;
 
-        public ManageController()
-        {
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ManageController"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="signInManager">The sign in manager.</param>
         public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
+        /// <summary>
+        /// Gets the sign in manager.
+        /// </summary>
+        /// <value>
+        /// The sign in manager.
+        /// </value>
         public ApplicationSignInManager SignInManager
         {
             get
@@ -37,6 +56,12 @@ namespace Blog.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the user manager.
+        /// </summary>
+        /// <value>
+        /// The user manager.
+        /// </value>
         public ApplicationUserManager UserManager
         {
             get
@@ -49,8 +74,12 @@ namespace Blog.Controllers
             }
         }
 
-        //
-        // GET: /Manage/Index
+        // GET: /Manage/Index        
+        /// <summary>
+        /// Indexes the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>Task.</returns>
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -74,8 +103,13 @@ namespace Blog.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemoveLogin
+        // POST: /Manage/RemoveLogin        
+        /// <summary>
+        /// Removes the login.
+        /// </summary>
+        /// <param name="loginProvider">The login provider.</param>
+        /// <param name="providerKey">The provider key.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
@@ -98,15 +132,22 @@ namespace Blog.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        //
-        // GET: /Manage/AddPhoneNumber
+        // GET: /Manage/AddPhoneNumber        
+        /// <summary>
+        /// Adds the phone number.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
         public ActionResult AddPhoneNumber()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/AddPhoneNumber
+        // POST: /Manage/AddPhoneNumber        
+        /// <summary>
+        /// Adds the phone number.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
@@ -129,8 +170,11 @@ namespace Blog.Controllers
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
 
-        //
-        // POST: /Manage/EnableTwoFactorAuthentication
+        // POST: /Manage/EnableTwoFactorAuthentication        
+        /// <summary>
+        /// Enables the two factor authentication.
+        /// </summary>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
@@ -144,8 +188,11 @@ namespace Blog.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
-        // POST: /Manage/DisableTwoFactorAuthentication
+        // POST: /Manage/DisableTwoFactorAuthentication        
+        /// <summary>
+        /// Disables the two factor authentication.
+        /// </summary>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
@@ -159,8 +206,12 @@ namespace Blog.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
-        // GET: /Manage/VerifyPhoneNumber
+        // GET: /Manage/VerifyPhoneNumber        
+        /// <summary>
+        /// Verifies the phone number.
+        /// </summary>
+        /// <param name="phoneNumber">The phone number.</param>
+        /// <returns>Task.</returns>
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
@@ -169,7 +220,12 @@ namespace Blog.Controllers
         }
 
         //
-        // POST: /Manage/VerifyPhoneNumber
+        // POST: /Manage/VerifyPhoneNumber        
+        /// <summary>
+        /// Verifies the phone number.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
@@ -178,24 +234,30 @@ namespace Blog.Controllers
             {
                 return View(model);
             }
+
             var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user != null)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                }
-                return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
+                return View(model);
             }
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            }
+
+            return RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
             // Это сообщение означает наличие ошибки; повторное отображение формы
 
             //ModelState.AddModelError("", "Не удалось проверить телефон");
-            return View(model);
         }
 
-        //
-        // POST: /Manage/RemovePhoneNumber
+        // POST: /Manage/RemovePhoneNumber        
+        /// <summary>
+        /// Removes the phone number.
+        /// </summary>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemovePhoneNumber()
@@ -205,23 +267,32 @@ namespace Blog.Controllers
             {
                 return RedirectToAction("Index", new { Message = ManageMessageId.Error });
             }
+
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
+
             return RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
         }
 
-        //
-        // GET: /Manage/ChangePassword
+        // GET: /Manage/ChangePassword        
+        /// <summary>
+        /// Changes the password.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
         public ActionResult ChangePassword()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/ChangePassword
+        // POST: /Manage/ChangePassword        
+        /// <summary>
+        /// Changes the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
@@ -244,15 +315,22 @@ namespace Blog.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Manage/SetPassword
+        // GET: /Manage/SetPassword        
+        /// <summary>
+        /// Sets the password.
+        /// </summary>
+        /// <returns>Task.</returns>
         public ActionResult SetPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/SetPassword
+        // POST: /Manage/SetPassword        
+        /// <summary>
+        /// Sets the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
@@ -276,8 +354,12 @@ namespace Blog.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Manage/ManageLogins
+        // GET: /Manage/ManageLogins        
+        /// <summary>
+        /// Manages the logins.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <returns>Task.</returns>
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -299,8 +381,12 @@ namespace Blog.Controllers
             });
         }
 
-        //
-        // POST: /Manage/LinkLogin
+        // POST: /Manage/LinkLogin        
+        /// <summary>
+        /// Links the login.
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <returns>ActionResult.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
@@ -309,8 +395,11 @@ namespace Blog.Controllers
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
-        //
-        // GET: /Manage/LinkLoginCallback
+        // GET: /Manage/LinkLoginCallback        
+        /// <summary>
+        /// Links the login callback.
+        /// </summary>
+        /// <returns>Task.</returns>
         public async Task<ActionResult> LinkLoginCallback()
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
@@ -322,6 +411,10 @@ namespace Blog.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
@@ -333,18 +426,25 @@ namespace Blog.Controllers
             base.Dispose(disposing);
         }
 
-#region Вспомогательные приложения
-        // Используется для защиты от XSRF-атак при добавлении внешних имен входа
+        #region Вспомогательные приложения
+        // Используется для защиты от XSRF-атак при добавлении внешних имен входа        
+        /// <summary>
+        /// The XSRF key
+        /// </summary>
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        /// <summary>
+        /// Gets the authentication manager.
+        /// </summary>
+        /// <value>
+        /// The authentication manager.
+        /// </value>
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
+        /// <summary>
+        /// Adds the errors.
+        /// </summary>
+        /// <param name="result">The result.</param>
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -353,6 +453,12 @@ namespace Blog.Controllers
             }
         }
 
+        /// <summary>
+        /// Determines whether this instance has password.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance has password; otherwise, <c>false</c>.
+        /// </returns>
         private bool HasPassword()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -371,17 +477,6 @@ namespace Blog.Controllers
         }
         */
 
-        public enum ManageMessageId
-        {
-            AddPhoneSuccess,
-            ChangePasswordSuccess,
-            SetTwoFactorSuccess,
-            SetPasswordSuccess,
-            RemoveLoginSuccess,
-            RemovePhoneSuccess,
-            Error
-        }
-
-#endregion
+        #endregion
     }
 }

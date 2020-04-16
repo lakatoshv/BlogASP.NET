@@ -1,10 +1,9 @@
-﻿using System;
-using System.Globalization;
+﻿
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Blog.Data.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -84,10 +83,11 @@ namespace Blog.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", routeValues: new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
+                    return View(model);
                 default:
-                    ModelState.AddModelError("", "Неудачная попытка входа.");
+                    ModelState.AddModelError("", @"Неудачная попытка входа.");
                     return View(model);
             }
         }
@@ -129,8 +129,11 @@ namespace Blog.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.Failure:
+                    return View(model);
+                case SignInStatus.RequiresVerification:
+                    return View(model);
                 default:
-                    ModelState.AddModelError("", "Неправильный код.");
+                    ModelState.AddModelError("", @"Неправильный код.");
                     return View(model);
             }
         }
@@ -322,7 +325,7 @@ namespace Blog.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction("VerifyCode", routeValues: new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
         //
@@ -347,6 +350,7 @@ namespace Blog.Controllers
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
+                    return RedirectToLocal(returnUrl);
                 default:
                     // Если у пользователя нет учетной записи, то ему предлагается создать ее
                     ViewBag.ReturnUrl = returnUrl;
@@ -490,5 +494,10 @@ namespace Blog.Controllers
             }
         }
         #endregion
+
+        public ActionResult LogOff()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

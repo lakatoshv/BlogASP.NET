@@ -1,47 +1,84 @@
-﻿using Blog.Models;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Blog.Core.Attributes;
+using Blog.Attributes;
+using Blog.Data.Models;
+using Blog.Services.Posts;
 
 namespace Blog.Controllers
 {
+    /// <summary>
+    /// Comments controller.
+    /// </summary>
+    /// <seealso cref="Controller" />
     [Authorize]
     public class CommentsController : Controller
     {
-        private readonly BlogContext _db = new BlogContext();
+        /// <summary>
+        /// The comments service
+        /// </summary>
+        private readonly CommentsService _commentsService;
 
-        // GET: Comments/Create
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentsController"/> class.
+        /// </summary>
+        public CommentsController()
+        {
+            _commentsService = new CommentsService();
+        }
+
+        // GET: Comments/Create        
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [CheckPermissionsToEditForComments]
         public ActionResult Create()
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View();
         }
 
-        // POST: Comments/Create
+        // POST: Comments/Create        
+        /// <summary>
+        /// Creates the specified comment.
+        /// </summary>
+        /// <param name="comment">The comment.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [CheckPermissionsToEditForComments]
-        public ActionResult Create(Comment comment)
+        public async Task<ActionResult> Create(Comment comment)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            comment.CreatedAt = DateTime.Now;
+            comment.Author = User.Identity.GetUserId();
+
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
-                comment.CreatedAt = DateTime.Now;
-                comment.Author = User.Identity.GetUserId();
-                if (ModelState.IsValid)
-                {
-                    _db.Comments.Add(comment);
-                    _db.SaveChanges();
-                    return RedirectToAction("Show/" + comment.PostID, "Posts");
-                }
-                return null;
+                
+
+                await _commentsService.CreateComment(comment);
+                return RedirectToAction("Show/" + comment.PostID, "Posts");
             }
             catch
             {
@@ -49,12 +86,26 @@ namespace Blog.Controllers
             }
         }
 
-        // GET: Comments/Edit/5
+        // GET: Comments/Edit/5        
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [CheckPermissionsToEditForComments]
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if(!id.HasValue)
+            {
+                return RedirectToAction("Index");
+            }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View();
         }
 
@@ -62,20 +113,25 @@ namespace Blog.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [CheckPermissionsToEditForComments]
-        public ActionResult Edit(Comment comment)
+        public async Task<ActionResult> Edit(Comment comment)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
             try
             {
-                var originalComment = _db.Comments.FirstOrDefault(comm => comm.Id.Equals(comment.Id));
+                var originalComment = await _commentsService.GetComment(comment.Id);
                 if (originalComment != null && !originalComment.Author.Equals(User.Identity.GetUserId()))
+                {
                     return RedirectToAction("Show/" + comment.PostID, "Posts");
+                }
 
                 comment.Author = User.Identity.GetUserId();
                 comment.CreatedAt = DateTime.Now;
-                _db.Entry(comment).State = EntityState.Modified;
-                _db.SaveChanges();
+
+                await _commentsService.Update(comment);
 
                 return RedirectToAction("Show/" + comment.PostID, "Posts");
             }
@@ -98,10 +154,15 @@ namespace Blog.Controllers
         }
         */
 
-        // POST: Comments/Delete/5
+        // POST: Comments/Delete/5        
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [CheckPermissionsToEditForComments]
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult>  Delete(int? id)
         {
             if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
             if (id == null)
@@ -110,14 +171,15 @@ namespace Blog.Controllers
             }
             try
             {
-                Comment comment = _db.Comments.FirstOrDefault(comm => comm.Id.Equals(id));
+                var comment = await _commentsService.GetComment(id.Value);
                 if (comment != null && !comment.Author.Equals(User.Identity.GetUserId()))
+                {
                     return RedirectToAction("Show/" + comment.PostID, "Posts");
+                }
 
                 if (comment != null)
                 {
-                    _db.Comments.Remove(comment);
-                    _db.SaveChanges();
+                    await _commentsService.DeleteComment(id.Value);
                 }
 
                 if (comment != null) return RedirectToAction("Show/" + comment.PostID, "Posts");

@@ -525,3 +525,11 @@ D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.csproj.GenerateResource.cache
 D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\Blog.Core.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\Blog.Data.Models.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\Blog.Services.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\Blog.Core.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\Blog.Data.Models.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\Blog.Services.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\Blog.Services.dll.config
+D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.csproj.CoreCompileInputs.cache

@@ -1,29 +1,46 @@
-﻿using Blog.Models;
-using Blog.Services.Posts;
-using Blog.ViewModels.Posts;
+﻿using Blog.Services.Posts;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Blog.Core.Attributes;
-using Blog.Core.Dtos;
-using Microsoft.Ajax.Utilities;
-using WebGrease.Css.Extensions;
+using Blog.Attributes;
+using Blog.Data.Models;
+using Blog.Services.Dtos;
 
 namespace Blog.Controllers
 {
+    /// <summary>
+    /// Posts controller.
+    /// </summary>
+    /// <seealso cref="Controller" />
     public class PostsController : Controller
     {
-        private readonly PostsService _postsService = new PostsService();
-        private readonly CommentsService _commentsService = new CommentsService();
-        private readonly BlogContext _db = new BlogContext();
+        /// <summary>
+        /// The posts service
+        /// </summary>
+        private readonly PostsService _postsService;
 
-        // GET: Posts
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostsController"/> class.
+        /// </summary>
+        public PostsController()
+        {
+            _postsService = new PostsService();
+        }
+
+        // GET: Posts        
+        /// <summary>
+        /// Indexes the specified search.
+        /// </summary>
+        /// <param name="search">The search.</param>
+        /// <param name="sortBy">The sort by.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <param name="page">The page.</param>
+        /// <returns>Task.</returns>
         [HttpGet]
-        public ActionResult Index(string search, string sortBy, string orderBy, int page = 1)
+        public async Task<ActionResult> Index(string search, string sortBy, string orderBy, int page = 1)
         {
             var sortParameters = new SortParametersDto()
             {
@@ -32,13 +49,20 @@ namespace Blog.Controllers
                 CurrentPage = page,
                 PageSize = 10
             };
-            var posts = _postsService.GetPosts(sortParameters, search);
+            var posts = await _postsService.GetPosts(sortParameters, search);
             return View(posts);
         }
 
-        // GET: Posts/Show/5
+        // GET: Posts/Show/5        
+        /// <summary>
+        /// Shows the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="sorts">The sorts.</param>
+        /// <param name="page">The page.</param>
+        /// <returns>Task.</returns>
         [HttpGet]
-        public ActionResult Show(int? id, string sorts, int page = 1)
+        public async Task<ActionResult> Show(int? id, string sorts, int page = 1)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
 
@@ -48,23 +72,31 @@ namespace Blog.Controllers
                 PageSize = 10
             };
 
-            var postModelToUpdate = _db.Posts.FirstOrDefault(post => post.Id.Equals(id.Value));
+            var postModelToUpdate = await _postsService.FirstOrDefault(id.Value);
             if (postModelToUpdate != null && page == 1)
             {
                 postModelToUpdate.Seen++;
-                _db.Entry(postModelToUpdate).State = EntityState.Modified;
-                _db.SaveChanges();
+                await _postsService.Update(postModelToUpdate);
             }
 
-            var postModel = _postsService.GetPostWithComments(id.Value, sortParameters);
+            var postModel = await _postsService.GetPostWithComments(id.Value, sortParameters);
             if(postModel == null) return RedirectToAction("Index", "Posts");
 
             return View(postModel);
         }
 
+        /// <summary>
+        /// Current user posts.
+        /// </summary>
+        /// <param name="display">The display.</param>
+        /// <param name="sortBy">The sort by.</param>
+        /// <param name="orderBy">The order by.</param>
+        /// <param name="search">The search.</param>
+        /// <param name="page">The page.</param>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
-        public ActionResult MyPosts(string display, string sortBy, string orderBy, string search, int page = 1)
+        public async Task<ActionResult> MyPosts(string display, string sortBy, string orderBy, string search, int page = 1)
         {
             var sortParameters = new SortParametersDto()
             {
@@ -75,13 +107,17 @@ namespace Blog.Controllers
                 DisplayType = display ?? "list"
             };
 
-            var posts = _postsService.GetCurrentUserPosts(User.Identity.GetUserId(), sortParameters, search);
+            var posts = await _postsService.GetUserPosts(User.Identity.GetUserId(), sortParameters, search);
             posts.DisplayType = display ?? "list";
 
             return View(posts);
         }
 
-        // GET: Posts/Create
+        // GET: Posts/Create        
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [Authorize]
         public ActionResult Create()
@@ -89,48 +125,28 @@ namespace Blog.Controllers
             return View();
         }
 
-        // POST: Posts/Create
+        // POST: Posts/Create        
+        /// <summary>
+        /// Creates the specified post model.
+        /// </summary>
+        /// <param name="postModel">The post model.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
-        public ActionResult Create(Post postModel)
+        public async Task<ActionResult> Create(Post postModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             try
             {
                 //post.CreatedAt = DateTime.Now;
-                if (ModelState.IsValid)
-                {
-                    postModel.CreatedAt = DateTime.Now;
-                    postModel.Author = User.Identity.GetUserId();
-                    _db.Posts.Add(postModel);
-                    _db.SaveChanges();
-
-                    if (!postModel.Tags.IsNullOrWhiteSpace())
-                    {
-                        String[] tags = postModel.Tags.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var tag in tags)
-                        {
-                            var tagForAdd = new Tag()
-                            {
-                                Title = tag,
-                                PostId = postModel.Id
-                            };
-                            _db.Tags.Add(tagForAdd);
-                            
-                        }
-                    }
-                    _db.SaveChanges();
-                    _db.Tags.Where(tag => tag.PostId.Equals(postModel.Id)).ForEach(
-                        t =>
-                        {
-                            postModel.PostTags.Add(t);
-                        }
-
-                    );
-                    _db.Entry(postModel).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("index", "Posts");
-                }
-                return null;
+                postModel.CreatedAt = DateTime.Now;
+                postModel.Author = User.Identity.GetUserId();
+                await _postsService.CreatePost(postModel);
+                return RedirectToAction("index", "Posts");
             }
             catch
             {
@@ -138,23 +154,31 @@ namespace Blog.Controllers
             }
         }
 
-        // GET: Like/5
+        // GET: Like/5        
+        /// <summary>
+        /// Likes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Like(int? id)
+        public async Task<ActionResult>  Like(int? id)
         {
-            if (id == null) return RedirectToAction("Index", "Posts");
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
             try
             {
-                PostViewModel postModel = new PostViewModel();
-                postModel.Post = _db.Posts.FirstOrDefault(post => post.Id.Equals(id.Value));
-                if (postModel.Post != null)
+                var post = await _postsService.FirstOrDefault(id.Value);
+                if (post == null)
                 {
-                    postModel.Post.Likes++;
-                    _db.Entry(postModel.Post).State = EntityState.Modified;
+                    return RedirectToAction("Show/" + id, "Posts");
                 }
 
-                _db.SaveChanges();
+                post.Likes++;
+                await _postsService.Update(post);
 
                 return RedirectToAction("Show/" + id, "Posts");
             }
@@ -166,23 +190,31 @@ namespace Blog.Controllers
             }
         }
 
-        // GET: Dislike/5
+        // GET: Dislike/5        
+        /// <summary>
+        /// Dislikes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Dislike(int? id)
+        public async Task<ActionResult> Dislike(int? id)
         {
-            if (id == null) return RedirectToAction("Index", "Posts");
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
             try
             {
-                PostViewModel postModel = new PostViewModel();
-                postModel.Post = _db.Posts.FirstOrDefault(post => post.Id.Equals(id.Value));
-                if (postModel.Post != null)
+                var post = await _postsService.FirstOrDefault(id.Value);
+                if (post == null)
                 {
-                    postModel.Post.Dislikes++;
-                    _db.Entry(postModel.Post).State = EntityState.Modified;
+                    return RedirectToAction("Show/" + id, "Posts");
                 }
 
-                _db.SaveChanges();
+                post.Dislikes++;
+                await _postsService.Update(post);
 
                 return RedirectToAction("Show/" + id, "Posts");
             }
@@ -194,37 +226,52 @@ namespace Blog.Controllers
             }
         }
 
-        // GET: Posts/Edit/5
+        // GET: Posts/Edit/5        
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         [CheckPermissionsToEditForPosts]
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null) return RedirectToAction("Index", "Posts");
-            var postModel = _postsService.GetPost(id.Value);
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
+            var postModel = await _postsService.GetPost(id.Value);
             return View(postModel.Post);
         }
 
-        // POST: Posts/Edit/5
+        // POST: Posts/Edit/5        
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="editedPost">The edited post.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
         [CheckPermissionsToEditForPosts]
-        public ActionResult Edit(int? id, Post editedPost)
+        public async Task<ActionResult> Edit(int? id, Post editedPost)
         {
-            if (id == null) return RedirectToAction("Index", "Posts");
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
             try
             {
-                var postModel = _postsService.GetPost(id.Value);
+                var postModel = await _postsService.GetPost(id.Value);
                 if (!postModel.Post.Author.Equals(User.Identity.GetUserId()))
+                {
                     return RedirectToAction("Show/" + postModel.Post.Id, "Posts");
+                }
 
-                editedPost.Author = postModel.Post.Author;
-                editedPost.Likes = postModel.Post.Likes;
-                editedPost.Dislikes = postModel.Post.Dislikes;
-                editedPost.Seen = postModel.Post.Seen;
-                editedPost.CreatedAt = DateTime.Now;
-                _db.Entry(editedPost).State = EntityState.Modified;
-                _db.SaveChanges();
+                await _postsService.EditPost(id.Value, editedPost);
 
                 return RedirectToAction("Show/" + id, "Posts");
             }
@@ -236,7 +283,12 @@ namespace Blog.Controllers
             }
         }
 
-        // GET: Posts/Delete/5
+        // GET: Posts/Delete/5        
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [Authorize]
         [CheckPermissionsToEditForPosts]
@@ -245,32 +297,32 @@ namespace Blog.Controllers
             return View();
         }
 
-        // POST: Posts/Delete/5
+        // POST: Posts/Delete/5        
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="collection">The collection.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
         [CheckPermissionsToEditForPosts]
-        public ActionResult Delete(int? id, FormCollection collection)
+        public async Task<ActionResult> Delete(int? id, FormCollection collection)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             try
             {
-                BlogContext db = new BlogContext();
-                Post postForDelete = db.Posts.FirstOrDefault(post => post.Id.Equals(id));
-                if (postForDelete != null && !postForDelete.Author.Equals(User.Identity.GetUserId()))
-                    return RedirectToAction("Index", "Posts");
-
-                if (postForDelete != null)
+                var post = await _postsService.FirstOrDefault(id.Value);
+                if (post != null && !post.Author.Equals(User.Identity.GetUserId()))
                 {
-                    _commentsService.GetCommentsForPost(id.Value).ForEach(comment =>
-                    {
-                        db.Comments.Remove(comment);
-                    });
-                    db.Posts.Remove(postForDelete);
-                    db.SaveChanges();
+                    return RedirectToAction("Index", "Posts");
                 }
+
+                await _postsService.DeletePost(id.Value);
 
                 return RedirectToAction("Index");
             }
@@ -283,7 +335,7 @@ namespace Blog.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            _db.Dispose();
+            _postsService.Dispose();
             base.Dispose(disposing);
         }
     }

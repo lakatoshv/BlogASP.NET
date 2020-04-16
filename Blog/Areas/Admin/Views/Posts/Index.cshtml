@@ -1,20 +1,17 @@
 ﻿@using Blog.Core.Enums
-@using Blog.ViewModels.Posts
-@using Microsoft.AspNet.Identity
-@using Blog.Core.Enums
-@model Blog.Areas.Admin.ViewModels.Posts.PostsViewModel
+@model Blog.Services.Dtos.Posts.PostsDto
 @{
     ViewBag.Title = "Index";
 }
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
+<style type="text/css">.btn- { border: inherit; }</style>
 
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 mx-auto">
             @{
                 var createPost = Url.Action("Create", "Posts");
-                var posts = new List<Blog.Areas.Admin.ViewModels.Posts.PostViewModel>();
-                posts = Model.Posts.ToList();
+                var posts = Model.Posts.ToList();
             }
             <a href="@createPost" class="btn btn-light">Написати пост</a>
             <span></span>
@@ -32,7 +29,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
                             <th width="20%"><b>Назва:</b></th>
@@ -109,10 +106,10 @@
                                 {
                                     <td>@item.Post.CreatedAt</td>
                                 }
-                                <td class="actions" data-th="">
+                                <td data-th="">
                                     @{
                                         var edit = Url.Action("Edit", "Posts") + "/" + item.Post.Id;
-                                        var delete = Url.Action("Delete", "Posts");
+                                        Url.Action("Delete", "Posts");
                                     }
                                     <a type="button"
                                        class="btn btn-sm text-white btn-primary"
@@ -172,7 +169,7 @@
             onAjaxSuccess
         );
     }
-    function onAjaxSuccess(data) {
+    function onAjaxSuccess() {
         location.reload();
     }
 
@@ -180,7 +177,6 @@
         $(this).next("button").show();
     });
     function changeStatus(id) {
-        debugger
         var value = $("#status-" + id).val();
         var url = "@Url.Action("ChangeStatus", "Posts")" + "/" + id + "?status=" + value;
         ajaxQuery('', url);
