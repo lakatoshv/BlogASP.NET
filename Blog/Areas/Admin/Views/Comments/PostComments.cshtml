@@ -1,8 +1,4 @@
-﻿@using Blog.Core.Enums
-@using Blog.ViewModels.Posts
-@using Microsoft.AspNet.Identity
-
-@model Blog.Areas.Admin.ViewModels.Posts.PostShowViewModel
+﻿@model Blog.Services.Dtos.Posts.PostShowDto
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 mx-auto">
@@ -17,7 +13,7 @@
             <a href="@createComment" class="btn btn-light">Написати коментар</a><br />
             <span></span>
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
                             <th><b>Автор:</b></th>
@@ -55,10 +51,10 @@
                                 <td>@item.Comment.CreatedAt</td>
                                 <td>@item.Comment.Likes</td>
                                 <td>@item.Comment.Dislikes</td>
-                                <td class="actions" data-th="">
+                                <td data-th="">
                                     @{
                                         var edit = Url.Action("Edit", "Comments") + "/" + item.Comment.Id;
-                                        var delete = Url.Action("Delete", "Comments");
+                                        Url.Action("Delete", "Comments");
                                     }
                                     <a type="button"
                                        class="btn btn-sm text-white btn-primary"
@@ -119,7 +115,7 @@
             onAjaxSuccess
         );
     }
-    function onAjaxSuccess(data) {
+    function onAjaxSuccess() {
         location.reload();
     }
 </script>

@@ -1,8 +1,7 @@
 ﻿@using Blog.Core.Enums
-@model Blog.Models.Post
+@model Blog.Data.Models.Post
 @{
     ViewBag.Title = "Створити пост";
-    var tagIndex = 1;
 }
 
 @Styles.Render("~/public/css/post.css")
@@ -17,9 +16,9 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="form-group">
-                    <label for="title"
-                           tag=""
-                           class="optional">
+                    <label
+                        tag=""
+                           class="">
                         Тема посту:
                     </label>
 
@@ -27,9 +26,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="description"
-                           tag=""
-                           class="optional">
+                    <label
+                        tag=""
+                           class="">
                         Короткий опис:
                     </label>
 
@@ -37,18 +36,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="content"
-                           tag=""
-                           class="optional">
+                    <label
+                        tag=""
+                           class="">
                         Пост:
                     </label>
 
                     @Html.TextAreaFor(model => model.Content, new { @class = "comment_text", @id = "content", @placeholder = "Текст посту" })
                 </div>
 
-                <label for="content"
-                       tag=""
-                       class="optional">
+                <label
+                    tag=""
+                       class="">
                     Основна картинка
                 </label>
                 <!--
@@ -85,11 +84,11 @@
                 </div>
             </div>
         -->
-                <div class="addurl">
+                <div class="">
                     <div class="form-group">
-                        <label for="img_url"
-                               tag=""
-                               class="optional">
+                        <label
+                            tag=""
+                               class="">
                             URL-адреса:
                         </label>
 
@@ -103,9 +102,9 @@
 
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="form-group">
-                    <label for="status"
-                           tag=""
-                           class="optional">
+                    <label
+                        tag=""
+                           class="">
                         Статус:
                     </label>
 

@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@model Blog.Areas.Admin.ViewModels.Posts.CommentWithPostViewModel
+@model Blog.Services.Dtos.Posts.CommentWithPostDto
 
 @{
     ViewBag.Title = "Details";
@@ -22,7 +22,7 @@
                     <p class="pull-right">
                         @{
                             var edit = Url.Action("Edit", "Posts") + "/" + Model.Post.Post.Id;
-                            var delete = Url.Action("Delete", "Posts");
+                            Url.Action("Delete", "Posts");
                         }
                         <a type="button"
                             class="btn btn-sm text-white btn-primary"
@@ -79,7 +79,7 @@
                         <ul class="comment_list">
                             <li class="comment">
                                 <div class="comment_body">
-                                    <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+                                    <div class="d-flex flex-row align-items-center justify-content-start">
                                         <span><I class="fa fa-3x fa-user-circle"></I></span>
                                         <small class="post_meta">
                                             @{var commentatorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + Model.Comment.Profile.Id;}
@@ -160,8 +160,8 @@
             onAjaxSuccess
         );
     }
-    function onAjaxSuccess(data) {
-        window.location.href = "@Url.Action("Index", "Comments")"
+    function onAjaxSuccess() {
+        window.location.href = "@Url.Action("Index", "Comments")";
     }
 </script>
 
@@ -176,7 +176,7 @@
             </div>
             <input type='hidden' id="delete-comment-id" />
             <div class="modal-footer">
-                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deleteComment('/Admin/Comments/Delete/')">
+                <button class="btn btn-sm btn-danger" type="button" onclick="deleteComment('/Admin/Comments/Delete/')">
                     <i class="fa fa-trash"></i>
                     Видалити
                 </button>

@@ -61,10 +61,15 @@
     <Compile Include="Dtos\Posts\PostsDto.cs" />
     <Compile Include="Dtos\Posts\PostDto.cs" />
     <Compile Include="Dtos\SortParametersDto.cs" />
+    <Compile Include="Dtos\Users\ProfileDto.cs" />
+    <Compile Include="Interfaces\IProfilesService.cs" />
+    <Compile Include="MessagesService.cs" />
     <Compile Include="Posts\CommentsService.cs" />
     <Compile Include="Posts\Interfaces\ICommentsService.cs" />
+    <Compile Include="Interfaces\IMessagesService.cs" />
     <Compile Include="Posts\Interfaces\IPostsService.cs" />
     <Compile Include="Posts\PostsService.cs" />
+    <Compile Include="ProfilesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

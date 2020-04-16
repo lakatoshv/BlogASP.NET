@@ -1,42 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using Blog.Models;
+using Blog.Data.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
+using Blog.Services;
 
 namespace Blog.Controllers
 {
     public class MessageController : Controller
     {
-        // GET: Message
+        private readonly MessagesService _messagesService;
+
+        public MessageController()
+        {
+            _messagesService = new MessagesService();
+        }
+
+        // GET: Message        
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: Message/Details/5
+        // GET: Message/Details/5        
+        /// <summary>
+        /// Detailses the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>ActionResult.</returns>
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Message/Create
+        // GET: Message/Create        
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Message/Create
+        // POST: Message/Create        
+        /// <summary>
+        /// Creates the specified collection.
+        /// </summary>
+        /// <param name="collection">The collection.</param>
+        /// <returns>ActionResult.</returns>
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
             try
             {
                 // TODO: Add insert logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -45,25 +67,32 @@ namespace Blog.Controllers
             }
         }
 
-        public ActionResult SendMessage(Message messageModel)
+        /// <summary>
+        /// Sends the message.
+        /// </summary>
+        /// <param name="messageModel">The message model.</param>
+        /// <returns>ActionResult.</returns>
+        public async Task<ActionResult> SendMessage(Message messageModel)
         {
-            BlogContext db = new BlogContext();
             if (User.Identity.IsAuthenticated)
             {
                 messageModel.ApplicationUser = User.Identity.GetUserId();
             }
             else if(messageModel.Email.IsNullOrWhiteSpace() && messageModel.Name.IsNullOrWhiteSpace())
+            {
                 return RedirectToAction("Contact", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
 
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var result = db.Messages.Add(messageModel);
-                    db.SaveChanges();
-                    return RedirectToAction("Contact", "Home");
-                }
-                return null;
+
+                await _messagesService.Insert(messageModel);
+                return RedirectToAction("Contact", "Home");
             }
             catch
             {
@@ -71,20 +100,30 @@ namespace Blog.Controllers
             }
         }
 
-        // GET: Message/Edit/5
+        // GET: Message/Edit/5        
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Message/Edit/5
+        // POST: Message/Edit/5        
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="collection">The collection.</param>
+        /// <returns>ActionResult.</returns>
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
             {
                 // TODO: Add update logic here
-
                 return RedirectToAction("Index");
             }
             catch
@@ -93,20 +132,30 @@ namespace Blog.Controllers
             }
         }
 
-        // GET: Message/Delete/5
+        // GET: Message/Delete/5        
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>ActionResult.</returns>
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Message/Delete/5
+        // POST: Message/Delete/5        
+        /// <summary>
+        /// Deletes the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="collection">The collection.</param>
+        /// <returns>ActionResult.</returns>
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch

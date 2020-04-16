@@ -119,3 +119,4 @@ D:\Projects\AspNet\BlogASP.NET\Blog.Services\bin\Debug\ru\EntityFramework.SqlSer
 D:\Projects\AspNet\BlogASP.NET\Blog.Services\obj\Debug\Blog.Services.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Blog.Services\obj\Debug\Blog.Services.dll
 D:\Projects\AspNet\BlogASP.NET\Blog.Services\obj\Debug\Blog.Services.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog.Services\obj\Debug\Blog.Services.csproj.CoreCompileInputs.cache

@@ -35,6 +35,13 @@ namespace Blog.Services.Posts.Interfaces
         Task<PostShowDto> GetPost(int postId);
 
         /// <summary>
+        /// Firsts the or default.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Task.</returns>
+        Task<Post> FirstOrDefault(int id);
+
+        /// <summary>
         /// Async get post model by id.
         /// </summary>
         /// <param name="postId">postId.</param>
@@ -82,6 +89,13 @@ namespace Blog.Services.Posts.Interfaces
         Task EditPost(int id, Post post);
 
         /// <summary>
+        /// Updates the specified post.
+        /// </summary>
+        /// <param name="post">The post.</param>
+        /// <returns>Task.</returns>
+        Task Update(Post post);
+
+        /// <summary>
         /// Change post status.
         /// </summary>
         /// <param name="id"></param>
@@ -95,5 +109,10 @@ namespace Blog.Services.Posts.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task DeletePost(int id);
+
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        void Dispose();
     }
 }

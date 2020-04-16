@@ -1,7 +1,6 @@
-﻿@using Blog.ViewModels.Posts
+﻿@using Blog.Helpers
 @using Microsoft.AspNet.Identity
-@model Blog.ViewModels.Posts.PostsViewModel
-@using Blog.Helpers
+@model Blog.Services.Dtos.Posts.PostsDto
 
 @{
     ViewBag.Title = "BlogASP.NET - Мої пости";
@@ -29,11 +28,11 @@
         <div class="col-lg-10 col-md-10 mx-auto">
 
             <p><b>Мої пости</b></p>
-            <div class="input-group md-form form-sm form-2 pl-0 col-5">
+            <div class="input-group pl-0 col-5">
                 <input class="form-control search" type="text" placeholder="Search" aria-label="Search" name="search" id="search">
 
                 <button class="input-group-append" type="submit" id="search-btn">
-                    <span class="input-group-text"><i class="fa fa-search text-grey" aria-hidden="true"></i></span>
+                    <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
                 </button>
             </div>
             @{
@@ -65,14 +64,13 @@
                     </select>
                 </li>
                 <li>
-                    <a id="sorting" class="btn btn-default button-background">Сортувати</a>
+                    <a id="sorting" class="btn btn-default">Сортувати</a>
                 </li>
             </ul>
             <div class="clearfix"></div>
             @{
                 var createPost = Url.Action("Create", "Posts");
-                var posts = new List<Blog.ViewModels.Posts.PostViewModel>();
-                posts = Model.Posts.ToList();
+                var posts = Model.Posts.ToList();
             }
             @if (User.Identity.IsAuthenticated)
             {
@@ -85,9 +83,9 @@
                 {
                     <div class="post-preview">
                         @{
-                            var pathURL = Url.Action("Show", "Posts") + "/" + item.Post.Id;
+                            var pathUrl = Url.Action("Show", "Posts") + "/" + item.Post.Id;
                         }
-                        <a href="@pathURL">
+                        <a href="@pathUrl">
                             <h2 class="post-title">
                                 @item.Post.Title
                             </h2>
@@ -97,7 +95,7 @@
                                 <p class="pull-right">
                                     @{
                                         var edit = Url.Action("Edit", "Posts") + "/" + item.Post.Id;
-                                        var delete = Url.Action("Delete", "Posts");
+                                        // Url.Action("Delete", "Posts");
                                     }
                                     <a type="button"
                                        class="btn btn-sm text-white btn-primary"
@@ -170,9 +168,9 @@
                             <tr>
                                 <td>
                                     @{
-                                        var pathURL = Url.Action("Show", "Posts") + "/" + post.Post.Id;
+                                        var pathUrl = Url.Action("Show", "Posts") + "/" + post.Post.Id;
                                     }
-                                    <a href="@pathURL">@post.Post.Title</a>
+                                    <a href="@pathUrl">@post.Post.Title</a>
                                 </td>
                                 <td>@post.Post.Seen</td>
                                 <td>@post.Post.Likes</td>
@@ -180,10 +178,9 @@
                                 <td>@post.Post.CreatedAt</td>
                                 @if (User.Identity.GetUserId().Equals(post.Post.Author))
                                 {
-                                    <td class="actions" data-th="">
+                                    <td class="" data-th="">
                                         @{
                                             var edit = Url.Action("Edit", "Posts") + "/" + post.Post.Id;
-                                            var delete = Url.Action("Delete", "Posts");
                                         }
                                         <a class="btn btn-primary" href="@edit"><i class="fa fa-edit"></i></a>
                                         <button type="button"
@@ -241,7 +238,7 @@
             onAjaxSuccess
         );
     }
-    function onAjaxSuccess(data) {
+    function onAjaxSuccess() {
         location.reload();
     }
 
@@ -252,15 +249,14 @@
 
     /* сортування */
     $("#sorting").click(function () {
-        var value_sort = cheked($("#sort-by"));
-        var type_sort = cheked($("#order-by"));
-        document.cookie = "sort=" + value_sort;
-        document.cookie = "type_sort=" + type_sort;
-        location.href = '@Url.Action("MyPosts", "Posts")?sortBy=' + value_sort + '&orderBy=' + type_sort;
+        var valueSort = cheked($("#sort-by"));
+        var typeSort = cheked($("#order-by"));
+        document.cookie = "sort=" + valueSort;
+        document.cookie = "type_sort=" + typeSort;
+        location.href = '@Url.Action("MyPosts", "Posts")?sortBy=' + valueSort + '&orderBy=' + typeSort;
     });
 
     $("#search-btn").click(function () {
-        debugger
         var search = $("#search").val();
         location.href = '@Url.Action("Index", "Posts")?search=' + search;
     });

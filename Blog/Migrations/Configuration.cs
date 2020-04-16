@@ -2,7 +2,7 @@ namespace Blog.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    using Models;
+    using Blog.Data.Models;
 
     internal sealed class Configuration : DbMigrationsConfiguration<BlogContext>
     {

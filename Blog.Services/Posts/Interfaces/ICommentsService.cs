@@ -84,6 +84,13 @@ namespace Blog.Services.Posts.Interfaces
         Task<CommentWithPostsDto> GetPostsWithCommentModel(string search);
 
         /// <summary>
+        /// Updates the specified comment.
+        /// </summary>
+        /// <param name="comment">The comment.</param>
+        /// <returns>Task.</returns>
+        Task Update(Comment comment);
+
+        /// <summary>
         /// Async delete comment by id.
         /// </summary>
         /// <param name="id"></param>

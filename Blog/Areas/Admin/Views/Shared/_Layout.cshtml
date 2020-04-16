@@ -31,7 +31,7 @@
         <div class="container">
             <img src="~/public/blog.ico" width="50px" height="50px">
             @Html.ActionLink("BlogASP.NET Admin panel", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fa fa-bars"></i>
             </button>
@@ -66,7 +66,8 @@
                         <li class="nav-item">
                             @{
                                 var profile = ((ClaimsIdentity) HttpContext.Current.User.Identity).Claims;
-                                var name = profile.First(item => item.Type == "FirstName").Value + " " + profile.First(item => item.Type == "LastName").Value;
+                                var enumerable = profile as Claim[] ?? profile.ToArray();
+                                var name = enumerable.First(item => item.Type == "FirstName").Value + " " + enumerable.First(item => item.Type == "LastName").Value;
                             }
                             @Html.ActionLink(
                                 linkText: name,
@@ -155,7 +156,6 @@
 
     <!-- Custom scripts for all pages-->
     @Scripts.Render("~/public/js/sb-admin.min.js")
-    <script src="js/"></script>
 
     <!-- Demo scripts for this page-->
     @Scripts.Render("~/public/plugins/demo/datatables-demo.js")
