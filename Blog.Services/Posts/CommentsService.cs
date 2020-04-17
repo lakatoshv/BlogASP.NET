@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Blog.Core.HelperClasses;
 using Blog.Data.Models;
+using Blog.Data.Models.Repository.Interfaces;
 using Blog.Services.Dtos;
 using Blog.Services.Dtos.Posts;
+using Blog.Services.Interfaces;
 using Blog.Services.Posts.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -15,19 +17,47 @@ namespace Blog.Services.Posts
     /// <summary>
     /// Comments service.
     /// </summary>
-    public class CommentsService : ICommentsService
+    /// <seealso cref="GeneralService{Comment}" />
+    /// <seealso cref="ICommentsService" />
+    public class CommentsService : GeneralService<Comment>, ICommentsService
     {
         /// <summary>
-        /// Blog context.
+        /// The repository.
         /// </summary>
-        private readonly BlogContext _dbContext;
+        private readonly IRepository<Comment> _repository;
+
+        /// <summary>
+        /// The profiles service
+        /// </summary>
+        private readonly IProfilesService _profilesService;
+
+        /// <summary>
+        /// The posts service
+        /// </summary>
+        private readonly IPostsService _postsService;
+
+        /// <summary>
+        /// The tags service
+        /// </summary>
+        private readonly ITagsService _tagsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentsService"/> class.
         /// </summary>
-        public CommentsService()
+        /// <param name="repository">The repository.</param>
+        /// <param name="profilesService">The profiles service.</param>
+        /// <param name="postsService">The posts service.</param>
+        public CommentsService(
+            IRepository<Comment> repository,
+            IProfilesService profilesService,
+            IPostsService postsService,
+            ITagsService tagsService)
+            : base(repository)
         {
-            _dbContext = new BlogContext();
+            _repository = repository;
+            _profilesService = profilesService;
+            _postsService = postsService;
+            _tagsService = tagsService;
         }
 
         /// <inheritdoc/>
@@ -41,12 +71,12 @@ namespace Blog.Services.Posts
                 Comments = new List<CommentDto>()
             };
 
-            var comments = await _dbContext.Comments.ToListAsync();
-            comments.ForEach(async comment => {
+            var comments = await _repository.GetAllAsync();
+            comments.ToList().ForEach(async comment => {
                 var commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
                 var comm = new CommentDto()
                 {
-                    Profile = await _dbContext.Profiles.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(comment.Author))
+                    Profile = await _profilesService.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(comment.Author))
                 };
 
                 if (commentAuthor != null)
@@ -64,7 +94,7 @@ namespace Blog.Services.Posts
         /// <inheritdoc/>
         public async Task<IList<Comment>> GetCommentsForPost(int postId)
         {
-            return await _dbContext.Comments.Where(comment => comment.PostID.Equals(postId)).ToListAsync();
+            return await Repository.Table.Where(comment => comment.PostID.Equals(postId)).ToListAsync();
         }
 
         /// <inheritdoc/>
@@ -72,9 +102,9 @@ namespace Blog.Services.Posts
         {
             var postModel = new PostShowDto()
             {
-                Post = await _dbContext.Posts.FirstOrDefaultAsync(post => post.Id.Equals(postId))
+                Post = await _postsService.FirstOrDefaultAsync(post => post.Id.Equals(postId))
             };
-            postModel.Profile = await _dbContext.Profiles.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
+            postModel.Profile = await _profilesService.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
             if (postModel.Post == null)
             {
                 return null;
@@ -89,7 +119,7 @@ namespace Blog.Services.Posts
                 postModel.Post.Author = user.UserName;
             }
 
-            var tags = await _dbContext.Tags.Where(tag => tag.PostId.Equals(postId)).ToListAsync();
+            var tags = await _tagsService.Where(tag => tag.PostId.Equals(postId)).ToListAsync();
             foreach (var tag in tags)
             {
                 postModel.Post.PostTags.Add(tag);
@@ -111,12 +141,12 @@ namespace Blog.Services.Posts
             {
                 Comments = new List<CommentDto>()
             };
-            var comments = _dbContext.Comments.Where(comment => comment.PostID.Equals(postId)).AsQueryable();
+            var comments = Where(comment => comment.PostID.Equals(postId));
             await comments.ForEachAsync(comment => {
                 var commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
                 var comm = new CommentDto()
                 {
-                    Profile = _dbContext.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(comment.Author))
+                    Profile = _profilesService.FirstOrDefault(pr => pr.ApplicationUser.Equals(comment.Author))
                 };
 
                 if (commentAuthor != null)
@@ -139,16 +169,18 @@ namespace Blog.Services.Posts
             {
                 Comments = new List<CommentDto>()
             };
-            var comments = await _dbContext.Comments.Where(comment => comment.PostID.Equals(postId)).ToListAsync();
+            var comments = await Where(comment => comment.PostID.Equals(postId)).ToListAsync();
             comments.ForEach(comment => {
                 var commentAuthor = userManager.FindByIdAsync(comment.Author).Result;
                 var comm = new CommentDto
                 {
-                    Profile = _dbContext.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(comment.Author))
+                    Profile = _profilesService.FirstOrDefault(pr => pr.ApplicationUser.Equals(comment.Author))
                 };
 
                 if (commentAuthor != null)
+                {
                     comment.Author = commentAuthor.UserName;
+                }
 
                 comm.Comment = comment;
 
@@ -161,17 +193,11 @@ namespace Blog.Services.Posts
         }
 
         /// <inheritdoc/>
-        public async Task<Comment> GetComment(int id)
-        {
-            return await _dbContext.Comments.FindAsync(id);
-        }
-
-        /// <inheritdoc/>
         public async Task<CommentWithPostsDto> GetCommentModelWithPosts(string search)
         {
             var postModel = new CommentWithPostsDto()
             {
-                Posts = await _dbContext.Posts.ToListAsync()
+                Posts = await _postsService.ToListAsync()
             };
 
             return postModel;
@@ -180,7 +206,7 @@ namespace Blog.Services.Posts
         /// <inheritdoc/>
         public async Task<CommentWithPostDto> GetPostWithCommentModel(string search, int commentId)
         {
-            var comment = await _dbContext.Comments.FirstOrDefaultAsync(comm => comm.Id.Equals(commentId));
+            var comment = await FirstOrDefaultAsync(comm => comm.Id.Equals(commentId));
             if (comment == null)
             {
                 return null;
@@ -188,19 +214,19 @@ namespace Blog.Services.Posts
 
             var postModel = new CommentWithPostDto()
             {
-                Post = new PostDto() { Post = await _dbContext.Posts.FirstOrDefaultAsync(post => post.Id.Equals(comment.PostID)) },
+                Post = new PostDto() { Post = await _postsService.FirstOrDefaultAsync(post => post.Id.Equals(comment.PostID)) },
                 Comment = new CommentDto() { Comment = comment }
             };
 
             if (postModel.Post != null)
             {
                 postModel.Post.Profile =
-                    await _dbContext.Profiles.FirstOrDefaultAsync(profile => profile.ApplicationUser.Equals(postModel.Comment.Comment.Author));
+                    await _profilesService.FirstOrDefaultAsync(profile => profile.ApplicationUser.Equals(postModel.Comment.Comment.Author));
             }
 
             if (postModel.Comment != null)
             {
-                postModel.Comment.Profile = await _dbContext.Profiles.FirstOrDefaultAsync(profile =>
+                postModel.Comment.Profile = await _profilesService.FirstOrDefaultAsync(profile =>
                     profile.ApplicationUser.Equals(postModel.Comment.Comment.Author));
             }
 
@@ -212,43 +238,16 @@ namespace Blog.Services.Posts
         {
             var postModel = new CommentWithPostsDto()
             {
-                Posts = await _dbContext.Posts.ToListAsync()
+                Posts = await _postsService.ToListAsync()
             };
 
             return postModel;
         }
 
         /// <inheritdoc/>
-        public async Task Update(Comment comment)
-        {
-            _dbContext.Entry(comment).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task CreateComment(Comment comment)
-        {
-            _dbContext.Comments.Add(comment);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task DeleteComment(int id)
-        {
-            var commentForDelete = await GetComment(id);
-
-            if (commentForDelete != null)
-            {
-                _dbContext.Comments.Remove(commentForDelete);
-                await _dbContext.SaveChangesAsync();
-            }
-        }
-
-        /// <inheritdoc/>
         public async Task DeletePostComments(int id)
         {
-            _dbContext.Comments.RemoveRange(await GetCommentsForPost(id));
-            await _dbContext.SaveChangesAsync();
+            await DeleteAsync(await GetCommentsForPost(id));
         }
     }
 }
