@@ -3,13 +3,14 @@ using Blog.Core.Enums;
 using Blog.Data.Models;
 using Blog.Services.Dtos;
 using Blog.Services.Dtos.Posts;
+using Blog.Services.Interfaces;
 
 namespace Blog.Services.Posts.Interfaces
 {
     /// <summary>
     /// Posts service interface.
     /// </summary>
-    public interface IPostsService
+    public interface IPostsService : IGeneralService<Post>
     {
         /// <summary>
         /// Async get sorted and filtered posts by sort parameters.
@@ -33,13 +34,6 @@ namespace Blog.Services.Posts.Interfaces
         /// <param name="postId">postId.</param>
         /// <returns>Task.</returns>
         Task<PostShowDto> GetPost(int postId);
-
-        /// <summary>
-        /// Firsts the or default.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>Task.</returns>
-        Task<Post> FirstOrDefault(int id);
 
         /// <summary>
         /// Async get post model by id.
@@ -74,26 +68,11 @@ namespace Blog.Services.Posts.Interfaces
         Task<PostsDto> GetUserPosts(string userId, SortParametersDto sortParameters, string search);
 
         /// <summary>
-        /// Async create post.
+        /// Creates the post.
         /// </summary>
-        /// <param name="postModel">postModel.</param>
+        /// <param name="postModel">The post model.</param>
         /// <returns>Task.</returns>
         Task CreatePost(Post postModel);
-
-        /// <summary>
-        /// Async edit post.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="post"></param>
-        /// <returns></returns>
-        Task EditPost(int id, Post post);
-
-        /// <summary>
-        /// Updates the specified post.
-        /// </summary>
-        /// <param name="post">The post.</param>
-        /// <returns>Task.</returns>
-        Task Update(Post post);
 
         /// <summary>
         /// Change post status.
@@ -103,16 +82,5 @@ namespace Blog.Services.Posts.Interfaces
         /// <returns></returns>
         Task ChangePostStatus(int id, Status status);
 
-        /// <summary>
-        /// Async delete post.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task DeletePost(int id);
-
-        /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
-        /// </summary>
-        void Dispose();
     }
 }

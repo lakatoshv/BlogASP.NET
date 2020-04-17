@@ -7,7 +7,8 @@ namespace Blog.Services.Interfaces
     /// <summary>
     /// Profiles service interface.
     /// </summary>
-    public interface IProfilesService
+    /// <seealso cref="IGeneralService{Profile}" />
+    public interface IProfilesService : IGeneralService<Profile>
     {
         /// <summary>
         /// Gets the current user profile by identifier.

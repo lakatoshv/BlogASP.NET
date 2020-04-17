@@ -11,38 +11,56 @@ using System.Threading.Tasks;
 using Blog.Services.Dtos;
 using Blog.Core.Enums;
 using Blog.Core.HelperClasses;
+using Blog.Data.Models.Repository.Interfaces;
+using Blog.Services.Interfaces;
 
 namespace Blog.Services.Posts
 {
     /// <summary>
     /// Posts service.
     /// </summary>
-    public class PostsService : IPostsService
+    public class PostsService : GeneralService<Post>, IPostsService
     {
         /// <summary>
-        /// Comments service.
+        /// The comments service
         /// </summary>
-        private readonly CommentsService _commentsService;
+        private readonly ICommentsService _commentsService;
 
         /// <summary>
-        /// Blog context
+        /// The profiles service
         /// </summary>
-        private readonly BlogContext _dbContext;
+        private readonly IProfilesService _profilesService;
+
+        /// <summary>
+        /// The tags service
+        /// </summary>
+        private readonly ITagsService _tagsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PostsService"/> class.
         /// </summary>
-        public PostsService()
+        /// <param name="repository">The repository.</param>
+        /// <param name="commentsService">The comments service.</param>
+        /// <param name="profilesService">The profiles service.</param>
+        /// <param name="tagsService">The tags service.</param>
+        public PostsService(
+            IRepository<Post> repository,
+            ICommentsService commentsService,
+            IProfilesService profilesService,
+            ITagsService tagsService) 
+            : base(repository)
         {
-            _commentsService = new CommentsService();
-            _dbContext = new BlogContext();
+            _commentsService = commentsService;
+            _profilesService = profilesService;
+            _tagsService = tagsService;
         }
 
+        /// <inheritdoc/>
         public async Task<PostsDto> GetPosts(string search, bool onlyWithComments = false)
         {
             IList<PostDto> postModel = new List<PostDto>();
 
-            IQueryable<Post> postsQueryable = _dbContext.Posts;
+            IQueryable<Post> postsQueryable = GetAll();
             if (!string.IsNullOrWhiteSpace(search))
             {
                 postsQueryable = postsQueryable.Where(post => post.Title.Equals(search));
@@ -54,8 +72,8 @@ namespace Blog.Services.Posts
             posts.ForEach(item => {
                 var post = new PostDto()
                 {
-                    Profile = _dbContext.Profiles.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(item.Author)).Result,
-                    CommentsCount = _dbContext.Comments.Count(comment => comment.PostID.Equals(item.Id))
+                    Profile = _profilesService.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(item.Author)).Result,
+                    CommentsCount = _commentsService.Count(comment => comment.PostID.Equals(item.Id))
                 };
                 var user =  userManager.FindByIdAsync(item.Author).Result;
                 if (user != null)
@@ -66,13 +84,13 @@ namespace Blog.Services.Posts
 
                 post.Post = item;
 
-                var tags = _dbContext.Tags.Where(tag => tag.PostId.Equals(item.Id)).ToListAsync().Result;
+                var tags = _tagsService.Where(tag => tag.PostId.Equals(item.Id)).ToListAsync().Result;
                 foreach (var tag in tags)
                 {
                     post.Post.PostTags.Add(tag);
                 }
 
-                post.CommentsCount = _dbContext.Comments.Count(comment => comment.PostID.Equals(item.Id));
+                post.CommentsCount = _commentsService.Count(comment => comment.PostID.Equals(item.Id));
                 postModel.Add(post);
             });
 
@@ -88,9 +106,9 @@ namespace Blog.Services.Posts
         {
             var postModel = new PostShowDto()
             {
-                Post = await _dbContext.Posts.FirstOrDefaultAsync(post => post.Id.Equals(postId))
+                Post = await FirstOrDefaultAsync(post => post.Id.Equals(postId))
             };
-            postModel.Profile = await _dbContext.Profiles.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
+            postModel.Profile = await _profilesService.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
             if (postModel.Post == null)
             {
                 return null;
@@ -105,7 +123,7 @@ namespace Blog.Services.Posts
                 postModel.Post.Author = user.UserName;
             }
 
-            var tags = await _dbContext.Tags.Where(tag => tag.PostId.Equals(postId)).ToListAsync();
+            var tags = await _tagsService.Where(tag => tag.PostId.Equals(postId)).ToListAsync();
             foreach (var tag in tags)
             {
                 postModel.Post.PostTags.Add(tag);
@@ -115,18 +133,13 @@ namespace Blog.Services.Posts
         }
 
         /// <inheritdoc/>
-        public async Task<Post> FirstOrDefault(int id)
-        {
-            return await _dbContext.Posts.FirstOrDefaultAsync(post => post.Id.Equals(id));
-        }
-
         public async Task<PostShowDto> GetPostModel(int postId)
         {
             var postModel = new PostShowDto()
             {
-                Post = await _dbContext.Posts.FirstOrDefaultAsync(post => post.Id.Equals(postId))
+                Post = await FirstOrDefaultAsync(post => post.Id.Equals(postId))
             };
-            postModel.Profile = await _dbContext.Profiles.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
+            postModel.Profile = await _profilesService.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
             if (postModel.Post == null)
             {
                 return null;
@@ -141,7 +154,7 @@ namespace Blog.Services.Posts
                 postModel.Post.Author = user.UserName;
             }
 
-            var tags = _dbContext.Tags.Where(tag => tag.PostId.Equals(postId)).ToList();
+            var tags = _tagsService.Where(tag => tag.PostId.Equals(postId)).ToList();
             foreach (var tag in tags)
             {
                 postModel.Post.PostTags.Add(tag);
@@ -155,9 +168,9 @@ namespace Blog.Services.Posts
         {
             var postModel = new PostShowDto()
             {
-                Post = await _dbContext.Posts.FirstOrDefaultAsync(post => post.Id.Equals(postId))
+                Post = await FirstOrDefaultAsync(post => post.Id.Equals(postId))
             };
-            postModel.Profile = await _dbContext.Profiles.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
+            postModel.Profile = await _profilesService.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(postModel.Post.Author));
             if (postModel.Post == null)
             {
                 return null;
@@ -172,7 +185,7 @@ namespace Blog.Services.Posts
                 postModel.Post.Author = user.UserName;
             }
 
-            var tags = await _dbContext.Tags.Where(tag => tag.PostId.Equals(postId)).ToListAsync();
+            var tags = await _tagsService.Where(tag => tag.PostId.Equals(postId)).ToListAsync();
             foreach (var tag in tags)
             {
                 postModel.Post.PostTags.Add(tag);
@@ -189,7 +202,7 @@ namespace Blog.Services.Posts
         {
             IList<PostDto> postModel = new List<PostDto>();
 
-            var postsEnumerable = _dbContext.Posts.Where(post => post.Author.Equals(userId));
+            var postsEnumerable = Where(post => post.Author.Equals(userId));
             if (!string.IsNullOrWhiteSpace(search))
             {
                 postsEnumerable = postsEnumerable.Where(post => post.Title.Equals(search));
@@ -202,7 +215,7 @@ namespace Blog.Services.Posts
             posts.ForEach(async item => {
                 var post = new PostDto()
                 {
-                    Profile = await _dbContext.Profiles.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(item.Author))
+                    Profile = await _profilesService.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(item.Author))
                 };
 
                 var user = await userManager.FindByIdAsync(item.Author);
@@ -215,13 +228,13 @@ namespace Blog.Services.Posts
                 post.Post = item;
                 post.Post.PostTags = new List<Tag>();
 
-                var tags = await _dbContext.Tags.Where(tag => tag.PostId.Equals(item.Id)).ToListAsync();
+                var tags = await _tagsService.Where(tag => tag.PostId.Equals(item.Id)).ToListAsync();
                 foreach (var tag in tags)
                 {
                     post.Post.PostTags.Add(tag);
                 }
 
-                post.CommentsCount = _dbContext.Comments.Count(comment => comment.PostID.Equals(item.Id));
+                post.CommentsCount = _commentsService.Count(comment => comment.PostID.Equals(item.Id));
                 postModel.Add(post);
             });
             var postsViewModel = new PostsDto();
@@ -244,7 +257,7 @@ namespace Blog.Services.Posts
         {
             IList<PostDto> postModel = new List<PostDto>();
 
-            var postsQueryable = _dbContext.Posts.Where(post => post.Author.Equals(userId));
+            var postsQueryable = Where(post => post.Author.Equals(userId));
             if (!string.IsNullOrWhiteSpace(search))
                 postsQueryable = postsQueryable.Where(post => post.Title.Equals(search));
 
@@ -255,7 +268,7 @@ namespace Blog.Services.Posts
             posts.ForEach(async item => {
                 var post = new PostDto()
                 {
-                    Profile = await _dbContext.Profiles.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(item.Author))
+                    Profile = await _profilesService.FirstOrDefaultAsync(pr => pr.ApplicationUser.Equals(item.Author))
                 };
 
                 var user = await userManager.FindByIdAsync(item.Author);
@@ -268,13 +281,13 @@ namespace Blog.Services.Posts
                 post.Post = item;
                 post.Post.PostTags = new List<Tag>();
 
-                var tags = await _dbContext.Tags.Where(tag => tag.PostId.Equals(item.Id)).ToListAsync();
+                var tags = await _tagsService.Where(tag => tag.PostId.Equals(item.Id)).ToListAsync();
                 foreach (var tag in tags)
                 {
                     post.Post.PostTags.Add(tag);
                 }
 
-                post.CommentsCount = _dbContext.Comments.Count(comment => comment.PostID.Equals(item.Id));
+                post.CommentsCount = _commentsService.Count(comment => comment.PostID.Equals(item.Id));
                 postModel.Add(post);
             });
 
@@ -286,7 +299,7 @@ namespace Blog.Services.Posts
         {
             IList<PostDto> postModel = new List<PostDto>();
 
-            var postsEnumerable = _dbContext.Posts.Where(post => post.Status == Status.Approved);
+            var postsEnumerable = Where(post => post.Status == Status.Approved);
             if (!string.IsNullOrWhiteSpace(search))
             {
                 postsEnumerable = postsEnumerable.Where(post => post.Title.Equals(search));
@@ -299,7 +312,7 @@ namespace Blog.Services.Posts
             {
                 var post = new PostDto()
                 {
-                    Profile = _dbContext.Profiles.FirstOrDefault(pr => pr.ApplicationUser.Equals(item.Author))
+                    Profile = _profilesService.FirstOrDefault(pr => pr.ApplicationUser.Equals(item.Author))
                 };
 
                 var user = userManager.FindById(item.Author);
@@ -310,13 +323,13 @@ namespace Blog.Services.Posts
 
                 post.Post = item;
 
-                var tags = _dbContext.Tags.Where(tag => tag.PostId.Equals(item.Id)).ToList();
+                var tags = _tagsService.Where(tag => tag.PostId.Equals(item.Id)).ToList();
                 foreach (var tag in tags)
                 {
                     post.Post.PostTags.Add(tag);
                 }
 
-                post.CommentsCount = _dbContext.Comments.Count(comment => comment.PostID.Equals(item.Id));
+                post.CommentsCount = _commentsService.Count(comment => comment.PostID.Equals(item.Id));
                 postModel.Add(post);
             });
             var postsViewModel = new PostsDto()
@@ -338,83 +351,42 @@ namespace Blog.Services.Posts
         public async Task CreatePost(Post postModel)
         {
             
-            _dbContext.Posts.Add(postModel);
-            await _dbContext.SaveChangesAsync();
+            Insert(postModel);
 
             if (!string.IsNullOrWhiteSpace(postModel.Tags))
             {
-                var tags = postModel.Tags.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var tag in tags)
+                IList<Tag> tags = new List<Tag>();
+                for (var index = 0;
+                    index < postModel.Tags.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries).Length;
+                    index++)
                 {
+                    var tag = postModel.Tags.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries)[index];
                     var tagForAdd = new Tag()
                     {
                         Title = tag,
                         PostId = postModel.Id
                     };
-                    _dbContext.Tags.Add(tagForAdd);
-
+                    tags.Add(tagForAdd);
                 }
+
+                await _tagsService.InsertAsync(tags);
             }
-            _dbContext.SaveChanges();
-            await _dbContext.Tags.Where(tag => tag.PostId.Equals(postModel.Id)).ForEachAsync(
+            await _tagsService.Where(tag => tag.PostId.Equals(postModel.Id)).ForEachAsync(
                 t =>
                 {
                     postModel.PostTags.Add(t);
                 }
 
             );
-            _dbContext.Entry(postModel).State = EntityState.Modified;
-            _dbContext.SaveChanges();
-        }
-
-        /// <inheritdoc/>
-        public async Task EditPost(int id, Post post)
-        {
-            var postModel = await GetPostModel(id);
-
-            post.Author = postModel.Post.Author;
-            post.Likes = postModel.Post.Likes;
-            post.Dislikes = postModel.Post.Dislikes;
-            post.Seen = postModel.Post.Seen;
-            post.CreatedAt = DateTime.Now;
-            _dbContext.Entry(post).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task Update(Post post)
-        {
-            _dbContext.Entry(post).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            await UpdateAsync(postModel);
         }
 
         /// <inheritdoc/>
         public async Task ChangePostStatus(int id, Status status)
         {
-            var post = await GetPost(id);
+            var post = await FindAsync(id);
             post.Status = status;
-            _dbContext.Entry(post).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task DeletePost(int id)
-        {
-            var postForDelete = await _dbContext.Posts.FirstOrDefaultAsync(post => post.Id.Equals(id));
-
-            if (postForDelete != null)
-            {
-                await _commentsService.DeletePostComments(id);
-
-                _dbContext.Posts.Remove(postForDelete);
-                _dbContext.SaveChanges();
-            }
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            _dbContext.Dispose();
+            await UpdateAsync(post);
         }
 
         /// <summary>

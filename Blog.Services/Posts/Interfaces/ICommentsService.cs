@@ -3,13 +3,15 @@ using System.Threading.Tasks;
 using Blog.Data.Models;
 using Blog.Services.Dtos;
 using Blog.Services.Dtos.Posts;
+using Blog.Services.Interfaces;
 
 namespace Blog.Services.Posts.Interfaces
 {
     /// <summary>
     /// Comments service interface.
     /// </summary>
-    interface ICommentsService
+    /// <seealso cref="IGeneralService{Comment}" />
+    public interface ICommentsService : IGeneralService<Comment>
     {
         /// <summary>
         /// Async get list of all posts.
@@ -49,13 +51,6 @@ namespace Blog.Services.Posts.Interfaces
         Task<CommentsDto> GetPagedCommentsByPostId(int postId, string author, SortParametersDto sortParameters);
 
         /// <summary>
-        /// Async get comment by id.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<Comment> GetComment(int id);
-
-        /// <summary>
         /// Async get comment model with posts list.
         /// </summary>
         /// <param name="search">search.</param>
@@ -71,31 +66,11 @@ namespace Blog.Services.Posts.Interfaces
         Task<CommentWithPostDto> GetPostWithCommentModel(string search, int commentId);
 
         /// <summary>
-        /// Async create comment.
-        /// </summary>
-        /// <param name="comment">comment.</param>
-        Task CreateComment(Comment comment);
-
-        /// <summary>
         /// Async get posts with comment model.
         /// </summary>
         /// <param name="search"></param>
         /// <returns></returns>
         Task<CommentWithPostsDto> GetPostsWithCommentModel(string search);
-
-        /// <summary>
-        /// Updates the specified comment.
-        /// </summary>
-        /// <param name="comment">The comment.</param>
-        /// <returns>Task.</returns>
-        Task Update(Comment comment);
-
-        /// <summary>
-        /// Async delete comment by id.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task DeleteComment(int id);
 
         /// <summary>
         /// Async delete post comments.

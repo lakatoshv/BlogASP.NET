@@ -1,18 +1,12 @@
-﻿using System.Threading.Tasks;
-using Blog.Data.Models;
+﻿using Blog.Data.Models;
 
 namespace Blog.Services.Interfaces
 {
     /// <summary>
     /// Messages service interface.
     /// </summary>
-    public interface IMessagesService
+    /// <seealso cref="IGeneralService{Message}" />
+    public interface IMessagesService : IGeneralService<Message>
     {
-        /// <summary>
-        /// Inserts the specified message.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <returns>Task.</returns>
-        Task Insert(Message message);
     }
 }

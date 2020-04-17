@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Blog.Data.Models;
+using Blog.Data.Models.Repository.Interfaces;
 using Blog.Services.Dtos.Users;
 using Blog.Services.Interfaces;
 using Microsoft.AspNet.Identity;
@@ -14,7 +14,7 @@ namespace Blog.Services
     /// Profiles service.
     /// </summary>
     /// <seealso cref="IProfilesService" />
-    public class ProfilesService : IProfilesService
+    public class ProfilesService : GeneralService<Profile>, IProfilesService
     {
         /// <summary>
         /// Blog context
@@ -29,7 +29,9 @@ namespace Blog.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="ProfilesService"/> class.
         /// </summary>
-        public ProfilesService()
+        /// <param name="repository">The repository.</param>
+        public ProfilesService(IRepository<Profile> repository)
+            : base(repository)
         {
             _dbContext = new BlogContext();
 
