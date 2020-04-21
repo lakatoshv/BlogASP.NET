@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Core.Enums;
 using Blog.Data.Models;
-using Blog.Services.Posts;
+using Blog.Services.Posts.Interfaces;
 using Microsoft.AspNet.Identity;
 
 namespace Blog.Areas.Admin.Controllers
@@ -15,14 +15,14 @@ namespace Blog.Areas.Admin.Controllers
         /// <summary>
         /// Posts service.
         /// </summary>
-        private readonly PostsService _postsService;
+        private readonly IPostsService _postsService;
 
         /// <summary>
         /// Initializes static members of the <see cref="PostsController"/> class.
         /// </summary>
-        public PostsController()
+        public PostsController(IPostsService postsService)
         {
-            _postsService = new PostsService();
+            _postsService = postsService;
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Blog.Areas.Admin.Controllers
             }
             try
             {
-                await _postsService.EditPost(id.Value, editedPost);
+                await _postsService.UpdateAsync(editedPost);
 
                 return RedirectToAction("Show/" + id, "Posts", new { area = "" });
             }
@@ -178,7 +178,7 @@ namespace Blog.Areas.Admin.Controllers
             }
             try
             {
-                await _postsService.DeletePost(id.Value);
+                await _postsService.DeleteAsync(id.Value);
 
                 return RedirectToAction("Index");
             }
