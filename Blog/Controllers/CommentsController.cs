@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Attributes;
 using Blog.Data.Models;
-using Blog.Services.Posts;
+using Blog.Services.Posts.Interfaces;
 
 namespace Blog.Controllers
 {
@@ -22,14 +22,14 @@ namespace Blog.Controllers
         /// <summary>
         /// The comments service
         /// </summary>
-        private readonly CommentsService _commentsService;
+        private readonly ICommentsService _commentsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentsController"/> class.
         /// </summary>
-        public CommentsController()
+        public CommentsController(ICommentsService commentsService)
         {
-            _commentsService = new CommentsService();
+            _commentsService = commentsService;
         }
 
         // GET: Comments/Create        
@@ -77,7 +77,7 @@ namespace Blog.Controllers
             {
                 
 
-                await _commentsService.CreateComment(comment);
+                await _commentsService.InsertAsync(comment);
                 return RedirectToAction("Show/" + comment.PostID, "Posts");
             }
             catch
@@ -122,7 +122,7 @@ namespace Blog.Controllers
 
             try
             {
-                var originalComment = await _commentsService.GetComment(comment.Id);
+                var originalComment = await _commentsService.FindAsync(comment.Id);
                 if (originalComment != null && !originalComment.Author.Equals(User.Identity.GetUserId()))
                 {
                     return RedirectToAction("Show/" + comment.PostID, "Posts");
@@ -131,7 +131,7 @@ namespace Blog.Controllers
                 comment.Author = User.Identity.GetUserId();
                 comment.CreatedAt = DateTime.Now;
 
-                await _commentsService.Update(comment);
+                await _commentsService.UpdateAsync(comment);
 
                 return RedirectToAction("Show/" + comment.PostID, "Posts");
             }
@@ -171,7 +171,7 @@ namespace Blog.Controllers
             }
             try
             {
-                var comment = await _commentsService.GetComment(id.Value);
+                var comment = await _commentsService.FindAsync(id.Value);
                 if (comment != null && !comment.Author.Equals(User.Identity.GetUserId()))
                 {
                     return RedirectToAction("Show/" + comment.PostID, "Posts");
@@ -179,7 +179,7 @@ namespace Blog.Controllers
 
                 if (comment != null)
                 {
-                    await _commentsService.DeleteComment(id.Value);
+                    await _commentsService.DeleteAsync(id.Value);
                 }
 
                 if (comment != null) return RedirectToAction("Show/" + comment.PostID, "Posts");

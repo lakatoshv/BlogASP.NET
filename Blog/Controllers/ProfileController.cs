@@ -7,7 +7,7 @@ using Blog.ViewModels.Users;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-using Blog.Services;
+using Blog.Services.Interfaces;
 
 namespace Blog.Controllers
 {
@@ -17,11 +17,11 @@ namespace Blog.Controllers
     /// <seealso cref="Controller" />
     public class ProfileController : Controller
     {
-        private readonly ProfilesService _profilesService;
+        private readonly IProfilesService _profilesService;
 
-        public ProfileController()
+        public ProfileController(IProfilesService profilesService)
         {
-            _profilesService = new ProfilesService();
+            _profilesService = profilesService);
         }
 
         // GET: Profile        

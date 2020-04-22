@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Data.Models;
-using Blog.Services.Posts;
+using Blog.Services.Posts.Interfaces;
 using Microsoft.AspNet.Identity;
 
 namespace Blog.Areas.Admin.Controllers
@@ -13,14 +13,14 @@ namespace Blog.Areas.Admin.Controllers
         /// <summary>
         /// Comments service.
         /// </summary>
-        private readonly CommentsService _commentsService;
+        private readonly ICommentsService _commentsService;
 
         /// <summary>
         /// Initializes static members of the <see cref="CommentsController"/> class.
         /// </summary>
-        public CommentsController()
+        public CommentsController(ICommentsService commentsService)
         {
-            _commentsService = new CommentsService();
+            _commentsService = commentsService;
         }
 
         // GET: Admin/Comments
@@ -96,7 +96,7 @@ namespace Blog.Areas.Admin.Controllers
             {
                 comment.CreatedAt = DateTime.Now;
                 comment.Author = User.Identity.GetUserId();
-                await _commentsService.CreateComment(comment);
+                await _commentsService.InsertAsync(comment);
                 return RedirectToAction("Index");
             }
 
@@ -119,7 +119,7 @@ namespace Blog.Areas.Admin.Controllers
             }
             try
             {
-                await _commentsService.DeleteComment(id.Value);
+                await _commentsService.DeleteAsync(id.Value);
 
                 return RedirectToAction("Index");
             }

@@ -3,17 +3,17 @@ using System.Web.Mvc;
 using Blog.Data.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
-using Blog.Services;
+using Blog.Services.Interfaces;
 
 namespace Blog.Controllers
 {
     public class MessageController : Controller
     {
-        private readonly MessagesService _messagesService;
+        private readonly IMessagesService _messagesService;
 
-        public MessageController()
+        public MessageController(IMessagesService messagesService)
         {
-            _messagesService = new MessagesService();
+            _messagesService = messagesService;
         }
 
         // GET: Message        
@@ -91,7 +91,7 @@ namespace Blog.Controllers
             try
             {
 
-                await _messagesService.Insert(messageModel);
+                await _messagesService.InsertAsync(messageModel);
                 return RedirectToAction("Contact", "Home");
             }
             catch

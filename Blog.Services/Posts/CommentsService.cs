@@ -197,7 +197,7 @@ namespace Blog.Services.Posts
         {
             var postModel = new CommentWithPostsDto()
             {
-                Posts = await _postsService.ToListAsync()
+                Posts = await _postsService.GetAll().ToListAsync()
             };
 
             return postModel;
@@ -238,7 +238,7 @@ namespace Blog.Services.Posts
         {
             var postModel = new CommentWithPostsDto()
             {
-                Posts = await _postsService.ToListAsync()
+                Posts = await _postsService.GetAll().ToListAsync()
             };
 
             return postModel;

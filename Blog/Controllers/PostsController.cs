@@ -1,4 +1,4 @@
-﻿using Blog.Services.Posts;
+﻿using Blog.Services.Posts.Interfaces;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Data;
@@ -20,14 +20,14 @@ namespace Blog.Controllers
         /// <summary>
         /// The posts service
         /// </summary>
-        private readonly PostsService _postsService;
+        private readonly IPostsService _postsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PostsController"/> class.
         /// </summary>
-        public PostsController()
+        public PostsController(IPostsService postsService)
         {
-            _postsService = new PostsService();
+            _postsService = postsService;
         }
 
         // GET: Posts        
@@ -72,11 +72,11 @@ namespace Blog.Controllers
                 PageSize = 10
             };
 
-            var postModelToUpdate = await _postsService.FirstOrDefault(id.Value);
+            var postModelToUpdate =  _postsService.Find(id.Value);
             if (postModelToUpdate != null && page == 1)
             {
                 postModelToUpdate.Seen++;
-                await _postsService.Update(postModelToUpdate);
+                await _postsService.UpdateAsync(postModelToUpdate);
             }
 
             var postModel = await _postsService.GetPostWithComments(id.Value, sortParameters);
@@ -171,14 +171,14 @@ namespace Blog.Controllers
 
             try
             {
-                var post = await _postsService.FirstOrDefault(id.Value);
+                var post = _postsService.Find(id.Value);
                 if (post == null)
                 {
                     return RedirectToAction("Show/" + id, "Posts");
                 }
 
                 post.Likes++;
-                await _postsService.Update(post);
+                await _postsService.UpdateAsync(post);
 
                 return RedirectToAction("Show/" + id, "Posts");
             }
@@ -207,14 +207,14 @@ namespace Blog.Controllers
 
             try
             {
-                var post = await _postsService.FirstOrDefault(id.Value);
+                var post = _postsService.Find(id.Value);
                 if (post == null)
                 {
                     return RedirectToAction("Show/" + id, "Posts");
                 }
 
                 post.Dislikes++;
-                await _postsService.Update(post);
+                await _postsService.UpdateAsync(post);
 
                 return RedirectToAction("Show/" + id, "Posts");
             }
@@ -271,7 +271,13 @@ namespace Blog.Controllers
                     return RedirectToAction("Show/" + postModel.Post.Id, "Posts");
                 }
 
-                await _postsService.EditPost(id.Value, editedPost);
+
+                // post.Author = postModel.Post.Author;
+                // editedPost.Likes = postModel.Post.Likes;
+                // editedPost.Dislikes = postModel.Post.Dislikes;
+                // editedPost.Seen = postModel.Post.Seen;
+                // editedPost.CreatedAt = DateTime.Now;
+                await _postsService.UpdateAsync(editedPost);
 
                 return RedirectToAction("Show/" + id, "Posts");
             }
@@ -316,13 +322,13 @@ namespace Blog.Controllers
 
             try
             {
-                var post = await _postsService.FirstOrDefault(id.Value);
+                var post = await _postsService.FindAsync(id.Value);
                 if (post != null && !post.Author.Equals(User.Identity.GetUserId()))
                 {
                     return RedirectToAction("Index", "Posts");
                 }
 
-                await _postsService.DeletePost(id.Value);
+                await _postsService.DeleteAsync(id.Value);
 
                 return RedirectToAction("Index");
             }
