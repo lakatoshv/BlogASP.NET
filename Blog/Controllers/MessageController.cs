@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Data.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Blog.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Controllers
 {
@@ -24,6 +26,24 @@ namespace Blog.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        // GET: Message/SendedRequests
+        /// <summary>
+        /// Indexes this instance.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
+        [HttpGet]
+        public async Task<ActionResult> SendedRequests()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                RedirectToAction("Index", "Posts");
+            }
+
+            string userId = User.Identity.GetUserId();
+            var messages = _messagesService.GetAll(x => x.ApplicationUser == userId);
+            return View(messages);
         }
 
         // GET: Message/Details/5        

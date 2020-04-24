@@ -73,20 +73,29 @@
                     </li>
                     }
                     else {
-                    <li class="nav-item">
-                        @{
-                            var profile = ((ClaimsIdentity)HttpContext.Current.User.Identity).Claims;
-                            var enumerable = profile as Claim[] ?? profile.ToArray();
-                            var name = enumerable.First(item => item.Type == "FirstName").Value + " " + enumerable.First(item => item.Type == "LastName").Value;
-                        }
-                        @Html.ActionLink(
-                        linkText: name,
-                        actionName: "Index",
-                        controllerName: "Profile",
-                        routeValues: null,
-                        htmlAttributes: new {@class = "nav-link"}
-                        )
-                    </li>
+                        <li class="nav-item">
+                            @{
+                                var profile = ((ClaimsIdentity)HttpContext.Current.User.Identity).Claims;
+                                var enumerable = profile as Claim[] ?? profile.ToArray();
+                                var name = enumerable.First(item => item.Type == "FirstName").Value + " " + enumerable.First(item => item.Type == "LastName").Value;
+                            }
+                            @Html.ActionLink(
+                                linkText: name,
+                                actionName: "Index",
+                                controllerName: "Profile",
+                                routeValues: null,
+                                htmlAttributes: new {@class = "nav-link"}
+                                )
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink(
+                                linkText: "Повідомлення",
+                                actionName: "Index",
+                                controllerName: "Message",
+                                routeValues: null,
+                                htmlAttributes: new { @class = "nav-link" }
+                                )
+                        </li>
                         <li class="nav-item">
                             @Html.ActionLink(
                                 linkText: "Вийти",

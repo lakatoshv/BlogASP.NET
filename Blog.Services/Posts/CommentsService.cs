@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Blog.Services.Posts
 {
+    // TODO Simplify methods-
     /// <summary>
     /// Comments service.
     /// </summary>
@@ -34,12 +35,12 @@ namespace Blog.Services.Posts
         /// <summary>
         /// The posts service
         /// </summary>
-        private readonly IPostsService _postsService;
+        private readonly PostsService _postsService;
 
         /// <summary>
         /// The tags service
         /// </summary>
-        private readonly ITagsService _tagsService;
+        private readonly TagsService _tagsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentsService"/> class.
@@ -49,15 +50,17 @@ namespace Blog.Services.Posts
         /// <param name="postsService">The posts service.</param>
         public CommentsService(
             IRepository<Comment> repository,
-            IProfilesService profilesService,
-            IPostsService postsService,
-            ITagsService tagsService)
+            IRepository<Post> postsRepository,
+            IProfilesService profilesService
+            /*IPostsService postsService,
+            ITagsService tagsService*/)
             : base(repository)
         {
             _repository = repository;
             _profilesService = profilesService;
-            _postsService = postsService;
-            _tagsService = tagsService;
+            /*_postsService = postsService;
+            _tagsService = tagsService;*/
+
         }
 
         /// <inheritdoc/>

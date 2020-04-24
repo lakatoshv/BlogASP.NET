@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Blog.Data.Models.Message>
+@{
+    ViewBag.Title = "Надіслані запити до адміністраторів";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-md-10 mx-auto">
+            <h3 class="text-center">Надіслані запити до адміністраторів</h3>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="#" class="btn btn-light">Написати нове повідомлення</a>
+            }
+            <ul class="mail-list">
+                @foreach (var message in Model)
+                {
+
+                    <li>
+                        <a href="">
+                            <span class="mail-subject">@message.Subject</span>
+                            <span class="mail-message-preview">@message.Body</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

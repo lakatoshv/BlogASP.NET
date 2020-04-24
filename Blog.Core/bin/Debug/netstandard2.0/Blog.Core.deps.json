@@ -11,7 +11,7 @@
         "dependencies": {
           "Antlr3.Runtime": "3.5.1",
           "NETStandard.Library": "2.0.3",
-          "System.Web.Mvc": "5.2.3.0",
+          "System.Web.Mvc": "5.2.7.0",
           "System.Web.WebPages": "3.0.0.0"
         },
         "runtime": {
@@ -35,11 +35,11 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "System.Web.Mvc/5.2.3.0": {
+      "System.Web.Mvc/5.2.7.0": {
         "runtime": {
           "System.Web.Mvc.dll": {
-            "assemblyVersion": "5.2.3.0",
-            "fileVersion": "5.2.30128.0"
+            "assemblyVersion": "5.2.7.0",
+            "fileVersion": "5.2.61128.0"
           }
         }
       },
@@ -51,17 +51,17 @@
           }
         }
       },
-      "System.Web.Razor/3.0.0.0": {
+      "System.Web.WebPages.Razor/3.0.0.0": {
         "runtime": {
-          "System.Web.Razor.dll": {
+          "System.Web.WebPages.Razor.dll": {
             "assemblyVersion": "3.0.0.0",
             "fileVersion": "3.0.30128.0"
           }
         }
       },
-      "System.Web.WebPages.Razor/3.0.0.0": {
+      "System.Web.Razor/3.0.0.0": {
         "runtime": {
-          "System.Web.WebPages.Razor.dll": {
+          "System.Web.Razor.dll": {
             "assemblyVersion": "3.0.0.0",
             "fileVersion": "3.0.30128.0"
           }
@@ -112,7 +112,7 @@
       "path": "netstandard.library/2.0.3",
       "hashPath": "netstandard.library.2.0.3.nupkg.sha512"
     },
-    "System.Web.Mvc/5.2.3.0": {
+    "System.Web.Mvc/5.2.7.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -122,12 +122,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Web.Razor/3.0.0.0": {
+    "System.Web.WebPages.Razor/3.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "System.Web.WebPages.Razor/3.0.0.0": {
+    "System.Web.Razor/3.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

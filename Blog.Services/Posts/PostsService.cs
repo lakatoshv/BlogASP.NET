@@ -47,12 +47,12 @@ namespace Blog.Services.Posts
             IRepository<Post> repository,
             ICommentsService commentsService,
             IProfilesService profilesService,
-            ITagsService tagsService) 
+             ITagsService tagsService) 
             : base(repository)
         {
-            _commentsService = commentsService;
-            _profilesService = profilesService;
-            _tagsService = tagsService;
+            // _commentsService = commentsService;
+            // _profilesService = profilesService;
+            // _tagsService = tagsService;
         }
 
         /// <inheritdoc/>
