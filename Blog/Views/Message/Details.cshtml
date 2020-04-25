@@ -1,7 +1,45 @@
-﻿
+﻿@model Blog.Data.Models.Message
 @{
     ViewBag.Title = "Details";
 }
+<section id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        @Model.Subject
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        @{
+                            var edit = Url.Action("Edit", "Message") + "/" + Model.Id;
+                            Url.Action("Delete", "Message");
+                        }
+                        <div class="row pull-right">
+                            <a type="button"
+                               class="btn btn-sm text-white btn-primary"
+                               href="@edit">
+                                <i class="fa fa-edit"></i>
+                                Редагувати
+                            </a>
 
-<h2>Details</h2>
+                            <button type="button"
+                                    class="btn btn-sm text-white btn-danger"
+                                    id="@Model.Id"
+                                    onclick="setDeletePostValues(this.id)"
+                                    data-toggle="modal"
+                                    data-target="#delete-post">
+                                <i class="fa fa-trash"></i>
+                                Видалити
+                            </button>
+                        </div>
 
+                        @Html.ActionLink("Назад", "Index", "Message", null, new { @class = "btn btn-light" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

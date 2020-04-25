@@ -1,11 +1,10 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Data.Models;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Blog.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Controllers
 {
@@ -34,27 +33,32 @@ namespace Blog.Controllers
         /// </summary>
         /// <returns>ActionResult.</returns>
         [HttpGet]
-        public async Task<ActionResult> SendedRequests()
+        public ActionResult SendedRequests()
         {
             if (!User.Identity.IsAuthenticated)
             {
                 RedirectToAction("Index", "Posts");
             }
 
-            string userId = User.Identity.GetUserId();
+            var userId = User.Identity.GetUserId();
             var messages = _messagesService.GetAll(x => x.ApplicationUser == userId);
             return View(messages);
         }
 
         // GET: Message/Details/5        
         /// <summary>
-        /// Detailses the specified identifier.
+        /// Details the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>ActionResult.</returns>
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int? id)
         {
-            return View();
+            if (!User.Identity.IsAuthenticated || id == null)
+            {
+                RedirectToAction("Index", "Posts");
+            }
+
+            return View(await _messagesService.FindAsync(id.Value));
         }
 
         // GET: Message/Create        
@@ -76,7 +80,7 @@ namespace Blog.Controllers
         /// <summary>
         /// Creates the specified collection.
         /// </summary>
-        /// <param name="collection">The collection.</param>
+        /// <param name="messageModel"></param>
         /// <returns>ActionResult.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
