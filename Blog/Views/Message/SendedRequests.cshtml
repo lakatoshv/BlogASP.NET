@@ -8,7 +8,7 @@
             <h3 class="text-center">Надіслані запити до адміністраторів</h3>
             @if (User.Identity.IsAuthenticated)
             {
-                <a href="#" class="btn btn-light">Написати нове повідомлення</a>
+                @Html.ActionLink("Написати нове повідомлення", "Create", "Message", null, new { @class = "btn btn-light" })
             }
             <ul class="mail-list">
                 @foreach (var message in Model)

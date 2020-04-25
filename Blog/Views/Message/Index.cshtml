@@ -10,7 +10,8 @@
                 <hr class="hr">
                 <button class="btn btn-default">Переписка</button>
                 <button class="btn btn-default">Системні повідомлення</button>
-                <button class="btn btn-default">Надіслані запити до адміністраторів</button>
+                @Html.ActionLink("Надіслані запити до адміністраторів", "SendedRequests", "Message", null, new { @class = "btn btn-default" })
+                <button class="btn btn-default"></button>
             </div>
         </div>
     </div>

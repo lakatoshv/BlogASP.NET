@@ -64,6 +64,11 @@ namespace Blog.Controllers
         /// <returns>ActionResult.</returns>
         public ActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                RedirectToAction("Index", "Posts");
+            }
+
             return View();
         }
 
@@ -74,16 +79,32 @@ namespace Blog.Controllers
         /// <param name="collection">The collection.</param>
         /// <returns>ActionResult.</returns>
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(Message messageModel)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                messageModel.ApplicationUser = User.Identity.GetUserId();
+            }
+            else if (messageModel.Email.IsNullOrWhiteSpace() && messageModel.Name.IsNullOrWhiteSpace())
+            {
+                return RedirectToAction("Contact", "Home");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return null;
+            }
+
             try
             {
-                // TODO: Add insert logic here
-                return RedirectToAction("Index");
+
+                await _messagesService.InsertAsync(messageModel);
+                return RedirectToAction("SendedRequests", "Message");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Contact", "Home");
             }
         }
 
