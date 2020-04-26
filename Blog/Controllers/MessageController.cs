@@ -33,6 +33,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <returns>ActionResult.</returns>
         [HttpGet]
+        [Authorize]
         public ActionResult SendedRequests()
         {
             if (!User.Identity.IsAuthenticated)
@@ -51,6 +52,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>ActionResult.</returns>
+        [Authorize]
         public async Task<ActionResult> Details(int? id)
         {
             if (!User.Identity.IsAuthenticated || id == null)
@@ -66,6 +68,8 @@ namespace Blog.Controllers
         /// Creates this instance.
         /// </summary>
         /// <returns>ActionResult.</returns>
+        [HttpGet]
+        [Authorize]
         public ActionResult Create()
         {
             if (!User.Identity.IsAuthenticated)
@@ -84,6 +88,7 @@ namespace Blog.Controllers
         /// <returns>ActionResult.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<ActionResult> Create(Message messageModel)
         {
             if (User.Identity.IsAuthenticated)
@@ -117,6 +122,8 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="messageModel">The message model.</param>
         /// <returns>ActionResult.</returns>
+        [HttpPost]
+        [Authorize]
         public async Task<ActionResult> SendMessage(Message messageModel)
         {
             if (User.Identity.IsAuthenticated)
@@ -151,9 +158,16 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public ActionResult Edit(int id)
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
+            return View(await _messagesService.FindAsync(id.Value));
         }
 
         // POST: Message/Edit/5        
@@ -164,11 +178,17 @@ namespace Blog.Controllers
         /// <param name="collection">The collection.</param>
         /// <returns>ActionResult.</returns>
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        [Authorize]
+        public async Task<ActionResult> Edit(Message editedPost)
         {
+            if (!User.Identity.IsAuthenticated || editedPost.ApplicationUser != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
             try
             {
-                // TODO: Add update logic here
+                await _messagesService.UpdateAsync(editedPost);
                 return RedirectToAction("Index");
             }
             catch

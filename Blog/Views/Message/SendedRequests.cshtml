@@ -16,26 +16,28 @@
                     var details = Url.Action("Details", "Message") + "/" + message.Id;
                     var edit = Url.Action("Edit", "Message") + "/" + message.Id;
                 <li>
-                    <a href="@details">
-                        <span class="mail-subject">@message.Subject</span>
-                        <span class="mail-message-preview">@message.Body</span>
-                    </a>
-                    <div class="col-3 pull-right">
-                        <a type="button"
-                           class="btn btn-sm text-white btn-primary"
-                           href="@edit"
-                           style="display: initial">
-                            <i class="fa fa-edit"></i>
+                    <div class="row">
+                        <a href="@details" class="col-9">
+                            <span class="mail-subject">@message.Subject</span>
+                            <span class="mail-message-preview">@message.Body</span>
                         </a>
+                        <div class="col-3 pull-right">
+                            <a type="button"
+                               class="btn btn-sm text-white btn-primary"
+                               href="@edit"
+                               style="display: initial">
+                                <i class="fa fa-edit"></i>
+                            </a>
 
-                        <button type="button"
-                                class="btn btn-sm text-white btn-danger"
-                                id="@message.Id"
-                                onclick="setDeletePostValues(this.id)"
-                                data-toggle="modal"
-                                data-target="#delete-post">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                            <button type="button"
+                                    class="btn btn-sm text-white btn-danger"
+                                    id="@message.Id"
+                                    onclick="setDeletePostValues(this.id)"
+                                    data-toggle="modal"
+                                    data-target="#delete-post">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>
                     </div>
                 </li>
                 }
