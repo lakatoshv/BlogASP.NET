@@ -21,7 +21,7 @@ namespace Blog.Controllers
 
         public ProfileController(IProfilesService profilesService)
         {
-            _profilesService = profilesService);
+            _profilesService = profilesService;
         }
 
         // GET: Profile        

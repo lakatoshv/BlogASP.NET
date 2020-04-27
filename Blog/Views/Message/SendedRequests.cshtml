@@ -32,9 +32,9 @@
                             <button type="button"
                                     class="btn btn-sm text-white btn-danger"
                                     id="@message.Id"
-                                    onclick="setDeletePostValues(this.id)"
+                                    onclick="setDeleteMessageValues(this.id)"
                                     data-toggle="modal"
-                                    data-target="#delete-post">
+                                    data-target="#delete-message">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </div>
@@ -45,3 +45,44 @@
         </div>
     </div>
 </div>
+<div id="delete-message" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Видалити це повідомлення?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <input type='hidden' id="delete-id" />
+            <div class="modal-footer">
+                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deleteMessage('/Message/Delete/')">
+                    <i class="fa fa-trash"></i>
+                    Видалити
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
+<script>
+    function setDeleteMessageValues(id) {
+        $("#delete-id").val(id);
+    }
+
+    function deleteMessage(url) {
+        var id = $("#delete-id").val();
+        ajaxQuery(id, url);
+    }
+    function ajaxQuery(id, url) {
+        $.post(
+            url + id,
+            onAjaxSuccess
+        );
+    }
+    function onAjaxSuccess() {
+        location.reload();
+    }
+</script>

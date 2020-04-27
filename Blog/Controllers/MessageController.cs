@@ -8,6 +8,10 @@ using Blog.Services.Interfaces;
 
 namespace Blog.Controllers
 {
+    /// <summary>
+    /// Message controller.
+    /// </summary>
+    /// <seealso cref="Controller" />
     public class MessageController : Controller
     {
         private readonly IMessagesService _messagesService;
@@ -203,8 +207,20 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns>ActionResult.</returns>
-        public ActionResult Delete(int id)
+        [Authorize]
+        public async Task<ActionResult> Delete(int? id)
         {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
+            var message = await _messagesService.FindAsync(id.Value);
+
+            if (!User.Identity.IsAuthenticated || message.ApplicationUser != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Posts");
+            }
             return View();
         }
 
@@ -213,19 +229,26 @@ namespace Blog.Controllers
         /// Deletes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <param name="collection">The collection.</param>
         /// <returns>ActionResult.</returns>
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [Authorize]
+        public async Task<ActionResult> Delete(int id)
         {
+            var message = await _messagesService.FindAsync(id);
+
+            if (!User.Identity.IsAuthenticated || message.ApplicationUser != User.Identity.GetUserId())
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
             try
             {
-                // TODO: Add delete logic here
+                await _messagesService.DeleteAsync(message);
                 return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
     }
