@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F402E79D-C94A-4E6F-A193-254977F003CE}</ProjectGuid>
+    <ProjectGuid>{D6DA3DFF-982A-4A38-B8B0-5F891AF2C20E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blog.Core</RootNamespace>
-    <AssemblyName>Blog.Core</AssemblyName>
+    <RootNamespace>Blog.Data.Core</RootNamespace>
+    <AssemblyName>Blog.Data.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,14 +42,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\StringValueAttribute.cs" />
-    <Compile Include="Enums\OrderBy.cs" />
-    <Compile Include="Enums\SortBy.cs" />
-    <Compile Include="Enums\Status.cs" />
-    <Compile Include="HelperClasses\GetStringValueFromEnum.cs" />
-    <Compile Include="HelperClasses\PageInfo.cs" />
-    <Compile Include="IEntity.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="Models\BaseDeletableModel.cs" />
+    <Compile Include="Models\BaseModel.cs" />
+    <Compile Include="Models\Interfaces\IAuditInfo.cs" />
+    <Compile Include="Models\Interfaces\IDeletableEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.Core\Blog.Core.csproj">
+      <Project>{F402E79D-C94A-4E6F-A193-254977F003CE}</Project>
+      <Name>Blog.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
