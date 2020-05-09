@@ -10,25 +10,14 @@ namespace Blog.Data.Core.Models
     /// <typeparam name="TKey">TKey.</typeparam>
     public abstract class BaseModel<TKey> : IAuditInfo
     {
-        protected BaseModel(TKey id)
-        {
-            Id = id;
-        }
-
-        /// <summary>
-        /// Gets or sets id.
-        /// </summary>
+        /// <inheritdoc cref="IAuditInfo"/>
         [Key]
-        public TKey Id { get; }
+        public TKey Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets created on.
-        /// </summary>
-        public DateTime CreatedOn { get; set; }
+        /// <inheritdoc cref="IAuditInfo"/>
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        /// <summary>
-        /// Gets or sets modified on.
-        /// </summary>
+        /// <inheritdoc cref="IAuditInfo"/>
         public DateTime? ModifiedOn { get; set; }
     }
 }

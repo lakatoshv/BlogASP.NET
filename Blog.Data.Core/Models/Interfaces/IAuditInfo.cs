@@ -10,7 +10,7 @@ namespace Blog.Data.Core.Models.Interfaces
         /// <summary>
         /// Gets or sets created on.
         /// </summary>
-        DateTime CreatedOn { get; set; }
+        DateTime CreatedAt { get; set; }
 
         /// <summary>
         /// Gets or sets modified on.
