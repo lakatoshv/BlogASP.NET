@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -72,13 +73,8 @@ namespace Blog.Data.Models
         /// <inheritdoc/>
         public DateTime? DeletedOn { get; set; }
 
-        /// <summary>
-        /// Gets or sets the profile identifier.
-        /// </summary>
-        /// <value>
-        /// The profile identifier.
-        /// </value>
         [ForeignKey("Profile")]
+        [Required]
         public int ProfileId { get; set; }
 
         /// <summary>

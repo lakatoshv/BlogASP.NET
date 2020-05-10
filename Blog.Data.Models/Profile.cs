@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Blog.Data.Core;
 using Blog.Data.Core.Models;
 
@@ -16,6 +17,7 @@ namespace Blog.Data.Models
         /// The application user.
         /// </value>
         [ForeignKey("ApplicationUser")]
+        [Required]
         public string ApplicationUserId { get; set; }
 
         /// <summary>

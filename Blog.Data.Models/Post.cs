@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 using Blog.Core.Enums;
 using Blog.Data.Core.Models;
@@ -18,6 +20,7 @@ namespace Blog.Data.Models
         /// <value>
         /// The title.
         /// </value>
+        [Required]
         public string Title { get; set; }
 
         /// <summary>
@@ -36,6 +39,7 @@ namespace Blog.Data.Models
         /// The content.
         /// </value>
         [AllowHtml]
+        [Required]
         public string Content { get; set; }
 
         /// <summary>
@@ -44,6 +48,8 @@ namespace Blog.Data.Models
         /// <value>
         /// The author.
         /// </value>
+        [ForeignKey("Author")]
+        [Required]
         public string AuthorId { get; set; }
 
         /// <summary>

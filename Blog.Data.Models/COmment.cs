@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Blog.Data.Core.Models;
 
 namespace Blog.Data.Models
@@ -14,6 +16,8 @@ namespace Blog.Data.Models
         /// <value>
         /// The post identifier.
         /// </value>
+        [ForeignKey("Post")]
+        [Required]
         public int PostId { get; set; }
 
         /// <summary>
@@ -30,6 +34,8 @@ namespace Blog.Data.Models
         /// <value>
         /// The author.
         /// </value>
+        [ForeignKey("Author")]
+        [Required]
         public string AuthorId { get; set; }
 
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using Blog.Data.Core.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Blog.Data.Core.Models;
 
 namespace Blog.Data.Models
 {
@@ -13,6 +15,7 @@ namespace Blog.Data.Models
         /// <value>
         /// The sender identifier.
         /// </value>
+        [ForeignKey("Sender")]
         public string SenderId { get; set; }
 
         /// <summary>
