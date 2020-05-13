@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Blog.Core.HelperClasses;
+using Blog.Data.Models;
 
 namespace Blog.Services.Core.Dtos.Posts
 {
@@ -11,7 +12,7 @@ namespace Blog.Services.Core.Dtos.Posts
         /// <summary>
         /// Gets or sets posts.
         /// </summary>
-        public IList<PostDto> Posts { get; set; }
+        public IList<Post> Posts { get; set; }
 
         /// <summary>
         /// Gets or sets displayType.

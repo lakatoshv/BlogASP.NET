@@ -9,14 +9,9 @@ namespace Blog.Services.Core.Dtos.Users
     public class ProfileDto
     {
         /// <summary>
-        /// Gets or sets userData.
-        /// </summary>
-        public ApplicationUser UserData { get; set; }
-
-        /// <summary>
         /// Gets or sets profileData.
         /// </summary>
-        public Profile ProfileData { get; set; }
+        public Profile Profile { get; set; }
 
         /// <summary>
         /// Gets or sets posts.

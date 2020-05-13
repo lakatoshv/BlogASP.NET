@@ -16,14 +16,20 @@
         public string SortBy { get; set; }
 
         /// <summary>
-        /// Gets or sets currentPage.
+        /// Gets or sets the current page.
         /// </summary>
-        public int? CurrentPage { get; set; }
+        /// <value>
+        /// The current page.
+        /// </value>
+        public int CurrentPage { get; set; } = 1;
 
         /// <summary>
-        /// Gets or sets pageSize.
+        /// Gets or sets the size of the page.
         /// </summary>
-        public int? PageSize { get; set; }
+        /// <value>
+        /// The size of the page.
+        /// </value>
+        public int PageSize { get; set; } = 10;
 
         /// <summary>
         /// Gets or sets displayType.

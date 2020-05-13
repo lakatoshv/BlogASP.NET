@@ -4,27 +4,6 @@ using Blog.Data.Models;
 namespace Blog.Services.Core.Dtos.Posts
 {
     /// <summary>
-    /// Post dto.
-    /// </summary>
-    public class PostDto
-    {
-        /// <summary>
-        /// Gets or sets post.
-        /// </summary>
-        public Post Post { get; set; }
-
-        /// <summary>
-        /// Gets or sets commentsCount.
-        /// </summary>
-        public int CommentsCount { get; set; }
-
-        /// <summary>
-        /// Gets or sets profile.
-        /// </summary>
-        public Profile Profile { get; set; }
-    }
-
-    /// <summary>
     /// Post show dto.
     /// </summary>
     public class PostShowDto
@@ -45,14 +24,19 @@ namespace Blog.Services.Core.Dtos.Posts
         public CommentsDto Comments { get; set; }
 
         /// <summary>
-        /// Gets or sets commentsCount.
+        /// Gets or sets the status.
         /// </summary>
-        public int CommentsCount { get; set; }
+        /// <value>
+        /// The status.
+        /// </value>
+        public Status Status { get; set; }
 
         /// <summary>
-        /// Gets or sets profile.
+        /// Initializes a new instance of the <see cref="PostShowDto"/> class.
         /// </summary>
-        public Profile Profile { get; set; }
-        public Status Status { get; set; }
+        public PostShowDto()
+        {
+            Comments = new CommentsDto();
+        }
     }
 }

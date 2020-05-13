@@ -1,5 +1,6 @@
 ﻿using Blog.Core.HelperClasses;
 using System.Collections.Generic;
+using Blog.Data.Models;
 
 namespace Blog.Services.Core.Dtos.Posts
 {
@@ -11,7 +12,7 @@ namespace Blog.Services.Core.Dtos.Posts
         /// <summary>
         /// Gets or sets comments.
         /// </summary>
-        public IList<CommentDto> Comments { get; set; }
+        public IList<Comment> Comments { get; set; }
 
         /// <summary>
         /// Gets or sets displayType.
@@ -22,5 +23,13 @@ namespace Blog.Services.Core.Dtos.Posts
         /// Gets or sets pageInfo.
         /// </summary>
         public PageInfo PageInfo { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentsDto"/> class.
+        /// </summary>
+        public CommentsDto()
+        {
+            Comments = new List<Comment>();
+        }
     }
 }

@@ -42,9 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dtos\Posts\CommentDto.cs" />
     <Compile Include="Dtos\Posts\CommentsDto.cs" />
-    <Compile Include="Dtos\Posts\CommentWithPostDto.cs" />
     <Compile Include="Dtos\Posts\PostDto.cs" />
     <Compile Include="Dtos\Posts\PostsDto.cs" />
     <Compile Include="Dtos\SearchParametersDto.cs" />
