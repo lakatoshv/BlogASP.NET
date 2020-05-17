@@ -29,6 +29,13 @@ namespace Blog.Services.Posts.Interfaces
             SortParametersDto sortParameters);
 
         /// <summary>
+        /// Gets the comment.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        Task<Comment> GetComment(int id);
+
+        /// <summary>
         /// Async delete post comments.
         /// </summary>
         /// <param name="id"></param>

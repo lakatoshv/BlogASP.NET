@@ -384,12 +384,9 @@ namespace BLog.Data.Repository
         /// <inheritdoc/>
         public SelectList GetTableSelectList(string valueField, string fieldToDisplay, object selectedValue)
         {
-            if (selectedValue != null)
-            {
-                return new SelectList(Entities, valueField, fieldToDisplay, selectedValue);
-            }
-
-            return new SelectList(Entities, valueField, fieldToDisplay);
+            return selectedValue != null 
+                ? new SelectList(Entities, valueField, fieldToDisplay, selectedValue) 
+                : new SelectList(Entities, valueField, fieldToDisplay);
         }
 
         /// <inheritdoc/>

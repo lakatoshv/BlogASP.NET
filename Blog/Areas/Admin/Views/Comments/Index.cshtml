@@ -1,21 +1,17 @@
-﻿@using Blog.Core.Enums
-@using Blog.ViewModels.Posts
-@using Microsoft.AspNet.Identity
-
-@model Blog.Areas.Admin.ViewModels.Posts.CommentsViewModel
+﻿@model Blog.Services.Core.Dtos.Posts.CommentsDto
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 mx-auto">
             @{
                 var createComment = Url.Action("Create", "Comments");
                 var postsWithCommentsOnly = Url.Action("Index", "Posts", new { area = "Admin", onlyWithComments = true, onlyWithCommentsInfo = true });
-                var comments = @Model;
+                var comments = Model;
             }
             <a href="@createComment" class="btn btn-light">Написати коментар</a><br />
             <a href="@postsWithCommentsOnly" class="btn btn-light">Показати пости в яких є коментарі</a>
             <span></span>
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <table class="table table-bordered" id="dataTable">
                     <thead>
                         <tr>
                             <th width="5%"><b>Id посту:</b></th>
@@ -44,27 +40,27 @@
                             <tr>
                                 <td>
                                     @{
-                                        var postUrl = Url.Action("Show", "Posts", new { area = "" }) + "/" + item.Comment.PostID;
+                                        var postUrl = Url.Action("Show", "Posts", new { area = "" }) + "/" + item.PostId;
                                     }
-                                    <a href="@postUrl">@item.Comment.PostID</a>
+                                    <a href="@postUrl">@item.PostId</a>
                                 </td>
                                 <td>
-                                    @{ var authorPage = item.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Profile.Id : ""; }
-                                    <a href="@authorPage" title="@item.Comment.Author">@item.Comment.Author</a>
+                                    @{ var authorPage = item.Author.Profile != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Author.ProfileId : ""; }
+                                    <a href="@authorPage" title="@item.Author.FirstName @item.Author.LastName">@item.Author.FirstName @item.Author.LastName</a>
                                 </td>
                                 <td>
                                     @{
-                                        var commentUrl = Url.Action("Details", "Comments", new { area = "Admin" }) + "/" + item.Comment.Id;
+                                        var commentUrl = Url.Action("Details", "Comments", new { area = "Admin" }) + "/" + item.Id;
                                     }
-                                    <a href="@commentUrl">@item.Comment.CommentBody</a>
+                                    <a href="@commentUrl">@item.CommentBody</a>
                                 </td>
-                                <td>@item.Comment.CreatedAt</td>
-                                <td>@item.Comment.Likes</td>
-                                <td>@item.Comment.Dislikes</td>
-                                <td class="actions" data-th="">
+                                <td>@item.CreatedAt</td>
+                                <td>@item.Likes</td>
+                                <td>@item.Dislikes</td>
+                                <td class="" data-th="">
                                     @{
-                                        var edit = Url.Action("Edit", "Comments") + "/" + item.Comment.Id;
-                                        var delete = Url.Action("Delete", "Comments");
+                                        var edit = Url.Action("Edit", "Comments") + "/" + item.Id;
+                                        // var delete = Url.Action("Delete", "Comments");
                                     }
                                     <a type="button"
                                        class="btn btn-sm text-white btn-primary"
@@ -73,7 +69,7 @@
                                     </a>
                                     <button type="button"
                                             class="btn btn-sm text-white btn-danger"
-                                            id="@item.Comment.Id"
+                                            id="@item.Id"
                                             onclick="setDeleteCommentValues(this.id)"
                                             data-toggle="modal"
                                             data-target="#delete-comment">
@@ -125,7 +121,7 @@
             onAjaxSuccess
         );
     }
-    function onAjaxSuccess(data) {
+    function onAjaxSuccess() {
         location.reload();
     }
 </script>

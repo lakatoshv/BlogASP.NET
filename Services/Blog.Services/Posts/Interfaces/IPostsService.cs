@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using Blog.Core.Enums;
 using Blog.Data.Models;
 using Blog.Services.Core.Dtos;
@@ -34,6 +35,7 @@ namespace Blog.Services.Posts.Interfaces
         /// Async get post by id.
         /// </summary>
         /// <param name="postId">postId.</param>
+        /// <param name="sortParameters"></param>
         /// <returns>Task.</returns>
         Task<PostShowDto> GetPost(int postId, SortParametersDto sortParameters);
 
@@ -51,5 +53,12 @@ namespace Blog.Services.Posts.Interfaces
         /// <param name="status"></param>
         /// <returns></returns>
         Task ChangePostStatus(int id, Status status);
+
+        /// <summary>
+        /// Gets the posts select list.
+        /// </summary>
+        /// <param name="postId">The post identifier.</param>
+        /// <returns></returns>
+        SelectList GetPostsSelectList(int? postId);
     }
 }

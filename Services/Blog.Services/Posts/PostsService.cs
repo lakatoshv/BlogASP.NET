@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Blog.Core.Enums;
 using Blog.Core.HelperClasses;
@@ -11,9 +10,8 @@ using BLog.Data.Repository.Interfaces;
 using Blog.Services.Core.Dtos;
 using Blog.Services.Core.Dtos.Posts;
 using Blog.Services.Posts.Interfaces;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Blog.Services.GeneralService;
+using System.Web.Mvc;
 
 namespace Blog.Services.Posts
 {
@@ -171,6 +169,14 @@ namespace Blog.Services.Posts
             var post = await FindAsync(id);
             post.Status = status;
             await UpdateAsync(post);
+        }
+
+        /// <inheritdoc/>
+        public SelectList GetPostsSelectList(int? postId)
+        {
+            return postId.HasValue 
+                ? Repository.GetTableSelectList("Id", "Title", postId.Value) 
+                : Repository.GetTableSelectList("Id", "Title", null);
         }
 
         /// <summary>

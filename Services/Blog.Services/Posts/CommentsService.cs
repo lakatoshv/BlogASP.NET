@@ -69,6 +69,16 @@ namespace Blog.Services.Posts
         }
 
         /// <inheritdoc/>
+        public async Task<Comment> GetComment(int id)
+        {
+            return await Where(x => x.Id == id)
+                .Include(x => x.Post)
+                .Include(x => x.Author)
+                .Include(x => x.Author.Profile)
+                .FirstOrDefaultAsync();
+        }
+
+        /// <inheritdoc/>
         public async Task DeletePostComments(int id) =>
             await DeleteAsync(await Where(x => x.PostId == id).ToListAsync());
     }
