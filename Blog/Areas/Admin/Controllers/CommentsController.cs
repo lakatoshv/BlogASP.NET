@@ -44,6 +44,7 @@ namespace Blog.Areas.Admin.Controllers
         /// Get comments list.
         /// </summary>
         /// <returns>ActionResult.</returns>
+        [HttpGet]
         public async Task<ActionResult> Index()
         {
             return View(await _commentsService.GetAllComments());
@@ -55,6 +56,7 @@ namespace Blog.Areas.Admin.Controllers
         /// </summary>
         /// <param name="postId">postId.</param>
         /// <returns>ActionResult.</returns>
+        [HttpGet]
         public async Task<ActionResult> PostComments(int? postId)
         {
             if (postId == null)
@@ -83,6 +85,7 @@ namespace Blog.Areas.Admin.Controllers
         /// </summary>
         /// <param name="id">id.</param>
         /// <returns>ActionResult.</returns>
+        [HttpGet]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
