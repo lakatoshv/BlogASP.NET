@@ -1,8 +1,7 @@
 ﻿@using Blog.Core.Enums
-@model Blog.Models.Post
+@model Blog.Data.Models.Post
 @{
     ViewBag.Title = "Редагувати пост";
-    var tagIndex = 1;
 }
 
 @Styles.Render("~/public/css/post.css")
@@ -17,9 +16,8 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="form-group">
-                    <label for="title"
-                           tag=""
-                           class="optional">
+                    <label tag=""
+                           class="">
                         Тема посту:
                     </label>
 
@@ -27,9 +25,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="description"
-                           tag=""
-                           class="optional">
+                    <label tag=""
+                           class="">
                         Короткий опис:
                     </label>
 
@@ -37,18 +34,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="content"
-                           tag=""
-                           class="optional">
+                    <label tag=""
+                           class="">
                         Пост:
                     </label>
 
                     @Html.TextAreaFor(model => model.Content, new { @class = "comment_text", @id = "content", @placeholder = "Текст посту" })
                 </div>
 
-                <label for="content"
-                       tag=""
-                       class="optional">
+                <label tag=""
+                       class="">
                     Основна картинка
                 </label>
                 <!--
@@ -85,15 +80,14 @@
                         </div>
                     </div>
                 -->
-                <div class="addurl">
+                <div class="">
                     <div class="form-group">
-                        <label for="img_url"
-                               tag=""
-                               class="optional">
+                        <label tag=""
+                               class="">
                             URL-адреса:
                         </label>
 
-                        @Html.TextBoxFor(model => model.ImgUrl, new { @class = "form-control", @id = "title", @placeholder = "URL-адреса" })
+                        @Html.TextBoxFor(model => model.ImageUrl, new { @class = "form-control", @id = "title", @placeholder = "URL-адреса" })
 
                         <p>Наприклад: https://some_image.com/example.jpg</p>
                     </div>
@@ -103,14 +97,13 @@
 
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="form-group">
-                    <label for="status"
-                           tag=""
-                           class="optional">
+                    <label tag=""
+                           class="">
                         Статус:
                     </label>
 
                     @Html.DropDownListFor(
-                        m => m.Status, 
+                        m => m.Status,
                         EnumHelper.GetSelectList(typeof(Status)),
                         "Виберіть статус",
                         new { @class = "form-control" })
@@ -197,7 +190,7 @@
 @Scripts.Render("~/public/plugins/tinymce/tinymce.min.js")
 <script>
     tinymce.init({
-        selector:'textarea',
+        selector: 'textarea',
         plugins: "media autolink autoresize autoresize charmap code textcolor colorpicker contextmenu directionality emoticons fullscreen help hr image imagetools importcss insertdatetime legacyoutput link lists noneditable pagebreak paste preview print save searchreplace tabfocus table template textcolor textpattern toc visualblocks visualchars wordcount",
         menubar: "insert tools view format edit file table",
         toolbar: "media charmap code forecolor backcolor ltr rtl emoticons fullscreen help image insertdatetime link numlist bullist pagebreak paste preview print save searchreplace table template textcolor toc visualblocks visualchars"
