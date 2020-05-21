@@ -31,3 +31,11 @@ D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ru\EntityFramewo
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\obj\Debug\Blog.Services.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\obj\Debug\Blog.Services.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\obj\Debug\Blog.Services.pdb
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Microsoft.Owin.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Microsoft.Owin.Security.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Owin.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Microsoft.Owin.xml
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Microsoft.Owin.Security.xml
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ru\Microsoft.Owin.resources.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ru\Microsoft.Owin.Security.resources.dll
