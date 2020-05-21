@@ -162,8 +162,8 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -171,6 +171,29 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -188,32 +211,17 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Optimization">
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net46\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.1\lib\net46\Unity.Container.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    <Reference Include="Unity.Mvc5, Version=1.4.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.Mvc5.1.4.0\lib\net45\Unity.Mvc5.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
@@ -277,9 +285,9 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -348,14 +356,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\BlogContext.cs" />
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\Message.cs" />
-    <Compile Include="Models\Post.cs" />
-    <Compile Include="Models\Profile.cs" />
-    <Compile Include="Models\Tag.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
@@ -465,36 +466,85 @@
     <Content Include="bin\System.Web.WebPages.Razor.xml" />
     <Content Include="bin\System.Web.WebPages.xml" />
     <Content Include="bin\WebGrease.dll" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\bootstrap.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\bootstrap.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\PagedList.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Site.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="obj\Debug\Blog.csproj.FileListAbsolute.txt" />
     <Content Include="obj\Debug\Blog.dll" />
     <Content Include="obj\Debug\Blog.pdb" />
-    <Content Include="public\blog.ico" />
-    <Content Include="public\css\app.css" />
-    <Content Include="public\css\clean-blog.min.css" />
-    <Content Include="public\css\post.css" />
-    <Content Include="public\css\post_responsive.css" />
-    <Content Include="public\favicon.ico" />
-    <Content Include="public\font-awesome\css\font-awesome.css" />
-    <Content Include="public\font-awesome\css\font-awesome.min.css" />
+    <Content Include="public\blog.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\css\app.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\css\clean-blog.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\css\post.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\css\post_responsive.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\css\sb-admin.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\font-awesome\css\font-awesome.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\font-awesome\css\font-awesome.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="public\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="public\img\about-bg.jpg" />
-    <Content Include="public\img\contact-bg.jpg" />
-    <Content Include="public\img\home-bg-v2.jpg" />
-    <Content Include="public\img\home-bg.jpg" />
-    <Content Include="public\img\post-bg.jpg" />
-    <Content Include="public\img\post-sample-image.jpg" />
+    <Content Include="public\img\about-bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\img\contact-bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\img\home-bg-v2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\img\home-bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\img\post-bg.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\img\post-sample-image.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="public\index.php" />
-    <Content Include="public\js\app.js" />
-    <Content Include="public\js\clean-blog.min.js" />
-    <Content Include="public\js\sb-admin.js" />
-    <Content Include="public\js\sb-admin.min.js" />
+    <Content Include="public\js\app.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\js\clean-blog.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\js\sb-admin.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\js\sb-admin.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="public\plugins\bootstrap\css\bootstrap.css" />
     <Content Include="public\plugins\bootstrap\css\bootstrap.min.css" />
     <Content Include="public\plugins\bootstrap\js\bootstrap.bundle.js" />
@@ -1786,6 +1836,158 @@
     <Content Include="public\plugins\fontawesome-free\svgs\solid\redo-alt.svg" />
     <Content Include="public\plugins\fontawesome-free\svgs\solid\redo.svg" />
     <Content Include="public\plugins\fontawesome-free\svgs\solid\registered.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\address-book.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\address-card.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\angry.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\arrow-alt-circle-down.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\arrow-alt-circle-left.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\arrow-alt-circle-right.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\arrow-alt-circle-up.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\bell-slash.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\bell.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\bookmark.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\building.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\calendar-alt.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\calendar-check.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\calendar-minus.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\calendar-plus.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\calendar-times.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\calendar.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\caret-square-down.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\caret-square-left.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\caret-square-right.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\caret-square-up.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\chart-bar.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\check-circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\check-square.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\clipboard.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\clock.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\clone.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\closed-captioning.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\comment-alt.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\comment-dots.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\comment.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\comments.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\compass.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\copy.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\copyright.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\credit-card.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\dizzy.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\dot-circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\edit.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\envelope-open.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\envelope.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\eye-slash.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\eye.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-alt.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-archive.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-audio.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-code.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-excel.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-image.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-pdf.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-powerpoint.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-video.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file-word.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\file.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\flag.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\flushed.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\folder-open.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\folder.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\font-awesome-logo-full.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\frown-open.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\frown.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\futbol.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\gem.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grimace.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-alt.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-beam-sweat.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-beam.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-hearts.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-squint-tears.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-squint.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-stars.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-tears.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-tongue-squint.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-tongue-wink.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-tongue.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin-wink.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\grin.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-lizard.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-paper.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-peace.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-point-down.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-point-left.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-point-right.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-point-up.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-pointer.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-rock.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-scissors.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hand-spock.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\handshake.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hdd.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\heart.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hospital.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\hourglass.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\id-badge.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\id-card.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\image.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\images.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\keyboard.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\kiss-beam.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\kiss-wink-heart.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\kiss.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\laugh-beam.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\laugh-squint.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\laugh-wink.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\laugh.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\lemon.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\life-ring.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\lightbulb.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\list-alt.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\map.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\meh-blank.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\meh-rolling-eyes.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\meh.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\minus-square.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\money-bill-alt.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\moon.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\newspaper.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\object-group.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\object-ungroup.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\paper-plane.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\pause-circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\play-circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\plus-square.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\question-circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\registered.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\sad-cry.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\sad-tear.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\save.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\share-square.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\smile-beam.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\smile-wink.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\smile.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\snowflake.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\square.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\star-half.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\star.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\sticky-note.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\stop-circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\sun.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\surprise.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\thumbs-down.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\thumbs-up.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\times-circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\tired.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\trash-alt.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\user-circle.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\user.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\window-close.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\window-maximize.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\window-minimize.svg" />
+    <Content Include="public\plugins\fontawesome-free\svgs\solid\regular\window-restore.svg" />
     <Content Include="public\plugins\fontawesome-free\svgs\solid\reply-all.svg" />
     <Content Include="public\plugins\fontawesome-free\svgs\solid\reply.svg" />
     <Content Include="public\plugins\fontawesome-free\svgs\solid\republican.svg" />
@@ -2066,51 +2268,135 @@
     <Content Include="public\plugins\fontawesome-free\webfonts\fa-brands-400.svg" />
     <Content Include="public\plugins\fontawesome-free\webfonts\fa-regular-400.svg" />
     <Content Include="public\plugins\fontawesome-free\webfonts\fa-solid-900.svg" />
-    <Content Include="public\plugins\jquery-easing\jquery.easing.compatibility.js" />
-    <Content Include="public\plugins\jquery-easing\jquery.easing.js" />
-    <Content Include="public\plugins\jquery-easing\jquery.easing.min.js" />
-    <Content Include="public\plugins\jquery\jquery.js" />
-    <Content Include="public\plugins\jquery\jquery.slim.js" />
-    <Content Include="public\plugins\tinymce\license.txt" />
-    <Content Include="public\plugins\tinymce\plugins\codesample\css\prism.css" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-cool.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-cry.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-embarassed.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-foot-in-mouth.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-frown.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-innocent.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-kiss.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-laughing.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-money-mouth.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-sealed.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-smile.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-surprised.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-tongue-out.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-undecided.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-wink.gif" />
-    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-yell.gif" />
-    <Content Include="public\plugins\tinymce\plugins\help\img\logo.png" />
-    <Content Include="public\plugins\tinymce\plugins\visualblocks\css\visualblocks.css" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\content.inline.min.css" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\content.min.css" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\content.mobile.min.css" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-small.svg" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce.svg" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\img\anchor.gif" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\img\loader.gif" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\img\object.gif" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\img\trans.gif" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\skin.min.css" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\skin.mobile.min.css" />
-    <Content Include="public\plugins\tinymce\tinymce.min.js" />
-    <Content Include="public\robots.txt" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="public\plugins\jquery-easing\jquery.easing.compatibility.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\jquery-easing\jquery.easing.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\jquery-easing\jquery.easing.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\jquery\jquery.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\jquery\jquery.slim.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\license.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\codesample\css\prism.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-cool.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-cry.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-embarassed.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-foot-in-mouth.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-frown.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-innocent.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-kiss.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-laughing.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-money-mouth.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-sealed.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-smile.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-surprised.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-tongue-out.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-undecided.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-wink.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\emoticons\img\smiley-yell.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\help\img\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\plugins\visualblocks\css\visualblocks.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\content.inline.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\content.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\content.mobile.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-small.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\img\anchor.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\img\loader.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\img\object.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\img\trans.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\skin.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\skin.mobile.min.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\tinymce.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\robots.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\bootstrap.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\bootstrap.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="public\.htaccess" />
-    <Content Include="public\font-awesome\css\font-awesome.css.map" />
+    <Content Include="public\.htaccess">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\font-awesome\css\font-awesome.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="public\font-awesome\fonts\fontawesome-webfont.eot" />
     <Content Include="public\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="public\font-awesome\fonts\fontawesome-webfont.woff" />
@@ -2150,7 +2436,9 @@
     <Content Include="public\plugins\bootstrap\js\bootstrap.bundle.min.js.map" />
     <Content Include="public\plugins\bootstrap\js\bootstrap.js.map" />
     <Content Include="public\plugins\bootstrap\js\bootstrap.min.js.map" />
-    <Content Include="public\web.config" />
+    <Content Include="public\web.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="bin\ApplicationInsights.config" />
     <Content Include="bin\Blog.dll.config" />
     <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
@@ -2209,15 +2497,33 @@
     <Content Include="public\plugins\fontawesome-free\webfonts\fa-solid-900.ttf" />
     <Content Include="public\plugins\fontawesome-free\webfonts\fa-solid-900.woff" />
     <Content Include="public\plugins\fontawesome-free\webfonts\fa-solid-900.woff2" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-mobile.woff" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-small.eot" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-small.ttf" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-small.woff" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce.eot" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce.ttf" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce.woff" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\skin.min.css.map" />
-    <Content Include="public\plugins\tinymce\skins\lightgray\skin.mobile.min.css.map" />
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-mobile.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-small.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-small.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce-small.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\fonts\tinymce.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\skin.min.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="public\plugins\tinymce\skins\lightgray\skin.mobile.min.css.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Areas\Admin\Views\Posts\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Posts\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Posts\Delete.cshtml" />
@@ -2241,18 +2547,42 @@
     <Content Include="Areas\test\Views\Comments\Edit.cshtml" />
     <Content Include="Areas\test\Views\Comments\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Comments\PostComments.cshtml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="Scripts\jquery-1.10.2.intellisense.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery-1.10.2.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery-1.10.2.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery.validate-vsdoc.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery.validate.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery.validate.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery.validate.unobtrusive.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\modernizr-2.6.2.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\respond.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\respond.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\_references.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2300,12 +2630,20 @@
     <Content Include="Views\Comments\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\jquery-1.10.2.min.map">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201808302205064_Initial.resx">
@@ -2347,6 +2685,28 @@
     <Folder Include="Areas\test\Models\" />
     <Folder Include="obj\Debug\TempPE\" />
     <Folder Include="Views\Message\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blog.Core\Blog.Core.csproj">
+      <Project>{F402E79D-C94A-4E6F-A193-254977F003CE}</Project>
+      <Name>Blog.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Data.Core\Blog.Data.Core.csproj">
+      <Project>{D6DA3DFF-982A-4A38-B8B0-5F891AF2C20E}</Project>
+      <Name>Blog.Data.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Blog.Data.Models\Blog.Data.Models.csproj">
+      <Project>{69F1F434-44A9-499C-BF06-ECD703514FFC}</Project>
+      <Name>Blog.Data.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BLog.Data\BLog.Data.csproj">
+      <Project>{6C66F33F-703F-4BD4-A4F0-D4E3E78BE028}</Project>
+      <Name>BLog.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Blog.Services\Blog.Services.csproj">
+      <Project>{F105B7A4-DCF4-4560-BAF3-BE76E5C32D3A}</Project>
+      <Name>Blog.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
