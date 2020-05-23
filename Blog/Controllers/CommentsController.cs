@@ -62,12 +62,17 @@ namespace Blog.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+
             try
             {
                 comment.AuthorId = User.Identity.GetUserId();
-                if (!ModelState.IsValid) return View(comment);
+                if (!ModelState.IsValid)
+                {
+                    return View(comment);
+                }
 
                 await _commentsService.InsertAsync(comment);
+
                 return RedirectToAction("Show/" + comment.PostId, "Posts");
             }
             catch
@@ -86,7 +91,10 @@ namespace Blog.Controllers
         [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Edit(int id)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
             var comment = await _commentsService.Where(x => x.Id == id)
                 .Include(x => x.Post)
@@ -108,13 +116,18 @@ namespace Blog.Controllers
         [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Edit(Comment comment)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
             try
             {
                 var originalComment = await _commentsService.FindAsync(comment.Id);
                 if (originalComment != null && !originalComment.AuthorId.Equals(User.Identity.GetUserId()))
+                {
                     return RedirectToAction("Show/" + comment.PostId, "Posts");
+                }
 
                 comment.AuthorId = User.Identity.GetUserId();
                 await _commentsService.InsertAsync(comment);
@@ -126,6 +139,7 @@ namespace Blog.Controllers
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
+
             return View(comment);
             
             
@@ -141,28 +155,38 @@ namespace Blog.Controllers
         [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Delete(int? id)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             try
             {
-                Comment comment = await _commentsService.FindAsync(id.Value);
+                var comment = await _commentsService.FindAsync(id.Value);
                 if (comment != null && !comment.AuthorId.Equals(User.Identity.GetUserId()))
+                {
                     return RedirectToAction("Show/" + comment.PostId, "Posts");
+                }
 
                 if (comment != null)
                 {
                     await _commentsService.DeleteAsync(comment);
                 }
 
-                if (comment != null) return RedirectToAction("Show/" + comment.PostId, "Posts");
+                if (comment != null)
+                {
+                    return RedirectToAction("Show/" + comment.PostId, "Posts");
+                }
             }
             catch
             {
                 //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
+
             return RedirectToAction("Index", "Posts");
         }
     }
