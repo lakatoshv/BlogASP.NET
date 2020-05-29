@@ -1,11 +1,12 @@
 ﻿using System.Data;
 using System.Data.Entity;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Blog.Models;
+using BLog.Data;
+using Blog.Data.Models;
+using Blog.Services.Interfaces;
 using Blog.ViewModels.Users;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
@@ -14,72 +15,103 @@ using Microsoft.Owin.Security;
 
 namespace Blog.Controllers
 {
+    /// <summary>
+    /// Profile controller.
+    /// </summary>
     public class ProfileController : Controller
     {
-        // GET: Profile
-        public ActionResult Index()
-        {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-            BlogContext db = new BlogContext();
-            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
-            var userManager = new UserManager<ApplicationUser>(store);
-            ProfileViewModel profile = new ProfileViewModel();
-            var userId = User.Identity.GetUserId();
-            profile.UserData = userManager.FindByIdAsync(userId).Result;
+        /// <summary>
+        /// Profiles service.
+        /// </summary>
+        private readonly IProfilesService _profilesService;
 
-            profile.ProfileData = db.Profiles.Where(pr => pr.ApplicationUser.Equals(userId)).FirstOrDefault();
-            profile.Posts = db.Posts.Where(post => post.Author.Equals(userId)).ToList();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProfileController"/> class.
+        /// </summary>
+        /// <param name="profilesService">The posts service.</param>
+        public ProfileController(IProfilesService profilesService)
+        {
+            _profilesService = profilesService;
+        }
+
+        // GET: Profile
+        /// <summary>
+        /// Indexes the specified search.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> Index()
+        {
+            var profile = await _profilesService.GetProfileWithPostsByUserId(User.Identity.GetUserId());
+            
             return View(profile);
         }
 
         // GET: Profile/Details/5
-        public ActionResult Details(int? id)
+        /// <summary>
+        /// Shows the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult> Details(int? id)
         {
-            if (id == null) return RedirectToAction("Index", "Posts");
-            BlogContext db = new BlogContext();
-            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
-            var userManager = new UserManager<ApplicationUser>(store);
-            ProfileViewModel profile = new ProfileViewModel();
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
 
-            profile.ProfileData = db.Profiles.Where(pr => pr.Id.Equals(id.Value)).FirstOrDefault();
-            if(profile.ProfileData != null && profile.ProfileData.ApplicationUser.IsNullOrWhiteSpace()) return RedirectToAction("Index", "Posts");
-            profile.Posts = db.Posts.Where(post => post.Author.Equals(profile.ProfileData.ApplicationUser)).ToList();
-            if (profile.ProfileData != null)
-                profile.UserData = userManager.FindByIdAsync(profile.ProfileData.ApplicationUser).Result;
-
+            var profile = await _profilesService.GetProfileWithPostsById(id.Value);
+            
             return View(profile);
         }
 
         // GET: Profile/Edit/5
-        public ActionResult Edit(int? id)
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult> Edit(int? id)
         {
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-            if (id == null) return RedirectToAction("Index", "Posts");
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
 
-            BlogContext db = new BlogContext();
-            ProfileViewModel profile = new ProfileViewModel();
-            profile.ProfileData = db.Profiles.Where(pr => pr.Id.Equals(id.Value)).FirstOrDefault();
-            if (profile.ProfileData == null || !profile.ProfileData.ApplicationUser.Equals(User.Identity.GetUserId())) return RedirectToAction("Index", "Posts");
-
-            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
-            var userManager = new UserManager<ApplicationUser>(store);
-            profile.UserData = userManager.FindByIdAsync(User.Identity.GetUserId()).Result;
+            var profile = await _profilesService.GetProfileByUserId(id.Value, User.Identity.GetUserId());
+            
             return View(profile);
         }
 
         // POST: Profile/Edit/5
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="model">The edited post.</param>
+        /// <returns></returns>
         [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int? id, ProfileViewModel model)
         {
             var userId = User.Identity.GetUserId();
-            if (!User.Identity.IsAuthenticated) return RedirectToAction("Login", "Account");
-            if (id == null) return RedirectToAction("Index", "Posts");
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
 
-            var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
+            var store = new UserStore<ApplicationUser>(new BlogContext());
             var userManager = new UserManager<ApplicationUser>(store);
             var userModel = userManager.FindByIdAsync(User.Identity.GetUserId()).Result;
-            //if (!model.ProfileData.ApplicationUser.Equals(userId)) return RedirectToAction("Index", "Posts");
-            BlogContext db = new BlogContext();
+            if (!model.UserData.Id.Equals(userId))
+            {
+                return RedirectToAction("Index", "Posts");
+            }
 
             try
             {
@@ -87,12 +119,8 @@ namespace Blog.Controllers
                 userModel.Email = model.UserData.Email;
                 userModel.PhoneNumber = model.UserData.PhoneNumber;
                 await userManager.UpdateAsync(userModel);
-                Profile profileModel = model.ProfileData;
-                profileModel.ApplicationUser = userId;
-                profileModel.Id = id.Value;
-
-                db.Entry(profileModel).State = EntityState.Modified;
-                db.SaveChanges();
+                
+                // await _profilesService.UpdateProfile()
             }
             catch (DataException /* dex */)
             {
@@ -111,9 +139,9 @@ namespace Blog.Controllers
             identity.RemoveClaim(identity.FindFirst("ProfileImg"));
             identity.AddClaims(new[]
             {
-                new Claim("FirstName", !model.ProfileData.FirstName.IsNullOrWhiteSpace() ? model.ProfileData.FirstName : ""),
-                new Claim("LastName", !model.ProfileData.LastName.IsNullOrWhiteSpace() ? model.ProfileData.LastName : ""),
-                new Claim("ProfileImg", !model.ProfileData.ProfileImg.IsNullOrWhiteSpace() ? model.ProfileData.ProfileImg : ""),
+                new Claim("FirstName", !model.UserData.FirstName.IsNullOrWhiteSpace() ? model.UserData.FirstName : ""),
+                new Claim("LastName", !model.UserData.LastName.IsNullOrWhiteSpace() ? model.UserData.LastName : ""),
+                new Claim("ProfileImg", !model.UserData.Profile.ProfileImage.IsNullOrWhiteSpace() ? model.UserData.Profile.ProfileImage : ""),
                 new Claim("ProfileId", id.Value.ToString())
             });
 

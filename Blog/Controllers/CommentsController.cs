@@ -91,11 +91,6 @@ namespace Blog.Controllers
         [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Edit(int id)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
             var comment = await _commentsService.Where(x => x.Id == id)
                 .Include(x => x.Post)
                 .Include(x => x.Author)
@@ -116,11 +111,6 @@ namespace Blog.Controllers
         [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Edit(Comment comment)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
             try
             {
                 var originalComment = await _commentsService.FindAsync(comment.Id);
@@ -155,11 +145,6 @@ namespace Blog.Controllers
         [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Delete(int? id)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -188,6 +173,16 @@ namespace Blog.Controllers
             }
 
             return RedirectToAction("Index", "Posts");
+        }
+
+        /// <summary>
+        /// Releases unmanaged and, if indicated, managed resources.
+        /// </summary>
+        /// <param name="disposing">True to free all resources (managed and unmanaged); false to free only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            _commentsService.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

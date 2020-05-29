@@ -273,6 +273,7 @@ namespace Blog.Controllers
         [HttpPost]
         [Authorize]
         [CheckPermissionsToEditForPosts]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int? id, Post editedPost)
         {
             if (id == null)
