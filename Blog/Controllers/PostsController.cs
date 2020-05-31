@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
 using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Core.Attributes;
-using BLog.Data;
 using Blog.Data.Models;
 using Blog.Services.Core.Dtos;
 using Blog.Services.Posts.Interfaces;
@@ -124,7 +121,11 @@ namespace Blog.Controllers
             return View(posts);
         }
 
-        // GET: Posts/Create
+        // GET: Posts/Create        
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         public ActionResult Create()
