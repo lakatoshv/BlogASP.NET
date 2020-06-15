@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@model Blog.Areas.Admin.ViewModels.Posts.CommentWithPostViewModel
+@model Blog.Data.Models.Comment
 
 @{
     ViewBag.Title = "Details";
@@ -9,20 +9,20 @@
 @Styles.Render("~/public/css/post.css")
 @Styles.Render("~/public/css/post_responsive.css")
 <!-- Main Content -->
-@if (@Model.Post.Post != null)
+@if (@Model.Post != null)
 {
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-10 mx-auto">
                 <div class="post-preview">
                     <h2 class="post-title text-center">
-                        @Model.Post.Post.Title
+                        @Model.Post.Title
                     </h2>
                     <br />
                     <p class="pull-right">
                         @{
-                            var edit = Url.Action("Edit", "Posts") + "/" + Model.Post.Post.Id;
-                            var delete = Url.Action("Delete", "Posts");
+                            var edit = Url.Action("Edit", "Posts") + "/" + Model.Post.Id;
+                            // var delete = Url.Action("Delete", "Posts");
                         }
                         <a type="button"
                             class="btn btn-sm text-white btn-primary"
@@ -33,7 +33,7 @@
 
                         <button type="button"
                             class="btn btn-sm text-white btn-danger"
-                            id="@(Model.Post.Post.Id)"
+                            id="@(Model.Post.Id)"
                             onclick="setDeletePostValues(this.id)"
                             data-toggle="modal"
                             data-target="#delete-post">
@@ -41,23 +41,23 @@
                                 Видалити
                         </button>
                     </p>
-                    <img style="width: 100%; height: 300px;" src="@Model.Post.Post.ImgUrl" />
+                    <img style="width: 100%; height: 300px;" src="@Model.Post.ImageUrl" />
                     <h3 class="post-subtitle text-center">
-                        @Model.Post.Post.Description
+                        @Model.Post.Description
                     </h3>
                     <p class="post-meta">
-                        <span><i class="fa fa-fw fa-eye"></i> @Model.Post.Post.Seen</span>
-                        <span><i class="fa fa-fw fa-thumbs-up"></i> @Model.Post.Post.Likes</span>
-                        <span><i class="fa fa-fw fa-thumbs-down"></i> @Model.Post.Post.Dislikes</span>
+                        <span><i class="fa fa-fw fa-eye"></i> @Model.Post.Seen</span>
+                        <span><i class="fa fa-fw fa-thumbs-up"></i> @Model.Post.Likes</span>
+                        <span><i class="fa fa-fw fa-thumbs-down"></i> @Model.Post.Dislikes</span>
                     </p>
                     <p class="post-meta">
-                        Теги: @Model.Post.Post.Tags
+                        Теги: @Model.Post.Tags
                     </p>
-                    <p class="text-justify">@Model.Post.Post.Content</p>
-                    @{ var authorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + Model.Post.Profile.Id; }
+                    <p class="text-justify">@Model.Post.Content</p>
+                    @{ var authorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + Model.Post.Author.Profile.Id; }
                     <p class="post-meta">
                         Написав: <b>
-                            <a href="@authorPage">@Model.Post.Profile.FirstName @Model.Post.Profile.LastName</a>
+                            <a href="@authorPage">@Model.Post.Author.FirstName @Model.Post.Author.LastName</a>
                             <i>
                                 20.11.2018
                             </i>
@@ -79,22 +79,22 @@
                         <ul class="comment_list">
                             <li class="comment">
                                 <div class="comment_body">
-                                    <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+                                    <div class="d-flex flex-row align-items-center justify-content-start">
                                         <span><I class="fa fa-3x fa-user-circle"></I></span>
                                         <small class="post_meta">
-                                            @{var commentatorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + Model.Comment.Profile.Id;}
-                                            <a href="@commentatorPage" id="author@(Model.Comment.Comment.Id)">@Model.Comment.Comment.Author</a>
-                                            <span>@Model.Comment.Comment.CreatedAt</span>
+                                            @{var commentatorPage = Url.Action("Details", "Profile", new { area = "" }) + "/" + Model.Author.Profile.Id;}
+                                            <a href="@commentatorPage" id="author@(Model.Id)">@Model.Author.FirstName @Model.Author.LastName</a>
+                                            <span>@Model.CreatedAt</span>
                                         </small>
                                     </div>
                                     <div class="comment_content">
-                                        <p id="content@(Model.Comment.Comment.Id)">@Model.Comment.Comment.CommentBody</p>
+                                        <p id="content@(Model.Id)">@Model.CommentBody</p>
                                         <p class="pull-right">
-                                            @if (User.Identity.GetUserName().Equals(Model.Comment.Comment.Author))
+                                            @if (User.Identity.GetUserId().Equals(Model.AuthorId))
                                             {
                                                 <button type="button"
                                                         class="btn btn-sm text-white btn-primary"
-                                                        id="@(Model.Comment.Comment.Id)"
+                                                        id="@(Model.Id)"
                                                         onclick="setEditCommentValues(this.id)"
                                                         data-toggle="modal"
                                                         data-target="#edit-comment">
@@ -104,7 +104,7 @@
                                             }
                                             <button type="button"
                                                 class="btn btn-sm text-white btn-danger"
-                                                id="@(Model.Comment.Comment.Id)"
+                                                id="@(Model.Id)"
                                                 onclick="setDeleteCommentValues(this.id)"
                                                 data-toggle="modal"
                                                 data-target="#delete-comment">
@@ -160,8 +160,8 @@
             onAjaxSuccess
         );
     }
-    function onAjaxSuccess(data) {
-        window.location.href = "@Url.Action("Index", "Comments")"
+    function onAjaxSuccess() {
+        window.location.href = "@Url.Action("Index", "Comments")";
     }
 </script>
 
@@ -176,7 +176,7 @@
             </div>
             <input type='hidden' id="delete-comment-id" />
             <div class="modal-footer">
-                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deleteComment('/Admin/Comments/Delete/')">
+                <button class="btn btn-sm btn-danger" type="button" id="delete" onclick="deleteComment('/Admin/Comments/Delete/')">
                     <i class="fa fa-trash"></i>
                     Видалити
                 </button>

@@ -1,4 +1,4 @@
-﻿@model Blog.Areas.Admin.ViewModels.Posts.CommentWithPostsViewModel
+﻿@model Blog.Data.Models.Comment
 
 @{
     ViewBag.Title = "Створити  коментар";
@@ -12,33 +12,17 @@
             <h2 class="text-center" id="form-header">Написати коментар</h2>
             @using (Html.BeginForm("Create", "Comments", new { area = "Admin" }, FormMethod.Post, new { role = "form" }))
             {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary("", new { @class = "text-danger" })
-            <div class="form-group">
-                <label for="title"
-                       tag=""
-                       class="optional">
-                    Пост:
-                </label>
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.Label("Пост:", htmlAttributes: new {@class = "control-label"})
+                    @Html.DropDownList("PostId", null, htmlAttributes: new { @class = "custom-select" })
+                </div>
 
-                <select class="browser-default custom-select" name="Comment.PostID">
-                    <option selected disabled value="">Виберіть пост</option>
-                    @foreach (var post in @Model.Posts)
-                    {
-                    <option value="@post.Id">@post.Title</option>
-                    }
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="description"
-                       tag=""
-                       class="optional">
-                    Короткий опис:
-                </label>
-
-                @Html.TextBoxFor(model => model.Comment.CommentBody, new { @class = "form-control", @id = "comment-body", @placeholder = "Коментар" })
-            </div>
+                <div class="form-group">
+                    @Html.Label("Короткий опис:", htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.CommentBody, new { @class = "form-control", @id = "comment-body", @placeholder = "Коментар" })
+                </div>
 
 
             <input type="submit"

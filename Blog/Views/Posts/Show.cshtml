@@ -1,9 +1,8 @@
 ﻿@using Blog.Helpers
 @using Microsoft.AspNet.Identity
-@model Blog.ViewModels.Posts.PostShowViewModel
+@model Blog.Services.Core.Dtos.Posts.PostShowDto
 @{
     ViewBag.Title = Model.Post.Title;
-    var tagIndex = 1;
 }
 
 @Styles.Render("~/public/css/post.css")
@@ -17,12 +16,12 @@
                     @Model.Post.Title
                 </h2>
                 <br/>
-                @if (User.Identity.GetUserName().Equals(Model.Post.Author))
+                @if (User.Identity.GetUserId().Equals(Model.Post.AuthorId))
                 {
                     <p class="pull-right">
                         @{
                             var edit = Url.Action("Edit", "Posts") + "/" + Model.Post.Id;
-                            var delete = Url.Action("Delete", "Posts");
+                            // var delete = Url.Action("Delete", "Posts");
                         }
                         <a type="button"
                            class="btn btn-sm text-white btn-primary"
@@ -43,7 +42,7 @@
                         </button>
                     </p>
                 }
-                <img style="width: 100%; height: 300px;" src="@Model.Post.ImgUrl" />
+                <img style="width: 100%; height: 300px;" src="@Model.Post.ImageUrl" alt=""/>
                 <h3 class="post-subtitle text-center">
                     @Model.Post.Description
                 </h3>
@@ -56,7 +55,7 @@
                     Теги: @Model.Post.Tags
                 </p>
                 <p class="text-justify">@Model.Post.Content</p>
-                @{ var authorPage = Url.Action("Details", "Profile") + "/" + Model.Profile.Id; }
+                @{ var authorPage = Url.Action("Details", "Profile") + "/" + Model.Post.Author.Profile.Id; }
                 <p class="post-meta">
                     Написав: <b>
                         <a href="@authorPage">@Model.Post.Author</a><i>
@@ -89,7 +88,7 @@
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
-                                @Html.TextBoxFor(model => model.Comment.PostID, new { @class = "form-control comment_input comment_input_name", @id = "post-id", Value = Model.Post.Id, @type = "hidden" })
+                                @Html.TextBoxFor(model => model.Comment.PostId, new { @class = "form-control comment_input", @id = "post-id", Value = Model.Post.Id, @type = "hidden" })
                                 @Html.TextAreaFor(model => model.Comment.CommentBody, new { @class = "comment_text", @id = "comment", @placeholder = "Коментар" })
                                 <button class="btn btn-sm btn-success" type="submit">Додати коментар</button>
                             }
@@ -109,23 +108,23 @@
                             {
                                 <li class="comment">
                                     <div class="comment_body">
-                                        <div class="comment_panel d-flex flex-row align-items-center justify-content-start">
+                                        <div class="d-flex flex-row align-items-center justify-content-start">
                                             <span><I class="fa fa-3x fa-user-circle"></I></span>
                                             <small class="post_meta">
-                                                @{var commentatorPage = Url.Action("Details", "Profile") + "/" + comment.Profile.Id;}
-                                                <a href="@commentatorPage" id="author@(comment.comment.Id)">@comment.comment.Author</a>
-                                                <span>@comment.comment.CreatedAt</span>
+                                                @{var commentatorPage = Url.Action("Details", "Profile") + "/" + comment.Author.Profile.Id;}
+                                                <a href="@commentatorPage" id="author@(comment.Id)">@comment.Author.FirstName @comment.Author.LastName</a>
+                                                <span>@comment.CreatedAt</span>
                                             </small>
                                         </div>
                                         <div class="comment_content">
-                                            <p id="content@(comment.comment.Id)">@comment.comment.CommentBody</p>
+                                            <p id="content@(comment.Id)">@comment.CommentBody</p>
                                             <p class="pull-right">
-                                                @if (User.Identity.GetUserName().Equals(comment.comment.Author) )
+                                                @if (User.Identity.GetUserId().Equals(comment.AuthorId) )
                                                 {
                                                     <button
                                                         type="button"
                                                         class="btn btn-sm text-white btn-primary"
-                                                        id="@(comment.comment.Id)"
+                                                        id="@(comment.Id)"
                                                         onclick="setEditCommentValues(this.id)"
                                                         data-toggle="modal"
                                                         data-target="#edit-comment">
@@ -136,7 +135,7 @@
                                                     <button
                                                         type="button"
                                                         class="btn btn-sm text-white btn-danger"
-                                                        id="@(comment.comment.Id)"
+                                                        id="@(comment.Id)"
                                                         onclick="setDeleteCommentValues(this.id)"
                                                         data-toggle="modal"
                                                         data-target="#delete-comment">
@@ -226,7 +225,7 @@
             onAjaxSuccess
         );
     }
-    function onAjaxSuccess(data)
+    function onAjaxSuccess()
     {
         location.reload();
     }
@@ -246,8 +245,8 @@
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary("", new { @class = "text-danger" })
                     @Html.TextBoxFor(model => model.Comment.Id, new { @id = "edit-id", @type = "hidden" })
-                    @Html.TextBoxFor(model => model.Comment.PostID, new { @id = "edit-post-id", Value = Model.Post.Id, @type = "hidden" })
-                    @Html.TextBoxFor(model => model.Comment.Author, new { @class = "form-control comment_input comment_input_name", @id = "edit-author", @placeholder = "Електронна пошта" })
+                    @Html.TextBoxFor(model => model.Comment.PostId, new { @id = "edit-post-id", Value = Model.Post.Id, @type = "hidden" })
+                    @Html.TextBoxFor(model => model.Comment.Author, new { @class = "form-control comment_input", @id = "edit-author", @placeholder = "Електронна пошта" })
                     @Html.TextAreaFor(model => model.Comment.CommentBody, new { @class = "comment_text", @id = "edit-content", @placeholder = "Коментар" })
                 </div>
                 <div class="modal-footer">
@@ -270,7 +269,7 @@
             </div>
             <input type='hidden' id="delete-comment-id" />
             <div class="modal-footer">
-                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deleteComment('/Comments/Delete/')">
+                <button class="btn btn-sm btn-danger" type="button" onclick="deleteComment('/Comments/Delete/')">
                     <i class="fa fa-trash"></i>
                     Видалити
                 </button>

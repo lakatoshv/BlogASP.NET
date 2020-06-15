@@ -1,9 +1,8 @@
-﻿@using Microsoft.Ajax.Utilities
-@using Microsoft.AspNet.Identity
-@model Blog.ViewModels.Users.ProfileViewModel
+﻿@using Microsoft.AspNet.Identity
+@model Blog.Services.Core.Dtos.Users.ProfileDto
 @{
-    var name = Model.ProfileData.FirstName + " " + Model.ProfileData.LastName;
-    if (name == "") { name = Model.UserData.UserName; }
+    var name = Model.Profile.ApplicationUser.FirstName + " " + Model.Profile.ApplicationUser.LastName;
+    if (name == "") { name = Model.Profile.ApplicationUser.UserName; }
     ViewBag.Title = "BlogASP.NET - " + name;
 }
 
@@ -26,9 +25,9 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-3 col-lg-3 " align="center">
-                    @if (!Model.ProfileData.ProfileImg.IsNullOrWhiteSpace())
+                    @if (!string.IsNullOrWhiteSpace(Model.Profile.ProfileImage))
                     {
-                        <img src="@Model.ProfileData.ProfileImg" alt="avatar" class="img-circle img-responsive"><br>
+                        <img src="@Model.Profile.ProfileImage" alt="avatar" class="img-circle img-responsive"><br>
                     }
                     else
                     {
@@ -41,19 +40,19 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#main-info">Осовна інформація</a></li>
                         <li><a data-toggle="tab" href="#posts">Пости</a></li>
-                        <li><a data-toggle="tab" href="#comments">Коментарі</a></li>
+                        <li><a data-toggle="tab" href="#">Коментарі</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="main-info">
-                            <table class="table table-user-information">
+                            <table class="table">
                                 <tbody>
-                                @if (User.Identity.GetUserId().Equals(Model.UserData.Id))
+                                @if (User.Identity.GetUserId().Equals(Model.Profile.ApplicationUserId))
                                 {
                                     <tr>
                                         <td></td>
                                         <td class="pull-right">
                                             @{
-                                                var editProfile = Url.Action("Edit", "Profile") + "/" + Model.ProfileData.Id;
+                                                var editProfile = Url.Action("Edit", "Profile") + "/" + Model.Profile.Id;
                                             }
                                             <a class="" href="@editProfile"><i class="fa fa-edit"> Редагувати</i></a>
                                         </td>
@@ -61,9 +60,9 @@
                                 }
                                 <tr>
                                     <td>Ім'я:</td>
-                                    @if (Model.ProfileData.FirstName != "")
+                                    @if (Model.Profile.ApplicationUser.FirstName != "")
                                     {
-                                        <td><b>@Model.ProfileData.FirstName</b></td>
+                                        <td><b>@Model.Profile.ApplicationUser.FirstName</b></td>
                                     }
                                     else
                                     {
@@ -72,9 +71,9 @@
                                 </tr>
                                 <tr>
                                     <td>Фамілія:</td>
-                                    @if (Model.ProfileData.LastName != "")
+                                    @if (Model.Profile.ApplicationUser.LastName != "")
                                     {
-                                        <td><b>@Model.ProfileData.LastName</b></td>
+                                        <td><b>@Model.Profile.ApplicationUser.LastName</b></td>
                                     }
                                     else
                                     {
@@ -83,17 +82,17 @@
                                 </tr>
                                 <tr>
                                     <td>Електронна пошта:</td>
-                                    <td><b><a href="mailto:@Model.UserData.Email">@Model.UserData.Email</a></b></td>
+                                    <td><b><a href="mailto:@Model.Profile.ApplicationUser.Email">@Model.Profile.ApplicationUser.Email</a></b></td>
                                 </tr>
                                 <tr>
                                     <td>Адреса:</td>
                                     <td><b>Address</b></td>
                                 </tr>
-                                @if (!Model.UserData.PhoneNumber.IsNullOrWhiteSpace())
+                                @if (!string.IsNullOrWhiteSpace(Model.Profile.ApplicationUser.PhoneNumber))
                                 {
                                     <tr>
                                         <td>Номер телефону:</td>
-                                        <td><b>@Model.UserData.PhoneNumber</b></td>
+                                        <td><b>@Model.Profile.ApplicationUser.PhoneNumber</b></td>
                                     </tr>
                                 }
                                 else
@@ -109,7 +108,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <div class="bs-callout bs-callout-danger">
+                            <div class="">
                                 <h4>Про мене:</h4>
                                 <p>
                                     Lorem ipsum dolor sit amet, ea vel prima adhuc, scripta liberavisse ea quo, te vel vidit mollis complectitur. Quis verear mel ne. Munere vituperata vis cu,
@@ -123,7 +122,7 @@
                         </div>
                         <div class="tab-pane" id="posts">
                             <p><b>Статистика</b></p>
-                            <table class="table table-user-information">
+                            <table class="table">
                                 <tbody>
                                     <tr>
                                         <td>Мої пости:</td>
@@ -163,20 +162,20 @@
                                                 <tr>
                                                     <td>
                                                         @{
-                                                            var pathURL = Url.Action("Show", "Posts") + "/" + post.Id;
+                                                            var pathUrl = Url.Action("Show", "Posts") + "/" + post.Id;
                                                         }
-                                                        <a href="@pathURL">@post.Title</a>
+                                                        <a href="@pathUrl">@post.Title</a>
                                                     </td>
                                                     <td>@post.Seen</td>
                                                     <td>@post.Likes</td>
                                                     <td>@post.Dislikes</td>
                                                     <td>@post.CreatedAt</td>
-                                                    @if (User.Identity.GetUserId().Equals(post.Author))
+                                                    @if (User.Identity.GetUserId().Equals(post.AuthorId))
                                                     {
-                                                        <td class="actions" data-th="">
+                                                        <td class="" data-th="">
                                                             @{
                                                                 var edit = Url.Action("Edit", "Posts") + "/" + post.Id;
-                                                                var delete = Url.Action("Delete", "Posts");
+                                                                // var delete = Url.Action("Delete", "Posts");
                                                             }
                                                             <a class="btn btn-primary" href="@edit"><i class="fa fa-edit"></i></a>
                                                             <button type="button"
@@ -206,7 +205,7 @@
         <div class="panel-footer">
             <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
             <span class="pull-right">
-                <a href="edit.html" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
+                <a href="#" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i></a>
                 <a data-original-title="Remove this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
             </span>
         </div>
@@ -247,7 +246,7 @@
             onAjaxSuccess
         );
     }
-    function onAjaxSuccess(data) {
+    function onAjaxSuccess() {
         location.reload();
     }
 </script>

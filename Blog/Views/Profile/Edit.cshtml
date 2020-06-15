@@ -1,7 +1,6 @@
-﻿@model Blog.ViewModels.Users.ProfileViewModel
+﻿@model Blog.Services.Core.Dtos.Users.ProfileDto
 @{
     ViewBag.Title = "Редагувати профіль";
-    var tagIndex = 1;
 }
 
 @Styles.Render("~/public/css/post.css")
@@ -15,48 +14,48 @@
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="form-group">
-                    <label for="first-name"
-                           tag=""
-                           class="optional">
+                    <label
+                        tag=""
+                           class="">
                         Ім'я:
                     </label>
 
-                    @Html.TextBoxFor(model => model.ProfileData.FirstName, new { @class = "form-control", @id = "first-name", @placeholder = "Ім'я", @value = Model.ProfileData.FirstName })
+                    @Html.TextBoxFor(model => model.Profile.ApplicationUser.FirstName, new { @class = "form-control", @id = "first-name", @placeholder = "Ім'я", @value = Model.Profile.ApplicationUser.FirstName })
                 </div>
 
                 <div class="form-group">
-                    <label for="last-name"
-                           tag=""
-                           class="optional">
+                    <label
+                        tag=""
+                           class="">
                         Фамілія:
                     </label>
 
-                    @Html.TextBoxFor(model => model.ProfileData.LastName, new { @class = "form-control", @id = "last-name", @placeholder = "Фамілія", @value = Model.ProfileData.LastName })
+                    @Html.TextBoxFor(model => model.Profile.ApplicationUser.LastName, new { @class = "form-control", @id = "last-name", @placeholder = "Фамілія", @value = Model.Profile.ApplicationUser.LastName })
                 </div>
 
                 <div class="form-group">
-                    <label for="email"
+                    <label
                         tag=""
-                        class="optional">
+                        class="">
                             Електронна пошта:
                     </label>
 
-                    @Html.TextBoxFor(model => model.UserData.Email, new { @class = "form-control", @id = "email", @placeholder = "Електронна пошта", @value = Model.UserData.Email, @type = "email" })
+                    @Html.TextBoxFor(model => model.Profile.ApplicationUser.Email, new { @class = "form-control", @id = "email", @placeholder = "Електронна пошта", @value = Model.Profile.ApplicationUser.Email, @type = "email" })
                 </div>
 
                 <div class="form-group">
-                    <label for="phone"
-                           tag=""
-                           class="optional">
+                    <label
+                        tag=""
+                           class="">
                         Номер телефону:
                     </label>
 
-                    @Html.TextBoxFor(model => model.UserData.PhoneNumber, new { @class = "form-control", @id = "phone", @placeholder = "Номер телефону", @value = Model.UserData.PhoneNumber, @type = "tel" })
+                    @Html.TextBoxFor(model => model.Profile.ApplicationUser.PhoneNumber, new { @class = "form-control", @id = "phone", @placeholder = "Номер телефону", @value = Model.Profile.ApplicationUser.PhoneNumber, @type = "tel" })
                 </div>
 
-                <label for="content"
-                       tag=""
-                       class="optional">
+                <label
+                    tag=""
+                       class="">
                     Аватар
                 </label>
                 <!--
@@ -93,15 +92,15 @@
                 </div>
             </div>
         -->
-                <div class="addurl">
+                <div class="">
                     <div class="form-group">
-                        <label for="img_url"
-                               tag=""
-                               class="optional">
+                        <label
+                            tag=""
+                               class="">
                             URL-адреса:
                         </label>
 
-                        @Html.TextBoxFor(model => model.ProfileData.ProfileImg, new { @class = "form-control", @id = "title", @placeholder = "URL-адреса", @value = Model.ProfileData.ProfileImg })
+                        @Html.TextBoxFor(model => model.Profile.ProfileImage, new { @class = "form-control", @id = "title", @placeholder = "URL-адреса", @value = Model.Profile.ProfileImage })
 
                         <p>Наприклад: https://some_image.com/example.jpg</p>
                     </div>

@@ -1,34 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Blog.Areas.Admin.Services.Posts;
 using Blog.Core.Enums;
-using Blog.Models;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
-using WebGrease.Css.Extensions;
+using Blog.Data.Models;
+using Blog.Services.Posts.Interfaces;
 
 namespace Blog.Areas.Admin.Controllers
 {
+    /// <summary>
+    /// Posts controller.
+    /// </summary>
+    /// <seealso cref="Controller" />
     [Authorize(Roles = "Administrator")]
     public class PostsController : Controller
     {
-        private readonly PostsService _postsService = new PostsService();
-        private readonly CommentsService _commentsService = new CommentsService();
-        private readonly BlogContext _db = new BlogContext();
+        /// <summary>
+        /// Posts service.
+        /// </summary>
+        private readonly IPostsService _postsService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostsController"/> class.
+        /// </summary>
+        /// <param name="postsService">The posts service.</param>
+        public PostsController(IPostsService postsService)
+        {
+            _postsService = postsService;
+        }
+
+        /// <summary>
+        /// Gets all posts.
+        /// </summary>
+        /// <param name="search">search.</param>
+        /// <param name="onlyWithComments">onlyWithComments.</param>
+        /// <param name="onlyWithCommentsInfo">onlyWithCommentsInfo.</param>
+        /// <returns>ActionResult</returns>
         // GET: Admin/Posts
         [HttpGet]
-        public ActionResult Index(string search, bool onlyWithComments = false, bool onlyWithCommentsInfo = false)
+        public async Task<ActionResult> Index(string search, bool onlyWithComments = false, bool onlyWithCommentsInfo = false)
         {
-            var posts = _postsService.GetPosts(search, onlyWithComments);
+            var posts = await _postsService.GetPosts(null, search, onlyWithComments);
             posts.OnlyWithCommentsInfo = onlyWithComments;
             return View(posts);
         }
 
         // GET: Posts/Create
+        /// <summary>
+        /// Create post page.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [Authorize]
         public ActionResult Create()
@@ -37,46 +59,25 @@ namespace Blog.Areas.Admin.Controllers
         }
 
         // POST: Posts/Create
+        /// <summary>
+        /// Create post action.
+        /// </summary>
+        /// <param name="postModel">postModel.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
-        public ActionResult Create(Post postModel)
+        public async Task<ActionResult> Create(Post postModel)
         {
             try
             {
                 //post.CreatedAt = DateTime.Now;
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    postModel.CreatedAt = DateTime.Now;
-                    postModel.Author = User.Identity.GetUserId();
-                    _db.Posts.Add(postModel);
-                    _db.SaveChanges();
-
-                    if (!postModel.Tags.IsNullOrWhiteSpace())
-                    {
-                        String[] tags = postModel.Tags.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var tag in tags)
-                        {
-                            var tagForAdd = new Tag()
-                            {
-                                Title = tag,
-                                PostId = postModel.Id
-                            };
-                            _db.Tags.Add(tagForAdd);
-
-                        }
-                    }
-                    _db.SaveChanges();
-                    _db.Tags.Where(tag => tag.PostId.Equals(postModel.Id)).ForEach(
-                        t =>
-                        {
-                            postModel.PostTags.Add(t);
-                        }
-
-                    );
-                    _db.Entry(postModel).State = EntityState.Modified;
-                    _db.SaveChanges();
-                    return RedirectToAction("index", "Posts", new { area = "Admin" });
+                    return null;
                 }
-                return null;
+                postModel.CreatedAt = DateTime.Now;
+                postModel.AuthorId = User.Identity.GetUserId();
+                await _postsService.CreatePost(postModel);
+                return RedirectToAction("index", "Posts", new { area = "Admin" });
             }
             catch
             {
@@ -85,30 +86,39 @@ namespace Blog.Areas.Admin.Controllers
         }
 
         // GET: Posts/Edit/5
+        /// <summary>
+        /// Edit post page.
+        /// </summary>
+        /// <param name="id">id.</param>
+        /// <returns>Task.</returns>
         [HttpGet]
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null) return RedirectToAction("Index", "Posts");
-            var postModel = _postsService.GetPostModel(id.Value);
-            return View(postModel.Post);
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
+            return View(await _postsService.FindAsync(id.Value));
         }
 
         // POST: Posts/Edit/5
+        /// <summary>
+        /// Edit post action.
+        /// </summary>
+        /// <param name="id">id.</param>
+        /// <param name="editedPost">editedPost.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
-        public ActionResult Edit(int? id, Post editedPost)
+        public async Task<ActionResult> Edit(int? id, Post editedPost)
         {
-            if (id == null) return RedirectToAction("Index", "Posts");
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
             try
             {
-                var postModel = _postsService.GetPostModel(id.Value);
-
-                editedPost.Author = postModel.Post.Author;
-                editedPost.Likes = postModel.Post.Likes;
-                editedPost.Dislikes = postModel.Post.Dislikes;
-                editedPost.Seen = postModel.Post.Seen;
-                editedPost.CreatedAt = DateTime.Now;
-                _db.Entry(editedPost).State = EntityState.Modified;
-                _db.SaveChanges();
+                await _postsService.UpdateAsync(editedPost);
 
                 return RedirectToAction("Show/" + id, "Posts", new { area = "" });
             }
@@ -121,16 +131,19 @@ namespace Blog.Areas.Admin.Controllers
         }
 
         // POST: Posts/Edit/5
+        /// <summary>
+        /// Change post status.
+        /// </summary>
+        /// <param name="id">id.</param>
+        /// <param name="status">status.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
-        public ActionResult ChangeStatus(int? id, Status status)
+        public async Task<ActionResult> ChangeStatus(int? id, Status status)
         {
             if (id == null) return RedirectToAction("Index", "Posts");
             try
             {
-                var post = _postsService.GePost(id.Value);
-                post.Status = status;
-                _db.Entry(post).State = EntityState.Modified;
-                _db.SaveChanges();
+                await _postsService.ChangePostStatus(id.Value, status);
 
                 return RedirectToAction("Show/" + id, "Posts", new { area = "" });
             }
@@ -140,18 +153,17 @@ namespace Blog.Areas.Admin.Controllers
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
-        }
-
-        // GET: Posts/Delete/5
-        [HttpGet]
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         // POST: Posts/Delete/5
+        /// <summary>
+        /// Delete post action.
+        /// </summary>
+        /// <param name="id">id.</param>
+        /// <param name="collection">collection.</param>
+        /// <returns>Task.</returns>
         [HttpPost]
-        public ActionResult Delete(int? id, FormCollection collection)
+        public async Task<ActionResult> Delete(int? id, FormCollection collection)
         {
             if (id == null)
             {
@@ -159,19 +171,7 @@ namespace Blog.Areas.Admin.Controllers
             }
             try
             {
-                BlogContext db = new BlogContext();
-                Post postForDelete = db.Posts.FirstOrDefault(post => post.Id.Equals(id.Value));
-
-                if (postForDelete != null)
-                {
-                    _commentsService.GetCommentsForPost(id.Value).ForEach(comment =>
-                        {
-                            db.Comments.Remove(comment);
-                        });
-                    
-                    db.Posts.Remove(postForDelete);
-                    db.SaveChanges();
-                }
+                await _postsService.DeleteAsync(id.Value);
 
                 return RedirectToAction("Index");
             }

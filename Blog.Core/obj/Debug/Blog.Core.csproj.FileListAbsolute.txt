@@ -1,0 +1,6 @@
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\Blog.Core.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\Blog.Core.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csprojAssemblyReference.cache
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csproj.CoreCompileInputs.cache
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.pdb

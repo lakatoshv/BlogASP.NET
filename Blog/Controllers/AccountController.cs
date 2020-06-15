@@ -1,14 +1,14 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BLog.Data;
+using Blog.Data.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Blog.Models;
+using Blog.Services.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Blog.Controllers
@@ -16,19 +16,39 @@ namespace Blog.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        /// <summary>
+        /// The sign in manager.
+        /// </summary>
         private ApplicationSignInManager _signInManager;
+
+        /// <summary>
+        /// The user manager.
+        /// </summary>
         private ApplicationUserManager _userManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
         public AccountController()
         {
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="signInManager">The sign in manager.</param>
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
+        /// <summary>
+        /// Gets the sign in manager.
+        /// </summary>
+        /// <value>
+        /// The sign in manager.
+        /// </value>
         public ApplicationSignInManager SignInManager
         {
             get
@@ -41,6 +61,12 @@ namespace Blog.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the user manager.
+        /// </summary>
+        /// <value>
+        /// The user manager.
+        /// </value>
         public ApplicationUserManager UserManager
         {
             get
@@ -53,17 +79,28 @@ namespace Blog.Controllers
             }
         }
 
-        //
-        // GET: /Account/Login
+        // GET: /Account/Login        
+        /// <summary>
+        /// Logins the specified return URL.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
         [AllowAnonymous]
+        [HttpGet]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+
             return View();
         }
 
-        //
-        // POST: /Account/Login
+        // POST: /Account/Login        
+        /// <summary>
+        /// Logins the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -74,8 +111,8 @@ namespace Blog.Controllers
                 return View(model);
             }
 
-            // Сбои при входе не приводят к блокированию учетной записи
-            // Чтобы ошибки при вводе пароля инициировали блокирование учетной записи, замените на shouldLockout: true
+            // Login failures do not block account.
+            // Replace account errors with password entry errors shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -84,29 +121,43 @@ namespace Blog.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, model.RememberMe });
                 case SignInStatus.Failure:
+                    ModelState.AddModelError("", @"Неудачная попытка входа.");
+                    return View(model);
                 default:
-                    ModelState.AddModelError("", "Неудачная попытка входа.");
+                    ModelState.AddModelError("", @"Неудачная попытка входа.");
                     return View(model);
             }
         }
 
-        //
-        // GET: /Account/VerifyCode
+        // GET: /Account/VerifyCode        
+        /// <summary>
+        /// Verifies the code.
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <param name="rememberMe">if set to <c>true</c> [remember me].</param>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
-            // Требовать предварительный вход пользователя с помощью имени пользователя и пароля или внешнего имени входа
+            // Require user pre-login with username and password or external login.
             if (!await SignInManager.HasBeenVerifiedAsync())
             {
                 return View("Error");
             }
+
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/VerifyCode
+        // POST: /Account/VerifyCode        
+        /// <summary>
+        /// Verifies the code.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -117,11 +168,10 @@ namespace Blog.Controllers
                 return View(model);
             }
 
-            // Приведенный ниже код защищает от атак методом подбора, направленных на двухфакторные коды. 
-            // Если пользователь введет неправильные коды за указанное время, его учетная запись 
-            // будет заблокирована на заданный период. 
-            // Параметры блокирования учетных записей можно настроить в IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            // The code below protects against attacks by a selection method aimed at two-factor codes. 
+            // If the user enters the wrong codes for the specified time, his account will be blocked for a specified period. 
+            // Account lockout options can be configured in IdentityConfig.
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, model.RememberMe, model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -129,59 +179,79 @@ namespace Blog.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.Failure:
+                    ModelState.AddModelError("", @"Неправильный код.");
+                    return View(model);
+                case SignInStatus.RequiresVerification:
+                    return View(model);
                 default:
-                    ModelState.AddModelError("", "Неправильный код.");
+                    ModelState.AddModelError("", @"Неправильный код.");
                     return View(model);
             }
         }
 
-        //
-        // GET: /Account/Register
+        // GET: /Account/Register        
+        /// <summary>
+        /// Registers this instance.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
-        //
-        // POST: /Account/Register
+        // POST: /Account/Register        
+        /// <summary>
+        /// Registers the specified model.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    var store = new UserStore<ApplicationUser>(new ApplicationDbContext());
-                    var userManager = new UserManager<ApplicationUser>(store);
-                    ApplicationUser createdUser = userManager.FindByEmailAsync(model.Email).Result;
-                    var profile = new Profile {ApplicationUser = createdUser.Id, FirstName = model.FirstName, LastName = model.LastName };
-                    BlogContext db = new BlogContext();
-                    db.Profiles.Add(profile);
-                    db.SaveChanges();
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // Дополнительные сведения о том, как включить подтверждение учетной записи и сброс пароля, см. по адресу: http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Отправка сообщения электронной почты с этой ссылкой
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
-
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
+                return View(model);
             }
 
-            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                var store = new UserStore<ApplicationUser>(new BlogContext());
+                var userManager = new UserManager<ApplicationUser>(store);
+                var createdUser = userManager.FindByEmailAsync(model.Email).Result;
+                var profile = new Profile {ApplicationUserId = createdUser.Id };
+                var db = new BlogContext();
+                db.Profiles.Add(profile);
+                db.SaveChanges();
+                await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                // Send an email with this link.
+                // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                // await UserManager.SendEmailAsync(user.Id, "Подтверждение учетной записи", "Подтвердите вашу учетную запись, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            AddErrors(result);
+
+            // The appearance of this message indicates an error; redisplay of form
             return View(model);
         }
 
-        //
-        // GET: /Account/ConfirmEmail
+        // GET: /Account/ConfirmEmail        
+        /// <summary>
+        /// Confirms the email.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="code">The code.</param>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -189,64 +259,85 @@ namespace Blog.Controllers
             {
                 return View("Error");
             }
+
             var result = await UserManager.ConfirmEmailAsync(userId, code);
+
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
-        // GET: /Account/ForgotPassword
+        // GET: /Account/ForgotPassword        
+        /// <summary>
+        /// Forgot the password.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ForgotPassword
+        // POST: /Account/ForgotPassword        
+        /// <summary>
+        /// Forgot the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-                {
-                    // Не показывать, что пользователь не существует или не подтвержден
-                    return View("ForgotPasswordConfirmation");
-                }
+            if (!ModelState.IsValid) return View(model);
 
-                // Дополнительные сведения о том, как включить подтверждение учетной записи и сброс пароля, см. по адресу: http://go.microsoft.com/fwlink/?LinkID=320771
-                // Отправка сообщения электронной почты с этой ссылкой
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Сброс пароля", "Сбросьте ваш пароль, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+            {
+                // Не показывать, что пользователь не существует или не подтвержден
+                return View("ForgotPasswordConfirmation");
             }
 
-            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
+            // Send an email with this link
+            // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+            // await UserManager.SendEmailAsync(user.Id, "Сброс пароля", "Сбросьте ваш пароль, щелкнув <a href=\"" + callbackUrl + "\">здесь</a>");
+            // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
+            // The appearance of this message indicates an error; redisplay of form
             return View(model);
         }
 
-        //
-        // GET: /Account/ForgotPasswordConfirmation
+        // GET: /Account/ForgotPasswordConfirmation        
+        /// <summary>
+        /// Forgot the password confirmation.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // GET: /Account/ResetPassword
+        // GET: /Account/ResetPassword        
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="code">The code.</param>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
         }
 
-        //
-        // POST: /Account/ResetPassword
+        // POST: /Account/ResetPassword        
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -256,42 +347,61 @@ namespace Blog.Controllers
             {
                 return View(model);
             }
+
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
-                // Не показывать, что пользователь не существует
+                // Do not show that the user does not exist.
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
+
             AddErrors(result);
+
             return View();
         }
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
+        // GET: /Account/ResetPasswordConfirmation        
+        /// <summary>
+        /// Resets the password confirmation.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ExternalLogin
+        // POST: /Account/ExternalLogin        
+        /// <summary>
+        /// Externals the login.
+        /// </summary>
+        /// <param name="provider">The provider.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
-            // Запрос перенаправления к внешнему поставщику входа
+            // Redirect request to an external login provider
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
-        // GET: /Account/SendCode
+        // GET: /Account/SendCode        
+        /// <summary>
+        /// Sends the code.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <param name="rememberMe">if set to <c>true</c> [remember me].</param>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -300,13 +410,19 @@ namespace Blog.Controllers
             {
                 return View("Error");
             }
+
             var userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
+            
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/SendCode
+        // POST: /Account/SendCode        
+        /// <summary>
+        /// Sends the code.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -317,16 +433,22 @@ namespace Blog.Controllers
                 return View();
             }
 
-            // Создание и отправка маркера
+            // Create and submit a token
             if (!await SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
+        // GET: /Account/ExternalLoginCallback        
+        /// <summary>
+        /// Externals the login callback.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
@@ -336,7 +458,7 @@ namespace Blog.Controllers
                 return RedirectToAction("Login");
             }
 
-            // Выполнение входа пользователя посредством данного внешнего поставщика входа, если у пользователя уже есть имя входа
+            // Perform user login through this external login provider, if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
             {
@@ -347,16 +469,23 @@ namespace Blog.Controllers
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
+                    ModelState.AddModelError("", @"Неправильный код.");
+                    return RedirectToAction("Index", "Posts");
                 default:
-                    // Если у пользователя нет учетной записи, то ему предлагается создать ее
+                    // If the user does not have an account, then he is invited to create it
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
 
-        //
-        // POST: /Account/ExternalLoginConfirmation
+        // POST: /Account/ExternalLoginConfirmation        
+        /// <summary>
+        /// Externals the login confirmation.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -369,12 +498,13 @@ namespace Blog.Controllers
 
             if (ModelState.IsValid)
             {
-                // Получение сведений о пользователе от внешнего поставщика входа
+                // Retrieving user information from an external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
                     return View("ExternalLoginFailure");
                 }
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -390,28 +520,42 @@ namespace Blog.Controllers
             }
 
             ViewBag.ReturnUrl = returnUrl;
+
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOut
+        // POST: /Account/LogOut        
+        /// <summary>
+        /// Logs the out.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
         public ActionResult LogOut()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             Session.Clear();
             Session.Abandon();
             Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
+
             return RedirectToAction("Index", "Home");
         }
 
-        //
-        // GET: /Account/ExternalLoginFailure
+        // GET: /Account/ExternalLoginFailure        
+        /// <summary>
+        /// Externals the login failure.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
         }
 
+        /// <summary>
+        /// Releases unmanaged and, if indicated, managed resources.
+        /// </summary>
+        /// <param name="disposing">True to free all resources (managed and unmanaged); false to free only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -433,17 +577,24 @@ namespace Blog.Controllers
         }
 
         #region Вспомогательные приложения
-        // Используется для защиты от XSRF-атак при добавлении внешних имен входа
+        // Used to protect against XSRF attacks when adding external logins        
+        /// <summary>
+        /// The XSRF key.
+        /// </summary>
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        /// <summary>
+        /// Gets the authentication manager.
+        /// </summary>
+        /// <value>
+        /// The authentication manager.
+        /// </value>
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
+        /// <summary>
+        /// Adds the errors.
+        /// </summary>
+        /// <param name="result">The result.</param>
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -452,22 +603,43 @@ namespace Blog.Controllers
             }
         }
 
+        /// <summary>
+        /// Redirects to local.
+        /// </summary>
+        /// <param name="returnUrl">The return URL.</param>
+        /// <returns></returns>
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
+
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Challenge result.
+        /// </summary>
+        /// <seealso cref="HttpUnauthorizedResult" />
         internal class ChallengeResult : HttpUnauthorizedResult
         {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ChallengeResult"/> class.
+            /// </summary>
+            /// <param name="provider">The provider.</param>
+            /// <param name="redirectUri">The redirect URI.</param>
             public ChallengeResult(string provider, string redirectUri)
                 : this(provider, redirectUri, null)
             {
             }
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ChallengeResult"/> class.
+            /// </summary>
+            /// <param name="provider">The provider.</param>
+            /// <param name="redirectUri">The redirect URI.</param>
+            /// <param name="userId">The user identifier.</param>
             public ChallengeResult(string provider, string redirectUri, string userId)
             {
                 LoginProvider = provider;
@@ -475,10 +647,37 @@ namespace Blog.Controllers
                 UserId = userId;
             }
 
+            /// <summary>
+            /// Gets or sets the login provider.
+            /// </summary>
+            /// <value>
+            /// The login provider.
+            /// </value>
             public string LoginProvider { get; set; }
+
+            /// <summary>
+            /// Gets or sets the redirect URI.
+            /// </summary>
+            /// <value>
+            /// The redirect URI.
+            /// </value>
             public string RedirectUri { get; set; }
+
+            /// <summary>
+            /// Gets or sets the user identifier.
+            /// </summary>
+            /// <value>
+            /// The user identifier.
+            /// </value>
             public string UserId { get; set; }
 
+            /// <summary>
+            /// Allows processing of the result of the execution of an action method by a user type inherited from the class <see>
+            ///     <cref>T:System.Web.Mvc.ActionResult</cref>
+            /// </see>
+            /// .
+            /// </summary>
+            /// <param name="context">The context in which the result is executed. Context information includes information about the controller, HTTP-content, request context, and route data.</param>
             public override void ExecuteResult(ControllerContext context)
             {
                 var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
@@ -486,6 +685,7 @@ namespace Blog.Controllers
                 {
                     properties.Dictionary[XsrfKey] = UserId;
                 }
+
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
