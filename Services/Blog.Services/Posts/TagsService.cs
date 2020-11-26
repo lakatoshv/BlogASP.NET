@@ -1,4 +1,6 @@
-﻿using Blog.Data.Models;
+﻿using System.Data.Entity;
+using System.Threading.Tasks;
+using Blog.Data.Models;
 using BLog.Data.Repository.Interfaces;
 using Blog.Services.Posts.Interfaces;
 using Blog.Services.GeneralService;
@@ -20,5 +22,9 @@ namespace Blog.Services.Posts
             : base(repository)
         {
         }
+
+        /// <inheritdoc/>
+        public async Task DeletePostTags(int id) =>
+            await DeleteAsync(await Where(x => x.PostId == id).ToListAsync());
     }
 }

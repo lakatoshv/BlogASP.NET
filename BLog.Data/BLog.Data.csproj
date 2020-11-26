@@ -67,6 +67,39 @@
       <DependentUpon>202005101345306_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="OldMigrations\201808302205064_Initial.cs" />
+    <Compile Include="OldMigrations\201808302205064_Initial.Designer.cs">
+      <DependentUpon>201808302205064_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldMigrations\201812091731226_Comment.cs" />
+    <Compile Include="OldMigrations\201812091731226_Comment.Designer.cs">
+      <DependentUpon>201812091731226_Comment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldMigrations\201902270928076_CreatedAtFieldInPosts.cs" />
+    <Compile Include="OldMigrations\201902270928076_CreatedAtFieldInPosts.Designer.cs">
+      <DependentUpon>201902270928076_CreatedAtFieldInPosts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldMigrations\201903281454306_ProfileTable.cs" />
+    <Compile Include="OldMigrations\201903281454306_ProfileTable.Designer.cs">
+      <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldMigrations\201904121341232_MessageTable.cs" />
+    <Compile Include="OldMigrations\201904121341232_MessageTable.Designer.cs">
+      <DependentUpon>201904121341232_MessageTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldMigrations\201904121352347_ChangeFieldTitleInMessages.cs" />
+    <Compile Include="OldMigrations\201904121352347_ChangeFieldTitleInMessages.Designer.cs">
+      <DependentUpon>201904121352347_ChangeFieldTitleInMessages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldMigrations\201905070759039_TagsTable.cs" />
+    <Compile Include="OldMigrations\201905070759039_TagsTable.Designer.cs">
+      <DependentUpon>201905070759039_TagsTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldMigrations\201909161609576_AddStatusFieldIntoPostTable.cs" />
+    <Compile Include="OldMigrations\201909161609576_AddStatusFieldIntoPostTable.Designer.cs">
+      <DependentUpon>201909161609576_AddStatusFieldIntoPostTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OldMigrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Interfaces\IRepository.cs" />
     <Compile Include="Repository\Repository.cs" />
@@ -92,6 +125,30 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202005101345306_Init.resx">
       <DependentUpon>202005101345306_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OldMigrations\201808302205064_Initial.resx">
+      <DependentUpon>201808302205064_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OldMigrations\201812091731226_Comment.resx">
+      <DependentUpon>201812091731226_Comment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OldMigrations\201902270928076_CreatedAtFieldInPosts.resx">
+      <DependentUpon>201902270928076_CreatedAtFieldInPosts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OldMigrations\201903281454306_ProfileTable.resx">
+      <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OldMigrations\201904121341232_MessageTable.resx">
+      <DependentUpon>201904121341232_MessageTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OldMigrations\201904121352347_ChangeFieldTitleInMessages.resx">
+      <DependentUpon>201904121352347_ChangeFieldTitleInMessages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OldMigrations\201905070759039_TagsTable.resx">
+      <DependentUpon>201905070759039_TagsTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OldMigrations\201909161609576_AddStatusFieldIntoPostTable.resx">
+      <DependentUpon>201909161609576_AddStatusFieldIntoPostTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

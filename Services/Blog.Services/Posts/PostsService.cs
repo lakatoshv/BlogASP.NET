@@ -57,9 +57,9 @@ namespace Blog.Services.Posts
                 return postsDto;
             }
 
-            postsDto.Posts = await SortPosts(postsDto.Posts.AsQueryable(), sortParameters).ToListAsync();
+            postsDto.Posts = SortPosts(postsDto.Posts.AsQueryable(), sortParameters).ToList();
 
-            if (!sortParameters.DisplayType.Equals("grid"))
+            if (sortParameters.DisplayType != null && !sortParameters.DisplayType.Equals("grid"))
             {
                 postsDto.Posts = postModel
                     .Skip((sortParameters.CurrentPage - 1) * sortParameters.PageSize)

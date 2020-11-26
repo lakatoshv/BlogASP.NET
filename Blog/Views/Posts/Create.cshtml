@@ -1,4 +1,5 @@
-﻿@model Blog.Data.Models.Post
+﻿@using Microsoft.AspNet.Identity
+@model Blog.Data.Models.Post
 @{
     ViewBag.Title = "Створити пост";
 }
@@ -14,6 +15,9 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                <!-- TODO Remove from here -->
+                @Html.HiddenFor(model =>model.AuthorId, new { Value = User.Identity.GetUserId() })
                 <div class="form-group">
                     <label
                         tag="">

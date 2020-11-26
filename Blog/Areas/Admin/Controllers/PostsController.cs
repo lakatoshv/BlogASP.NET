@@ -6,6 +6,7 @@ using Blog.Core.Enums;
 using Microsoft.AspNet.Identity;
 using Blog.Data.Models;
 using Blog.Services.Posts.Interfaces;
+using System.Data;
 
 namespace Blog.Areas.Admin.Controllers
 {
@@ -22,12 +23,28 @@ namespace Blog.Areas.Admin.Controllers
         private readonly IPostsService _postsService;
 
         /// <summary>
+        /// The comments service.
+        /// </summary>
+        private readonly ICommentsService _commentsService;
+
+        /// <summary>
+        /// The tags service.
+        /// </summary>
+        private readonly ITagsService _tagsService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PostsController"/> class.
         /// </summary>
         /// <param name="postsService">The posts service.</param>
-        public PostsController(IPostsService postsService)
+        /// <param name="commentsService"></param>
+        /// <param name="tagsService"></param>
+        public PostsController(IPostsService postsService, 
+            ICommentsService commentsService, 
+            ITagsService tagsService)
         {
             _postsService = postsService;
+            _commentsService = commentsService;
+            _tagsService = tagsService;
         }
 
         /// <summary>
@@ -116,17 +133,31 @@ namespace Blog.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index", "Posts");
             }
+
             try
             {
-                await _postsService.UpdateAsync(editedPost);
+                var postModel = await _postsService.FindAsync(id.Value);
 
-                return RedirectToAction("Show/" + id, "Posts", new { area = "" });
+                editedPost.AuthorId = postModel.AuthorId;
+                editedPost.Likes = postModel.Likes;
+                editedPost.Dislikes = postModel.Dislikes;
+                editedPost.Seen = postModel.Seen;
+                editedPost.CreatedAt = DateTime.Now;
+
+                postModel.Title = editedPost.Title;
+                postModel.Description = editedPost.Description;
+                postModel.Content = editedPost.Content;
+                postModel.ImageUrl = editedPost.ImageUrl;
+                postModel.Tags = editedPost.Tags;
+                await _postsService.UpdateAsync(postModel);
+                return RedirectToAction("Show/" + id, "Posts");
             }
-            catch (System.Data.DataException /* dex */)
+            catch (DataException dex)
             {
-                return RedirectToAction("Index", "Posts");
                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                ModelState.AddModelError("", dex.Message);
+
+                return RedirectToAction("Index", "Posts");
             }
         }
 
@@ -147,11 +178,12 @@ namespace Blog.Areas.Admin.Controllers
 
                 return RedirectToAction("Show/" + id, "Posts", new { area = "" });
             }
-            catch (System.Data.DataException /* dex */)
+            catch (DataException dex)
             {
-                return RedirectToAction("Index", "Posts");
                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                ModelState.AddModelError("", dex.Message);
+
+                return RedirectToAction("Index", "Posts");
             }
         }
 
@@ -171,13 +203,15 @@ namespace Blog.Areas.Admin.Controllers
             }
             try
             {
+                await _commentsService.DeletePostComments(id.Value);
+                await _tagsService.DeletePostTags(id.Value);
                 await _postsService.DeleteAsync(id.Value);
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception exception)
             {
-                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                ModelState.AddModelError("", exception.Message);
             }
             return RedirectToAction("Index");
         }

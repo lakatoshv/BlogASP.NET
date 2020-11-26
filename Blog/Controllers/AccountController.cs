@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Blog.Models;
 using Blog.Services.Identity;
+using Blog.Services.Interfaces;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Blog.Controllers
@@ -25,23 +26,6 @@ namespace Blog.Controllers
         /// The user manager.
         /// </summary>
         private ApplicationUserManager _userManager;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AccountController"/> class.
-        /// </summary>
-        public AccountController()
-        {
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AccountController"/> class.
-        /// </summary>
-        /// <param name="userManager">The user manager.</param>
-        /// <param name="signInManager">The sign in manager.</param>
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
 
         /// <summary>
         /// Gets the sign in manager.
@@ -62,6 +46,11 @@ namespace Blog.Controllers
         }
 
         /// <summary>
+        /// The profiles service.
+        /// </summary>
+        private readonly IProfilesService _profilesService;
+
+        /// <summary>
         /// Gets the user manager.
         /// </summary>
         /// <value>
@@ -77,6 +66,29 @@ namespace Blog.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
+        public AccountController()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="signInManager">The sign in manager.</param>
+        /// <param name="profilesService"></param>
+        public AccountController(
+            ApplicationUserManager userManager,
+            ApplicationSignInManager signInManager,
+            IProfilesService profilesService)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+            _profilesService = profilesService;
         }
 
         // GET: /Account/Login        
@@ -217,17 +229,22 @@ namespace Blog.Controllers
                 return View(model);
             }
 
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser
+            {
+                UserName = model.Email, Email = model.Email,
+            };
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 var store = new UserStore<ApplicationUser>(new BlogContext());
                 var userManager = new UserManager<ApplicationUser>(store);
                 var createdUser = userManager.FindByEmailAsync(model.Email).Result;
-                var profile = new Profile {ApplicationUserId = createdUser.Id };
-                var db = new BlogContext();
-                db.Profiles.Add(profile);
-                db.SaveChanges();
+                createdUser.Profile = new Profile
+                {
+                    ApplicationUserId = createdUser.Id
+                };
+                await _profilesService.InsertAsync(createdUser.Profile).ConfigureAwait(false);
+                await userManager.UpdateAsync(createdUser);
                 await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                 // Send an email with this link.

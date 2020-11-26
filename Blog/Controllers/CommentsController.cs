@@ -55,7 +55,6 @@ namespace Blog.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Create(Comment comment)
         {
             if (!User.Identity.IsAuthenticated)
@@ -108,19 +107,25 @@ namespace Blog.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [CheckPermissionsToEditForComments]
+        //[CheckPermissionsToEditForComments]
         public async Task<ActionResult> Edit(Comment comment)
         {
             try
             {
                 var originalComment = await _commentsService.FindAsync(comment.Id);
-                if (originalComment != null && !originalComment.AuthorId.Equals(User.Identity.GetUserId()))
+                if (originalComment == null)
                 {
                     return RedirectToAction("Show/" + comment.PostId, "Posts");
                 }
 
-                comment.AuthorId = User.Identity.GetUserId();
-                await _commentsService.InsertAsync(comment);
+                if (!originalComment.AuthorId.Equals(User.Identity.GetUserId()))
+                {
+                    return RedirectToAction("Show/" + comment.PostId, "Posts");
+                }
+
+                
+                originalComment.CommentBody = comment.CommentBody;
+                await _commentsService.UpdateAsync(originalComment);
 
                 return RedirectToAction("Show/" + comment.PostId, "Posts");
             }

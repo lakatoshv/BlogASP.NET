@@ -32,7 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc">
       <HintPath>..\Blog\bin\System.Web.Mvc.dll</HintPath>
     </Reference>
@@ -44,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\FileExt.cs" />
     <Compile Include="Attributes\StringValueAttribute.cs" />
+    <Compile Include="Enums\ManageMessageId.cs" />
     <Compile Include="Enums\OrderBy.cs" />
     <Compile Include="Enums\SortBy.cs" />
     <Compile Include="Enums\Status.cs" />

@@ -44,7 +44,7 @@
                 }
                 <img style="width: 100%; height: 300px;" src="@Model.Post.ImageUrl" alt=""/>
                 <h3 class="post-subtitle text-center">
-                    @Model.Post.Description
+                    @Html.Raw(@Model.Post.Description)
                 </h3>
                 <p class="post-meta">
                     <span><i class="fa fa-fw fa-eye"></i> @Model.Post.Seen</span>
@@ -54,11 +54,11 @@
                 <p class="post-meta">
                     Теги: @Model.Post.Tags
                 </p>
-                <p class="text-justify">@Model.Post.Content</p>
+                <p class="text-justify">@Html.Raw(@Model.Post.Content)</p>
                 @{ var authorPage = Url.Action("Details", "Profile") + "/" + Model.Post.Author.Profile.Id; }
                 <p class="post-meta">
                     Написав: <b>
-                        <a href="@authorPage">@Model.Post.Author</a><i>
+                        <a href="@authorPage">@Model.Post.Author.FirstName @Model.Post.Author.LastName</a><i>
                             20.11.2018
                         </i>
                     </b>
@@ -88,6 +88,8 @@
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <!-- TODO Remove from here -->
+                                @Html.HiddenFor(model =>model.Comment.AuthorId, new { Value = User.Identity.GetUserId() })
                                 @Html.TextBoxFor(model => model.Comment.PostId, new { @class = "form-control comment_input", @id = "post-id", Value = Model.Post.Id, @type = "hidden" })
                                 @Html.TextAreaFor(model => model.Comment.CommentBody, new { @class = "comment_text", @id = "comment", @placeholder = "Коментар" })
                                 <button class="btn btn-sm btn-success" type="submit">Додати коментар</button>
