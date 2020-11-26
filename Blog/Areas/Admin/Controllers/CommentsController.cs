@@ -67,7 +67,7 @@ namespace Blog.Areas.Admin.Controllers
             var commentsDto = await _commentsService.GetCommentsForPost(postId.Value, null, null);
             
 
-            return View(new PostShowViewModel
+            return View(new PostViewModel
             {
                 Post = await _postsService.FindAsync(postId),
                 Comments = new CommentsViewModel

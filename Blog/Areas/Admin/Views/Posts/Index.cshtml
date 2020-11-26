@@ -89,7 +89,13 @@
                                     <td>@item.Tags</td>
                                     <td>
                                         @{ var authorPage = item.Author != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Author.Profile.Id : ""; }
-                                        <a href="@authorPage" title="@item.Author?.FirstName @item.Author?.LastName">@item.Author?.FirstName @item.Author?.LastName</a>
+                                        <a href="@authorPage" title="@item.Author?.FirstName @item.Author?.LastName">
+                                            @if (item.Author != null)
+                                            {
+                                                @item.Author.FirstName
+                                                @item.Author.LastName
+                                            }
+                                        </a>
                                     </td>
                                     <td>
                                         @Html.DropDownListFor(

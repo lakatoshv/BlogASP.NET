@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Net;
 using System.Threading.Tasks;
@@ -24,12 +25,29 @@ namespace Blog.Controllers
         private readonly IPostsService _postsService;
 
         /// <summary>
+        /// The comments service.
+        /// </summary>
+        private readonly ICommentsService _commentsService;
+
+        /// <summary>
+        /// The tags service.
+        /// </summary>
+        private readonly ITagsService _tagsService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PostsController"/> class.
         /// </summary>
         /// <param name="postsService">The posts service.</param>
-        public PostsController(IPostsService postsService)
+        /// <param name="commentsService"></param>
+        /// <param name="tagsService"></param>
+        public PostsController(
+            IPostsService postsService,
+            ICommentsService commentsService,
+            ITagsService tagsService)
         {
             _postsService = postsService;
+            _commentsService = commentsService;
+            _tagsService = tagsService;
         }
 
         // GET: Posts        
@@ -150,7 +168,8 @@ namespace Blog.Controllers
                 {
                     return View();
                 }
-
+                // TODO remove from here
+                postModel.PostTags = new Collection<Tag>();
                 //postModel.CreatedAt = DateTime.Now;
                 postModel.AuthorId = User.Identity.GetUserId();
 
@@ -291,15 +310,21 @@ namespace Blog.Controllers
                 editedPost.Dislikes = postModel.Dislikes;
                 editedPost.Seen = postModel.Seen;
                 editedPost.CreatedAt = DateTime.Now;
-                await _postsService.UpdateAsync(editedPost);
 
+                postModel.Title = editedPost.Title;
+                postModel.Description = editedPost.Description;
+                postModel.Content = editedPost.Content;
+                postModel.ImageUrl = editedPost.ImageUrl;
+                postModel.Tags = editedPost.Tags;
+                await _postsService.UpdateAsync(postModel);
                 return RedirectToAction("Show/" + id, "Posts");
             }
-            catch (DataException /* dex */)
+            catch (DataException dex)
             {
-                return RedirectToAction("Index", "Posts");
                 //Log the error (uncomment dex variable name and add a line here to write a log.
-                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                ModelState.AddModelError("", dex.Message);
+
+                return RedirectToAction("Index", "Posts");
             }
         }
 
@@ -335,13 +360,15 @@ namespace Blog.Controllers
             }
             try
             {
+                await _commentsService.DeletePostComments(id.Value);
+                await _tagsService.DeletePostTags(id.Value);
                 await _postsService.DeleteAsync(id.Value);
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception exception)
             {
-                //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                ModelState.AddModelError("", exception.Message);
             }
             return RedirectToAction("Index");
         }

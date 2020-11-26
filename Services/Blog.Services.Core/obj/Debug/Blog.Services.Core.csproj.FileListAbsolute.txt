@@ -7,9 +7,9 @@ D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\Blog.Data.C
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.Web.Mvc.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\EntityFramework.dll
-D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.Web.Razor.dll
-D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.Web.WebPages.Razor.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.Web.WebPages.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.Web.WebPages.Razor.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.Web.Razor.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\Microsoft.Web.Infrastructure.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.Web.WebPages.Deployment.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\Blog.Core.pdb

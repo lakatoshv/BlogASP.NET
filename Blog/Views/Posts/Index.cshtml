@@ -101,9 +101,9 @@
                                 </button>
                             </p>
                         }
-                        <img style="width: 100%; height: 300px;" src="@item.ImageUrl" />
+                        <img style="width: 100%; height: 300px;" src="@item.ImageUrl" alt=""/>
                         <h3 class="post-subtitle">
-                            @item.Description
+                            @Html.Raw(@item.Description)
                         </h3>
                     </a>
                     <p class="post-meta">

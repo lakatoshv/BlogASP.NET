@@ -292,17 +292,10 @@
     <Compile Include="Areas\Admin\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
-    <Compile Include="Areas\Admin\Services\Posts\CommentsService.cs" />
-    <Compile Include="Areas\Admin\Services\Posts\Interfaces\ICommentsService.cs" />
-    <Compile Include="Areas\Admin\Services\Posts\Interfaces\IPostsService.cs" />
-    <Compile Include="Areas\Admin\Services\Posts\PostsService.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\CommentsViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\Posts\CommentViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\Posts\CommentWithPostViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\PostsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\PostViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Users\ProfileViewModel.cs" />
-    <Compile Include="Areas\test\Controllers\CommentsController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -310,64 +303,15 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
-    <Compile Include="Core\Attributes\CheckPermissions.cs" />
-    <Compile Include="Core\Attributes\StringValueAttribute.cs" />
-    <Compile Include="Core\Dtos\SortParametersDto.cs" />
-    <Compile Include="Core\Enums\OrderBy.cs" />
-    <Compile Include="Core\Enums\SortBy.cs" />
-    <Compile Include="Core\Enums\Status.cs" />
-    <Compile Include="Core\HelperClasses\PageInfo.cs" />
-    <Compile Include="Core\HelperClasses\GetStringValueFromEnum.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PagingHelpers.cs" />
-    <Compile Include="Migrations\201808302205064_Initial.cs" />
-    <Compile Include="Migrations\201808302205064_Initial.Designer.cs">
-      <DependentUpon>201808302205064_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812091731226_Comment.cs" />
-    <Compile Include="Migrations\201812091731226_Comment.Designer.cs">
-      <DependentUpon>201812091731226_Comment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902270928076_CreatedAtFieldInPosts.cs" />
-    <Compile Include="Migrations\201902270928076_CreatedAtFieldInPosts.Designer.cs">
-      <DependentUpon>201902270928076_CreatedAtFieldInPosts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903281454306_ProfileTable.cs" />
-    <Compile Include="Migrations\201903281454306_ProfileTable.Designer.cs">
-      <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904121341232_MessageTable.cs" />
-    <Compile Include="Migrations\201904121341232_MessageTable.Designer.cs">
-      <DependentUpon>201904121341232_MessageTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201904121352347_ChangeFieldTitleInMessages.cs" />
-    <Compile Include="Migrations\201904121352347_ChangeFieldTitleInMessages.Designer.cs">
-      <DependentUpon>201904121352347_ChangeFieldTitleInMessages.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201905070759039_TagsTable.cs" />
-    <Compile Include="Migrations\201905070759039_TagsTable.Designer.cs">
-      <DependentUpon>201905070759039_TagsTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909161609576_AddStatusFieldIntoPostTable.cs" />
-    <Compile Include="Migrations\201909161609576_AddStatusFieldIntoPostTable.Designer.cs">
-      <DependentUpon>201909161609576_AddStatusFieldIntoPostTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
-    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Posts\CommentsService.cs" />
-    <Compile Include="Services\Posts\Interfaces\ICommentsService.cs" />
-    <Compile Include="Services\Posts\Interfaces\IPostsService.cs" />
-    <Compile Include="Services\Posts\PostsService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\Posts\CommentsViewModel.cs" />
-    <Compile Include="ViewModels\Posts\CommentViewModel.cs" />
     <Compile Include="ViewModels\Posts\PostsViewModel.cs" />
     <Compile Include="ViewModels\Posts\PostViewModel.cs" />
     <Compile Include="ViewModels\Users\ProfileViewModel.cs" />
@@ -483,9 +427,6 @@
     <Content Include="Content\Site.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="obj\Debug\Blog.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\Blog.dll" />
-    <Content Include="obj\Debug\Blog.pdb" />
     <Content Include="public\blog.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2533,19 +2474,6 @@
     <Content Include="Areas\Admin\Views\Comments\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Comments\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Comments\Index.cshtml" />
-    <Content Include="obj\Debug\Blog.csproj.CopyComplete" />
-    <Content Include="obj\Debug\Blog.csproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\Blog.csproj.GenerateResource.cache" />
-    <Content Include="obj\Debug\Blog.csprojAssemblyReference.cache" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="Areas\test\Views\_ViewStart.cshtml" />
-    <Content Include="Areas\test\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\test\Views\Comments\Create.cshtml" />
-    <Content Include="Areas\test\Views\Comments\Delete.cshtml" />
-    <Content Include="Areas\test\Views\Comments\Details.cshtml" />
-    <Content Include="Areas\test\Views\Comments\Edit.cshtml" />
-    <Content Include="Areas\test\Views\Comments\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Comments\PostComments.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.intellisense.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -2640,51 +2568,20 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
+    <Content Include="Areas\Admin\Views\Shared\_UploadExcel.cshtml" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201808302205064_Initial.resx">
-      <DependentUpon>201808302205064_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812091731226_Comment.resx">
-      <DependentUpon>201812091731226_Comment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902270928076_CreatedAtFieldInPosts.resx">
-      <DependentUpon>201902270928076_CreatedAtFieldInPosts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903281454306_ProfileTable.resx">
-      <DependentUpon>201903281454306_ProfileTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904121341232_MessageTable.resx">
-      <DependentUpon>201904121341232_MessageTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904121352347_ChangeFieldTitleInMessages.resx">
-      <DependentUpon>201904121352347_ChangeFieldTitleInMessages.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201905070759039_TagsTable.resx">
-      <DependentUpon>201905070759039_TagsTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909161609576_AddStatusFieldIntoPostTable.resx">
-      <DependentUpon>201909161609576_AddStatusFieldIntoPostTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="obj\Debug\Blog.Migrations.AddStatusFieldIntoPostTable.resources" />
-    <EmbeddedResource Include="obj\Debug\Blog.Migrations.ChangeFieldTitleInMessages.resources" />
-    <EmbeddedResource Include="obj\Debug\Blog.Migrations.Comment.resources" />
-    <EmbeddedResource Include="obj\Debug\Blog.Migrations.CreatedAtFieldInPosts.resources" />
-    <EmbeddedResource Include="obj\Debug\Blog.Migrations.Initial.resources" />
-    <EmbeddedResource Include="obj\Debug\Blog.Migrations.MessageTable.resources" />
-    <EmbeddedResource Include="obj\Debug\Blog.Migrations.ProfileTable.resources" />
-    <EmbeddedResource Include="obj\Debug\Blog.Migrations.TagsTable.resources" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Message\Details.cshtml" />
+    <Content Include="Views\Message\Create.cshtml" />
+    <Content Include="Views\Message\Edit.cshtml" />
+    <Content Include="Views\Message\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\test\Models\" />
-    <Folder Include="obj\Debug\TempPE\" />
-    <Folder Include="Views\Message\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blog.Core\Blog.Core.csproj">
@@ -2702,6 +2599,10 @@
     <ProjectReference Include="..\BLog.Data\BLog.Data.csproj">
       <Project>{6C66F33F-703F-4BD4-A4F0-D4E3E78BE028}</Project>
       <Name>BLog.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Blog.Services.Core\Blog.Services.Core.csproj">
+      <Project>{275B96D7-4685-4640-9337-8A0FEC2CE9D3}</Project>
+      <Name>Blog.Services.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Blog.Services\Blog.Services.csproj">
       <Project>{F105B7A4-DCF4-4560-BAF3-BE76E5C32D3A}</Project>
