@@ -1,4 +1,12 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using Blog.Services.Identity;
+using System.Web.Mvc;
+using Blog.Areas.Admin.ViewModels;
+using Microsoft.AspNet.Identity.Owin;
+using Blog.Services.Posts.Interfaces;
 
 namespace Blog.Areas.Admin.Controllers
 {
@@ -9,15 +17,39 @@ namespace Blog.Areas.Admin.Controllers
     [Authorize(Roles = "Administrator")]
     public class HomeController : Controller
     {
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        private readonly IPostsService _postsService;
+
+        public HomeController(
+            IPostsService postsService)
+        {
+            _postsService = postsService;
+        }
+
         // GET: Admin/Home        
         /// <summary>
         /// Indexes this instance.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Index()
-        {
-            return View();
-        }
+        public async Task<ActionResult> Index() => 
+            View(new DashboardViewModel
+            {
+                Users = await UserManager.Users.ToListAsync(),
+                Posts = await _postsService.GetAllAsync(),
+            });
     }
 }

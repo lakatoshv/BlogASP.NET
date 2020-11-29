@@ -37,6 +37,7 @@ namespace Blog
             container.RegisterType<ICommentsService, CommentsService>();
             container.RegisterType<IMessagesService, MessagesService>();
             container.RegisterType<IPostsService, PostsService>();
+            container.RegisterType<IUploadFromFileService, UploadFromFileService>();
             container.RegisterType<IProfilesService, ProfilesService>();
             container.RegisterType<ITagsService, TagsService>();
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();

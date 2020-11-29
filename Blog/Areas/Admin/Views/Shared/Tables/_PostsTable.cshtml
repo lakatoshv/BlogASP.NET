@@ -1,0 +1,78 @@
+﻿@model IList<Blog.Data.Models.Post>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                @Html.ActionLink("Нові пости", "Index", "Posts", new { area = "Admin" }, new { @class = "navbar-brand" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Усі пости", "Index", "Posts", new { area = "Admin" }, new { @class = "navbar-brand" })
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%">
+                <thead>
+                    <tr>
+                        <th><b>Назва:</b></th>
+                        <th><b>Теги:</b></th>
+                        <th><b>Автор:</b></th>
+                        <th><b>Кількість переглядів:</b></th>
+                        <th><b>Кількість лайків:</b></th>
+                        <th><b>Кількість дизлайків:</b></th>
+                        <th><b>Кількість коментарів:</b></th>
+                        <th><b>Дата створення:</b></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th><b>Назва:</b></th>
+                        <th><b>Теги:</b></th>
+                        <th><b>Автор:</b></th>
+                        <th><b>Кількість переглядів:</b></th>
+                        <th><b>Кількість лайків:</b></th>
+                        <th><b>Кількість дизлайків:</b></th>
+                        <th><b>Кількість коментарів:</b></th>
+                        <th><b>Дата створення:</b></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>
+                                @{
+                                    var tags = string.Join(", ", item.PostTags.Select(x => x.Title));
+                                }
+                                @tags
+                            </td>
+                            <td>@item.Author.FirstName @item.Author.LastName</td>
+                            <td>@item.Seen</td>
+                            <td>@item.Likes</td>
+                            <td>@item.Dislikes</td>
+                            <td>@item.Comments.Count</td>
+                            <td>@item.CreatedAt</td>
+                            <td data-th="">
+                                <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
+                                <button type="button"
+                                        class="btn btn-sm text-white btn-danger"
+                                        id="@item.Id"
+                                        onclick="setDeletePostValues(this.id)"
+                                        data-toggle="modal"
+                                        data-target="#delete-post">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
