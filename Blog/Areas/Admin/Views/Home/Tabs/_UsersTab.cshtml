@@ -1,0 +1,30 @@
+﻿@model Blog.Areas.Admin.ViewModels.DashboardViewModel
+
+<div class="col-12 mb-3">
+    <div class="card text-white bg-success h-100">
+        <div class="card-body">
+            <div class="">
+                <i class="fa fa-fw fa-user"></i>
+            </div>
+            <div class="mr-5">123 нових користувачів!</div>
+        </div>
+        <a class="card-footer text-white clearfix small" href="#">
+            <span class="float-left">View Details</span>
+            <span class="float-right">
+                <i class="fa fa-angle-right"></i>
+            </span>
+        </a>
+    </div>
+</div>
+
+@{
+    Html.RenderPartial("Tables/_RolesTable");
+}
+
+@{
+    string[] usersChartData = { "Активність користувачів", "usersChart" };
+    Html.RenderPartial("_ActivityChart", usersChartData);
+}
+@{
+    Html.RenderPartial("Tables/_UsersTable", Model.Users);
+}
