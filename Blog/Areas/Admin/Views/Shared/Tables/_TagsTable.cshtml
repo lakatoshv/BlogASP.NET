@@ -1,0 +1,98 @@
+﻿<div class="card mb-3">
+    <div class="card-header">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                @Html.ActionLink("Детальніше", "Index", "Posts", new { area = "Admin" }, new { @class = "navbar-brand" })
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%">
+                <thead>
+                    <tr>
+                        <th><b>Назва:</b></th>
+                        <th><b>Назва на англійській:</b></th>
+                        <th><b>Пости:</b></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th><b>Назва:</b></th>
+                        <th><b>Назва на англійській:</b></th>
+                        <th><b>Пости:</b></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>Test</td>
+                        <td>Тест</td>
+                        <td>0</td>
+                        <td data-th="">
+                            <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
+                            <button type="button"
+                                    class="btn btn-sm text-white btn-danger"
+                                    id=""
+                                    onclick="setDeletePostValues(this.id)"
+                                    data-toggle="modal"
+                                    data-target="#delete-post">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Тест1</td>
+                        <td>Тест1</td>
+                        <td>5</td>
+                        <td data-th="">
+                            <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
+                            <button type="button"
+                                    class="btn btn-sm text-white btn-danger"
+                                    id=""
+                                    onclick="setDeletePostValues(this.id)"
+                                    data-toggle="modal"
+                                    data-target="#delete-post">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Тест2</td>
+                        <td>Тест2</td>
+                        <td>0</td>
+                        <td data-th="">
+                            <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
+                            <button type="button"
+                                    class="btn btn-sm text-white btn-danger"
+                                    id=""
+                                    onclick="setDeletePostValues(this.id)"
+                                    data-toggle="modal"
+                                    data-target="#delete-post">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Новий Тест</td>
+                        <td>Новий Тест</td>
+                        <td>0</td>
+                        <td data-th="">
+                            <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
+                            <button type="button"
+                                    class="btn btn-sm text-white btn-danger"
+                                    id=""
+                                    onclick="setDeletePostValues(this.id)"
+                                    data-toggle="modal"
+                                    data-target="#delete-post">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>

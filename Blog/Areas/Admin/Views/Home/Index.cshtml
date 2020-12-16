@@ -48,7 +48,8 @@
             }
 
             @{
-                Html.RenderPartial("_ActivityChart", "Активність користувачів");
+                string[] usersChartData = { "Активність користувачів", "usersChart"};
+                Html.RenderPartial("_ActivityChart", usersChartData);
             }
             @{
                 Html.RenderPartial("Tables/_UsersTable", Model.Users);
@@ -126,31 +127,35 @@
             </div>
 
             @{
-                Html.RenderPartial("_ActivityChart", "Створення категорій");
+                string[] categoriesChartData = { "Створення категорій", "categoriesChart" };
+                Html.RenderPartial("_ActivityChart", categoriesChartData);
             }
             @{
                 Html.RenderPartial("Tables/_CategoriesTable");
             }
 
             @{
-                Html.RenderPartial("_ActivityChart", "Створення постів");
+                string[] postsChartData = { "Створення постів", "postsChart" };
+                Html.RenderPartial("_ActivityChart", postsChartData);
             }
             @{
                 Html.RenderPartial("Tables/_PostsTable", Model.Posts);
             }
 
             @{
-                Html.RenderPartial("_ActivityChart", "Створення коментарів");
+                string[] commentsChartData = { "Створення коментарів", "commentsChart" };
+                Html.RenderPartial("_ActivityChart", commentsChartData);
             }
             @{
-                Html.RenderPartial("Tables/_PostsTable", Model.Posts);
+                Html.RenderPartial("Tables/_CommentsTableGroupedByPost");
             }
 
             @{
-                Html.RenderPartial("_ActivityChart", "Створення тегів");
+                string[] tagsChartData = { "Створення тегів", "tagsChart" };
+                Html.RenderPartial("_ActivityChart", tagsChartData);
             }
             @{
-                Html.RenderPartial("Tables/_PostsTable", Model.Posts);
+                Html.RenderPartial("Tables/_TagsTable");
             }
         </div>
 

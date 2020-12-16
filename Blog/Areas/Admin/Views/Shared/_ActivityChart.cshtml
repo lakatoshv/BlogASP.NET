@@ -1,13 +1,13 @@
-﻿@model string
+﻿@model string[]
 
 <!-- Area Chart Example-->
 <div class="card mb-3">
     <div class="card-header">
         <i class="fa fa-chart-area"></i>
-        @Model
+        @Model[0]
     </div>
     <div class="card-body">
-        <canvas id="usersChart" width="100%" height="30"></canvas>
+        <canvas id="@Model[1]" width="100%" height="30"></canvas>
     </div>
     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
 </div>

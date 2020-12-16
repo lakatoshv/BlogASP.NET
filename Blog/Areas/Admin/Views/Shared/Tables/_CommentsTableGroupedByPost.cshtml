@@ -1,0 +1,39 @@
+﻿<div class="card mb-3">
+    <div class="card-header">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                @Html.ActionLink("Детальніше", "Index", "Posts", new { area = "Admin" }, new { @class = "navbar-brand" })
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%">
+                <thead>
+                    <tr>
+                        <th><b>Пост:</b></th>
+                        <th><b>Кількість коментарів:</b></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th><b>Пост:</b></th>
+                        <th><b>Кількість коментарів:</b></th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr>
+                        <td>Test</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Тест1</td>
+                        <td>5</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>
+
