@@ -29,7 +29,7 @@ namespace Blog.Services.Posts.Interfaces
         /// <param name="sortParameters">The sort parameters.</param>
         /// <param name="onlyWithComments">if set to <c>true</c> [only with comments].</param>
         /// <returns>Task.</returns>
-        Task<IList<Post>> GetPopularPosts(SortParametersDto sortParameters, bool onlyWithComments = false);
+        Task<List<Post>> GetPopularPosts(SortParametersDto sortParameters, bool onlyWithComments = false);
 
         /// <summary>
         /// Async get sorted and filtered user posts.

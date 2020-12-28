@@ -56,7 +56,7 @@
             </li>
         </ul>
         <div class="clearfix"></div>
-        <div class="col-lg-10 col-md-10 mx-auto">
+        <div class="col-lg-8 col-md-8 mx-auto">
             @{
                 var createPost = Url.Action("Create", "Posts");
             }
@@ -101,7 +101,7 @@
                                 </button>
                             </p>
                         }
-                        <img style="width: 100%; height: 300px;" src="@item.ImageUrl" alt=""/>
+                        <img style="width: 100%; height: 300px;" src="@item.ImageUrl" alt="" />
                         <h3 class="post-subtitle">
                             @Html.Raw(@item.Description)
                         </h3>
@@ -133,9 +133,14 @@
             {
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new {page = x}))
+                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
                     </ul>
                 </nav>
+            }
+        </div>
+        <div class="col-lg-4 col-md-4 mx-auto sidebar pt-5">
+            @{
+                Html.RenderPartial("_RightSidebar", Model.PopularItems);
             }
         </div>
     </div>
