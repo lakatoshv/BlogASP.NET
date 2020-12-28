@@ -70,10 +70,7 @@ namespace Blog.Areas.Admin.Controllers
         /// <returns>ActionResult.</returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public ActionResult Create() => View();
 
         // POST: Posts/Create
         /// <summary>

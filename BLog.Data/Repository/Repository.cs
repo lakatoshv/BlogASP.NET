@@ -28,10 +28,10 @@ namespace BLog.Data.Repository
         /// </summary>
         private DbSet<TEntity> _entities;
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public IQueryable<TEntity> Table => _entities;
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public IQueryable<TEntity> TableNoTracking => _entities.AsNoTracking();
 
         /// <summary>
@@ -51,43 +51,30 @@ namespace BLog.Data.Repository
             _dbContext = db;
         }
 
-        /// <inheritdoc/>
-        public IQueryable<TEntity> GetAll()
-        {
-            return Entities.AsQueryable();
-        }
+        /// <inheritdoc cref="IRepository{TEntity}"/>
+        public IQueryable<TEntity> GetAll() => Entities.AsQueryable();
 
-        /// <inheritdoc/>
-        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression)
-        {
-            return Entities.Where(expression);
-        }
+        /// <inheritdoc cref="IRepository{TEntity}"/>
+        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> expression) =>
+            Entities.Where(expression);
 
-        /// <inheritdoc/>
-        public async Task<IList<TEntity>> GetAllAsync()
-        {
-            return await Entities.ToListAsync().ConfigureAwait(false);
-        }
+        /// <inheritdoc cref="IRepository{TEntity}"/>
+        public async Task<IList<TEntity>> GetAllAsync() =>
+            await Entities.ToListAsync().ConfigureAwait(false);
 
-        /// <inheritdoc/>
-        public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression)
-        {
-            return await Entities.Where(expression).ToListAsync().ConfigureAwait(false);
-        }
+        /// <inheritdoc cref="IRepository{TEntity}"/>
+        public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression) =>
+            await Entities.Where(expression).ToListAsync().ConfigureAwait(false);
 
-        /// <inheritdoc/>
-        public virtual TEntity GetById(object id)
-        {
-            return Entities.Find(id);
-        }
+        /// <inheritdoc cref="IRepository{TEntity}"/>
+        public virtual TEntity GetById(object id) =>
+            Entities.Find(id);
 
-        /// <inheritdoc/>
-        public virtual async Task<TEntity> GetByIdAsync(object id)
-        {
-            return await Entities.FindAsync(id).ConfigureAwait(false);
-        }
+        /// <inheritdoc cref="IRepository{TEntity}"/>
+        public virtual async Task<TEntity> GetByIdAsync(object id) =>
+            await Entities.FindAsync(id).ConfigureAwait(false);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual void Insert(TEntity entity)
         {
             if (entity == null)
@@ -106,7 +93,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual void Insert(IEnumerable<TEntity> entities)
         {
             if (entities == null)
@@ -125,7 +112,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual async Task InsertAsync(TEntity entity)
         {
             if (entity == null)
@@ -144,7 +131,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual async Task InsertAsync(IEnumerable<TEntity> entities)
         {
             if (entities == null)
@@ -163,7 +150,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual void Update(TEntity entity)
         {
             if (entity == null)
@@ -182,7 +169,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual void Update(IEnumerable<TEntity> entities)
         {
             if (entities == null)
@@ -201,7 +188,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual async Task UpdateAsync(TEntity entity)
         {
             if (entity == null)
@@ -220,7 +207,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual async Task UpdateAsync(IEnumerable<TEntity> entities)
         {
             if (entities == null)
@@ -239,7 +226,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual void Delete(TEntity entity)
         {
             if (entity == null)
@@ -258,7 +245,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual void Delete(IEnumerable<TEntity> entities)
         {
             if (entities == null)
@@ -277,7 +264,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual async Task DeleteAsync(TEntity entity)
         {
             if (entity == null)
@@ -296,7 +283,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public virtual async Task DeleteAsync(IEnumerable<TEntity> entities)
         {
             if (entities == null)
@@ -315,7 +302,7 @@ namespace BLog.Data.Repository
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public bool Any(Expression<Func<TEntity, bool>> expression)
         {
             if (expression == null)
@@ -326,7 +313,7 @@ namespace BLog.Data.Repository
             return Entities.Any(expression);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public TEntity FirstOrDefault(Expression<Func<TEntity, bool>> expression)
         {
             if (expression == null)
@@ -337,7 +324,7 @@ namespace BLog.Data.Repository
             return Entities.FirstOrDefault(expression);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public async Task<TEntity> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression)
         {
             if (expression == null)
@@ -348,7 +335,7 @@ namespace BLog.Data.Repository
             return await Entities.FirstOrDefaultAsync(expression);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public TEntity LastOrDefault(Expression<Func<TEntity, bool>> expression)
         {
             if (expression == null)
@@ -359,7 +346,7 @@ namespace BLog.Data.Repository
             return Entities.LastOrDefault(expression);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> expression)
         {
             if (expression == null)
@@ -370,7 +357,7 @@ namespace BLog.Data.Repository
             return Entities.Where(expression);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IRepository{TEntity}"/>
         public int Count(Expression<Func<TEntity, bool>> expression)
         {
             if (expression == null)
@@ -381,15 +368,13 @@ namespace BLog.Data.Repository
             return Entities.Count(expression);
         }
 
-        /// <inheritdoc/>
-        public SelectList GetTableSelectList(string valueField, string fieldToDisplay, object selectedValue)
-        {
-            return selectedValue != null 
+        /// <inheritdoc cref="IRepository{TEntity}"/>
+        public SelectList GetTableSelectList(string valueField, string fieldToDisplay, object selectedValue) =>
+            selectedValue != null 
                 ? new SelectList(Entities, valueField, fieldToDisplay, selectedValue) 
                 : new SelectList(Entities, valueField, fieldToDisplay);
-        }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable"/>
         public void Dispose()
         {
             Dispose(true);
@@ -412,7 +397,7 @@ namespace BLog.Data.Repository
         /// Gets the full error text and rollback entity changes.
         /// </summary>
         /// <param name="exception">The exception.</param>
-        /// <returns></returns>
+        /// <returns>string.</returns>
         protected string GetFullErrorTextAndRollbackEntityChanges(DbUpdateException exception)
         {
             if (_dbContext != null)

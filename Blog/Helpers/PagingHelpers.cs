@@ -16,7 +16,7 @@ namespace Blog.Helpers
         /// <param name="html">The HTML.</param>
         /// <param name="pageInfo">The page information.</param>
         /// <param name="pageUrl">The page URL.</param>
-        /// <returns></returns>
+        /// <returns>MvcHtmlString.</returns>
         public static MvcHtmlString PageLinks(
             this HtmlHelper html,
             PageInfo pageInfo, 

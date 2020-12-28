@@ -16,21 +16,21 @@ namespace Blog.Services.Interfaces
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="userId">The user identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         Task<ProfileDto> GetProfileByUserId(int id, string userId);
 
         /// <summary>
         /// Gets the profile with posts by user identifier.
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         Task<ProfileDto> GetProfileWithPostsByUserId(string userId);
 
         /// <summary>
         /// Gets the profile with posts by identifier.
         /// </summary>
         /// <param name="id">The profile identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         Task<ProfileDto> GetProfileWithPostsById(int id);
 
         /// <summary>

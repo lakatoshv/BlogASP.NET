@@ -29,7 +29,7 @@ namespace Blog.Services.Identity
         /// </summary>
         /// <param name="options">The options.</param>
         /// <param name="context">The context.</param>
-        /// <returns></returns>
+        /// <returns>ApplicationUserManager.</returns>
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<BlogContext>()));

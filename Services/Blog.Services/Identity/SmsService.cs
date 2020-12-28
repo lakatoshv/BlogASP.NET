@@ -14,11 +14,8 @@ namespace Blog.Services.Identity
         /// Sends the asynchronous.
         /// </summary>
         /// <param name="message">The message.</param>
-        /// <returns></returns>
-        public Task SendAsync(IdentityMessage message)
-        {
-            // TODO Connect the SMS service here to send a text message.
-            return Task.FromResult(0);
-        }
+        /// <returns>Task.</returns>
+        public Task SendAsync(IdentityMessage message) =>
+            Task.FromResult(0);
     }
 }

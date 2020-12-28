@@ -14,6 +14,7 @@ namespace Blog
         /// <summary>
         /// Applications the start.
         /// </summary>
+        [System.Obsolete]
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

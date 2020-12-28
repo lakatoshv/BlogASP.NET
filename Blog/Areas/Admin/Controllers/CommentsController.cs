@@ -45,10 +45,8 @@ namespace Blog.Areas.Admin.Controllers
         /// </summary>
         /// <returns>ActionResult.</returns>
         [HttpGet]
-        public async Task<ActionResult> Index()
-        {
-            return View(await _commentsService.GetAllComments());
-        }
+        public async Task<ActionResult> Index() =>
+            View(await _commentsService.GetAllComments());
 
         // GET: test/Comments/Details/5
         /// <summary>
@@ -105,7 +103,7 @@ namespace Blog.Areas.Admin.Controllers
         /// <summary>
         /// Create comment page.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         public ActionResult Create()
         {
@@ -118,7 +116,7 @@ namespace Blog.Areas.Admin.Controllers
         /// Create comment action.
         /// </summary>
         /// <param name="comment"></param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Comment comment)

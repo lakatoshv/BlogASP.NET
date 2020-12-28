@@ -43,7 +43,7 @@ namespace Blog.Areas.Admin.Controllers
         /// <summary>
         /// Indexes this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         public async Task<ActionResult> Index() => 
             View(new DashboardViewModel

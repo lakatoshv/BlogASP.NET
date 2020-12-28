@@ -1,6 +1,5 @@
 ﻿using System;
 using Blog.Core;
-using Blog.Data.Core.Models.Interfaces;
 
 namespace Blog.Data.Core
 {
@@ -21,10 +20,7 @@ namespace Blog.Data.Core
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <returns>bool.</returns>
-        public static bool operator ==(Entity x, Entity y)
-        {
-            return Equals(x, y);
-        }
+        public static bool operator ==(Entity x, Entity y) => Equals(x, y);
 
         /// <summary>
         /// Override !=.
@@ -32,20 +28,14 @@ namespace Blog.Data.Core
         /// <param name="x">x.</param>
         /// <param name="y">y.</param>
         /// <returns>bool.</returns>
-        public static bool operator !=(Entity x, Entity y)
-        {
-            return !(x == y);
-        }
+        public static bool operator !=(Entity x, Entity y) => !(x == y);
 
         /// <summary>
         /// Equals.
         /// </summary>
         /// <param name="obj">obj.</param>
         /// <returns>bool.</returns>
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as Entity);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as Entity);
 
         /// <summary>
         /// Equals.
@@ -75,29 +65,22 @@ namespace Blog.Data.Core
             return thisType.IsAssignableFrom(otherType) || otherType.IsAssignableFrom(thisType);
         }
 
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return Equals(this.Id, default(int)) ? base.GetHashCode() : this.Id.GetHashCode();
-        }
+        /// <inheritdoc cref="IEntityBase{T}"/>
+        public override int GetHashCode() =>
+            Equals(this.Id, default(int)) ? base.GetHashCode() : this.Id.GetHashCode();
 
         /// <summary>
         /// Is transient.
         /// </summary>
         /// <param name="obj">obj.</param>
         /// <returns>bool.</returns>
-        private static bool IsTransient(Entity obj)
-        {
-            return obj != null && Equals(obj.Id, default(int));
-        }
+        private static bool IsTransient(Entity obj) =>
+            obj != null && Equals(obj.Id, default(int));
 
         /// <summary>
         /// Get unproxied type.
         /// </summary>
         /// <returns>Type.</returns>
-        private Type GetUnproxiedType()
-        {
-            return this.GetType();
-        }
+        private Type GetUnproxiedType() => this.GetType();
     }
 }

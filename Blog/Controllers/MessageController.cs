@@ -30,20 +30,17 @@ namespace Blog.Controllers
         /// <summary>
         /// Indexes the specified search.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult> Index()
-        {
-            return View(await _messagesService.GetAllAsync());
-        }
+        public async Task<ActionResult> Index() => View(await _messagesService.GetAllAsync());
 
         // GET: Message/Details/5
         /// <summary>
         /// Shows the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> Details(int? id)
@@ -59,20 +56,17 @@ namespace Blog.Controllers
         /// <summary>
         /// Creates this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public ActionResult Create() => View();
 
         // POST: Message/Create
         /// <summary>
         /// Creates the specified post model.
         /// </summary>
         /// <param name="message">The post model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -95,7 +89,7 @@ namespace Blog.Controllers
         /// Send message.
         /// </summary>
         /// <param name="messageModel"></param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendMessage(Message messageModel)
@@ -128,7 +122,7 @@ namespace Blog.Controllers
         /// Edits the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> Edit(int? id)
@@ -149,7 +143,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="message">The edited post.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -182,18 +176,15 @@ namespace Blog.Controllers
         /// Deletes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        public ActionResult Delete(int? id)
-        {
-            return View();
-        }
+        /// <returns>ActionResult.</returns>
+        public ActionResult Delete(int? id) => View();
 
         // POST: Message/Delete/5
         /// <summary>
         /// Deletes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         public async Task<ActionResult> Delete(int id)
         {

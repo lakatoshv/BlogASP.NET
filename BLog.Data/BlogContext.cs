@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using Blog.Data.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -63,11 +62,9 @@ namespace BLog.Data
         /// <summary>
         /// Creates this instance.
         /// </summary>
-        /// <returns></returns>
-        public static BlogContext Create()
-        {
-            return new BlogContext();
-        }
+        /// <returns>BlogContext.</returns>
+        public static BlogContext Create() =>
+            new BlogContext();
 
         /// <summary>
         /// On model creating.

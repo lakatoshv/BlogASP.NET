@@ -34,7 +34,7 @@ namespace Blog.Controllers
         /// <summary>
         /// Creates this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [CheckPermissionsToEditForComments]
         public ActionResult Create()
@@ -52,7 +52,7 @@ namespace Blog.Controllers
         /// Creates the specified comment.
         /// </summary>
         /// <param name="comment">The comment.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Comment comment)
@@ -85,7 +85,7 @@ namespace Blog.Controllers
         /// Edits the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Edit(int id)
@@ -104,7 +104,7 @@ namespace Blog.Controllers
         /// Edits the specified comment.
         /// </summary>
         /// <param name="comment">The comment.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[CheckPermissionsToEditForComments]
@@ -145,7 +145,7 @@ namespace Blog.Controllers
         /// Delete post.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [CheckPermissionsToEditForComments]
         public async Task<ActionResult> Delete(int? id)

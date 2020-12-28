@@ -45,7 +45,7 @@ namespace Blog.Services
             _postsService = postsService;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IProfilesService"/>
         public async Task<ProfileDto> GetProfileByUserId(int id, string userId)
         {
             var profile = new ProfileDto { Profile = await Where(pr => pr.Id.Equals(id))
@@ -57,7 +57,7 @@ namespace Blog.Services
             return profile;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IProfilesService"/>
         public async Task<ProfileDto> GetProfileWithPostsByUserId(string userId) =>
             new ProfileDto
             {
@@ -66,7 +66,7 @@ namespace Blog.Services
                 Posts = await _postsService.Where(post => post.AuthorId.Equals(userId)).ToListAsync()
             };
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IProfilesService"/>
         public async Task<ProfileDto> GetProfileWithPostsById(int id)
         {
             var profile = new ProfileDto
@@ -86,7 +86,7 @@ namespace Blog.Services
         }
 
         // Simplify with automapper.
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IProfilesService"/>
         public async Task UpdateProfile(string userId, string email, string phoneNumber, int profileId, Profile profile)
         {
 

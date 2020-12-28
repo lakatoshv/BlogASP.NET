@@ -96,7 +96,7 @@ namespace Blog.Controllers
         /// Logins the specified return URL.
         /// </summary>
         /// <param name="returnUrl">The return URL.</param>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Login(string returnUrl)
@@ -112,7 +112,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="returnUrl">The return URL.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -150,7 +150,7 @@ namespace Blog.Controllers
         /// <param name="provider">The provider.</param>
         /// <param name="returnUrl">The return URL.</param>
         /// <param name="rememberMe">if set to <c>true</c> [remember me].</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -169,7 +169,7 @@ namespace Blog.Controllers
         /// Verifies the code.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -205,20 +205,17 @@ namespace Blog.Controllers
         /// <summary>
         /// Registers this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
+        public ActionResult Register() => View();
 
         // POST: /Account/Register        
         /// <summary>
         /// Registers the specified model.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -267,7 +264,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="code">The code.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -286,20 +283,17 @@ namespace Blog.Controllers
         /// <summary>
         /// Forgot the password.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ForgotPassword()
-        {
-            return View();
-        }
+        public ActionResult ForgotPassword() => View();
 
         // POST: /Account/ForgotPassword        
         /// <summary>
         /// Forgot the password.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -328,33 +322,28 @@ namespace Blog.Controllers
         /// <summary>
         /// Forgot the password confirmation.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
+        public ActionResult ForgotPasswordConfirmation() => View();
 
         // GET: /Account/ResetPassword        
         /// <summary>
         /// Resets the password.
         /// </summary>
         /// <param name="code">The code.</param>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
-        {
-            return code == null ? View("Error") : View();
-        }
+        public ActionResult ResetPassword(string code) =>
+            code == null ? View("Error") : View();
 
         // POST: /Account/ResetPassword        
         /// <summary>
         /// Resets the password.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -387,29 +376,24 @@ namespace Blog.Controllers
         /// <summary>
         /// Resets the password confirmation.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
+        public ActionResult ResetPasswordConfirmation() => View();
 
-        // POST: /Account/ExternalLogin        
+        // POST: /Account/ExternalLogin 
+        // Redirect request to an external login provider
         /// <summary>
         /// Externals the login.
         /// </summary>
         /// <param name="provider">The provider.</param>
         /// <param name="returnUrl">The return URL.</param>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            // Redirect request to an external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-        }
+        public ActionResult ExternalLogin(string provider, string returnUrl) =>
+            new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
 
         // GET: /Account/SendCode        
         /// <summary>
@@ -417,7 +401,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="returnUrl">The return URL.</param>
         /// <param name="rememberMe">if set to <c>true</c> [remember me].</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
@@ -439,7 +423,7 @@ namespace Blog.Controllers
         /// Sends the code.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -464,7 +448,7 @@ namespace Blog.Controllers
         /// Externals the login callback.
         /// </summary>
         /// <param name="returnUrl">The return URL.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -502,7 +486,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="returnUrl">The return URL.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -545,7 +529,7 @@ namespace Blog.Controllers
         /// <summary>
         /// Logs the out.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpPost]
         public ActionResult LogOut()
         {
@@ -561,13 +545,10 @@ namespace Blog.Controllers
         /// <summary>
         /// Externals the login failure.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ExternalLoginFailure()
-        {
-            return View();
-        }
+        public ActionResult ExternalLoginFailure() => View();
 
         /// <summary>
         /// Releases unmanaged and, if indicated, managed resources.
@@ -624,7 +605,7 @@ namespace Blog.Controllers
         /// Redirects to local.
         /// </summary>
         /// <param name="returnUrl">The return URL.</param>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
