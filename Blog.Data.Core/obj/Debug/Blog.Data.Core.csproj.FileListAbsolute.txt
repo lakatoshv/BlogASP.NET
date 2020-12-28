@@ -1,9 +1,0 @@
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\bin\Debug\Blog.Data.Core.dll
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\bin\Debug\Blog.Data.Core.pdb
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\bin\Debug\Blog.Core.dll
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\bin\Debug\Blog.Core.pdb
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\obj\Debug\Blog.Data.Core.csprojAssemblyReference.cache
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\obj\Debug\Blog.Data.Core.csproj.CoreCompileInputs.cache
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\obj\Debug\Blog.Data.Core.csproj.CopyComplete
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\obj\Debug\Blog.Data.Core.dll
-D:\Projects\AspNet\BlogASP.NET\Blog.Data.Core\obj\Debug\Blog.Data.Core.pdb
