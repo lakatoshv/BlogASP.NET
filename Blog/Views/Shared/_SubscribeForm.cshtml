@@ -1,0 +1,133 @@
+﻿<style>
+    .subs-wrap {
+        display: block;
+        width: 100%;
+        color: rgba(255, 255, 255, 0.7);
+        position: relative;
+        z-index: 0;
+    }
+
+    /*media (max-width: 767.98px) {
+    .subs-wrap {
+        padding: 20px !important;
+    }
+    }*/
+
+    .subs-wrap .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: .6;
+        background: #0028ff;
+        z-index: -1;
+    }
+
+    .subs-wrap h3 {
+        color: #fff;
+    }
+
+    .subscribe-form .form-group {
+        position: relative;
+        margin-bottom: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        border-radius: 0;
+    }
+
+    .subscribe-form .form-group input {
+        background: transparent !important;
+        border: 1px solid transparent;
+        color: rgba(255, 255, 255, 0.9) !important;
+        font-size: 16px;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        border-radius: 0;
+    }
+
+    .subscribe-form .form-group input::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .subscribe-form .form-group input::-moz-placeholder {
+        /* Firefox 19+ */
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .subscribe-form .form-group input:-ms-input-placeholder {
+        /* IE 10+ */
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .subscribe-form .form-group input:-moz-placeholder {
+        /* Firefox 18- */
+        color: rgba(255, 255, 255, 0.9) !important;
+    }
+
+    .subscribe-form .form-group .form-control {
+        bordeR: 1px solid rgba(255, 255, 255, 0.2);
+        font-weight: 400;
+    }
+
+    .subscribe-form .form-group .submit {
+        color: #000000 !important;
+        display: block;
+        width: 100%;
+        height: 52px;
+        font-size: 16px;
+        background: #fff !important;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -ms-border-radius: 0;
+        border-radius: 0;
+    }
+
+    .subscribe-form .form-group .submit:hover {
+        cursor: pointer;
+    }
+
+    .subscribe-form .icon {
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .sidebar-box {
+        margin-bottom: 40px;
+        padding: 0 25px;
+        font-size: 15px;
+        width: 100%;
+    }
+
+    .sidebar-box h3.sidebar-heading {
+        font-size: 20px;
+        font-weight: normal;
+        margin-bottom: 30px;
+    }
+
+/*media (max-width: 767.98px) {
+    .sidebar-box {
+        padding: 0;
+    }
+}*/
+</style>
+
+<div class="sidebar-box subs-wrap img px-4 py-5" style="background-image: url(images/bg_1.jpg);">
+    <div class="overlay"></div>
+    <h3 class="mb-4 sidebar-heading">Підпишіться на обновлення</h3>
+    <p class="mb-4">Для того щоб отримувати найостанніші пости підпишіться на розсилання</p>
+    <form action="#" class="subscribe-form">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Електронна пошта">
+            <input type="submit" value="Підписатись" class="mt-2 btn btn-white submit">
+        </div>
+    </form>
+</div>
