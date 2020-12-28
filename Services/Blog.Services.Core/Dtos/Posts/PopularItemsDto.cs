@@ -17,11 +17,20 @@ namespace Blog.Services.Core.Dtos.Posts
         public List<Post> PopularPosts { get; set; }
 
         /// <summary>
+        /// Gets or sets the popular tags.
+        /// </summary>
+        /// <value>
+        /// The popular tags.
+        /// </value>
+        public List<Tag> PopularTags { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PopularItemsDto"/> class.
         /// </summary>
         public PopularItemsDto()
         {
             PopularPosts = new List<Post>();
+            PopularTags = new List<Tag>();
         }
     }
 }

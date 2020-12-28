@@ -76,10 +76,19 @@ namespace Blog.Controllers
                 OrderBy = "asc",
                 SortBy = "Likes",
                 DisplayType = "list",
-                CurrentPage = page,
+                CurrentPage = 1,
                 PageSize = 5
             };
             posts.PopularItems.PopularPosts = await _postsService.GetPopularPosts(popularPostsSortParameters);
+
+            var popularTagsSortParameters = new SortParametersDto()
+            {
+                OrderBy = "asc",
+                SortBy = "Title",
+                CurrentPage = 1,
+                PageSize = 5
+            };
+            posts.PopularItems.PopularTags = await _tagsService.GetPopularTags(popularTagsSortParameters);
 
             return View(posts);
         }
@@ -152,10 +161,19 @@ namespace Blog.Controllers
                 OrderBy = "asc",
                 SortBy = "Likes",
                 DisplayType = "list",
-                CurrentPage = page,
+                CurrentPage = 1,
                 PageSize = 5
             };
             posts.PopularItems.PopularPosts = await _postsService.GetPopularPosts(popularPostsSortParameters);
+
+            var popularTagsSortParameters = new SortParametersDto()
+            {
+                OrderBy = "asc",
+                SortBy = "Title",
+                CurrentPage = 1,
+                PageSize = 5
+            };
+            posts.PopularItems.PopularTags = await _tagsService.GetPopularTags(popularTagsSortParameters);
 
             return View(posts);
         }
