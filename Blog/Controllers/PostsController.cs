@@ -58,7 +58,7 @@ namespace Blog.Controllers
         /// <param name="sortBy">The sort by.</param>
         /// <param name="orderBy">The order by.</param>
         /// <param name="page">The page.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         public async Task<ActionResult> Index(string search, string sortBy, string orderBy, int page = 1)
         {
@@ -80,7 +80,7 @@ namespace Blog.Controllers
         /// <param name="id">The identifier.</param>
         /// <param name="sorts">The sorts.</param>
         /// <param name="page">The page.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         public async Task<ActionResult> Show(int? id, string sorts, int page = 1)
         {
@@ -119,7 +119,7 @@ namespace Blog.Controllers
         /// <param name="orderBy">The order by.</param>
         /// <param name="search">The search.</param>
         /// <param name="page">The page.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> MyPosts(string display, string sortBy, string orderBy, string search, int page = 1)
@@ -143,20 +143,17 @@ namespace Blog.Controllers
         /// <summary>
         /// Creates this instance.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [Authorize]
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public ActionResult Create() => View();
 
         // POST: Posts/Create        
         /// <summary>
         /// Creates the specified post model.
         /// </summary>
         /// <param name="postModel">The post model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> Create(Post postModel)
@@ -199,7 +196,7 @@ namespace Blog.Controllers
         /// Likes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> Like(int? id)
@@ -235,7 +232,7 @@ namespace Blog.Controllers
         /// Dislikes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> Dislike(int? id)
@@ -267,7 +264,7 @@ namespace Blog.Controllers
         /// Edits the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         [CheckPermissionsToEditForPosts]
@@ -289,7 +286,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="editedPost">The edited post.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
         [CheckPermissionsToEditForPosts]
@@ -333,14 +330,11 @@ namespace Blog.Controllers
         /// Deletes the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
         [Authorize]
         [CheckPermissionsToEditForPosts]
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        public ActionResult Delete(int id) => View();
 
         // POST: Posts/Delete/5        
         /// <summary>
@@ -348,7 +342,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="collection">The collection.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
         [CheckPermissionsToEditForPosts]

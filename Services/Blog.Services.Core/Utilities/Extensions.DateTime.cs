@@ -45,9 +45,7 @@ namespace Blog.Services.Core.Utilities
         /// </summary>
         /// <param name="dateTime">dateTime.</param>
         /// <returns>string.</returns>
-        public static string ToSafeFileName(this DateTime dateTime)
-        {
-            return $"{dateTime.Day.ToString("00")}{dateTime.Month.ToString("00")}{dateTime.Year}";
-        }
+        public static string ToSafeFileName(this DateTime dateTime) =>
+            $"{dateTime.Day.ToString("00")}{dateTime.Month.ToString("00")}{dateTime.Year}";
     }
 }

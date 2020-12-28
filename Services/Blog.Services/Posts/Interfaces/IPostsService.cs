@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Core.Enums;
 using Blog.Data.Models;
@@ -19,8 +20,16 @@ namespace Blog.Services.Posts.Interfaces
         /// <param name="sortParameters">The sort parameters.</param>
         /// <param name="search">The search.</param>
         /// <param name="onlyWithComments">if set to <c>true</c> [only with comments].</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         Task<PostsDto> GetPosts(SortParametersDto sortParameters, string search, bool onlyWithComments = false);
+
+        /// <summary>
+        /// Gets the popular posts.
+        /// </summary>
+        /// <param name="sortParameters">The sort parameters.</param>
+        /// <param name="onlyWithComments">if set to <c>true</c> [only with comments].</param>
+        /// <returns>Task.</returns>
+        Task<IList<Post>> GetPopularPosts(SortParametersDto sortParameters, bool onlyWithComments = false);
 
         /// <summary>
         /// Async get sorted and filtered user posts.
@@ -51,14 +60,14 @@ namespace Blog.Services.Posts.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <param name="status"></param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         Task ChangePostStatus(int id, Status status);
 
         /// <summary>
         /// Gets the posts select list.
         /// </summary>
         /// <param name="postId">The post identifier.</param>
-        /// <returns></returns>
+        /// <returns>SelectList.</returns>
         SelectList GetPostsSelectList(int? postId);
     }
 }

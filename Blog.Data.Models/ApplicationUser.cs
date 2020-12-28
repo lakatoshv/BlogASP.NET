@@ -26,7 +26,7 @@ namespace Blog.Data.Models
         /// Generates the user identity asynchronous.
         /// </summary>
         /// <param name="manager">The manager.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // authenticationType must match the type defined in CookieAuthenticationOptions.AuthenticationType
@@ -61,18 +61,24 @@ namespace Blog.Data.Models
         /// </value>
         public string LastName { get; set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IAuditInfo"/>
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        /// <inheritdoc/>
+        /// <inheritdocinheritdoc cref="IAuditInfo"/>
         public DateTime? ModifiedOn { get; set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDeletableEntity"/>
         public bool IsDeleted { get; set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDeletableEntity"/>
         public DateTime? DeletedOn { get; set; }
 
+        /// <summary>
+        /// Gets or sets the profile identifier.
+        /// </summary>
+        /// <value>
+        /// The profile identifier.
+        /// </value>
         [ForeignKey("Profile")]
         [Required]
         public int ProfileId { get; set; }

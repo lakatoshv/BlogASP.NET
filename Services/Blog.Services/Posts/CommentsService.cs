@@ -28,7 +28,7 @@ namespace Blog.Services.Posts
         {
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICommentsService"/>
         public async Task<CommentsDto> GetAllComments() =>
             new CommentsDto()
             {
@@ -38,7 +38,7 @@ namespace Blog.Services.Posts
                     .ToListAsync()
             };
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICommentsService"/>
         public async Task<CommentsDto> GetCommentsForPost(int? postId, string authorId,
             SortParametersDto sortParameters)
         {
@@ -68,17 +68,15 @@ namespace Blog.Services.Posts
             return commentsDto;
         }
 
-        /// <inheritdoc/>
-        public async Task<Comment> GetComment(int id)
-        {
-            return await Where(x => x.Id == id)
+        /// <inheritdoc cref="ICommentsService"/>
+        public async Task<Comment> GetComment(int id) =>
+            await Where(x => x.Id == id)
                 .Include(x => x.Post)
                 .Include(x => x.Author)
                 .Include(x => x.Author.Profile)
                 .FirstOrDefaultAsync();
-        }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ICommentsService"/>
         public async Task DeletePostComments(int id) =>
             await DeleteAsync(await Where(x => x.PostId == id).ToListAsync());
     }

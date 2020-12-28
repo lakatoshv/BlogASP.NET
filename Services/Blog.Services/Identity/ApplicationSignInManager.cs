@@ -32,21 +32,17 @@ namespace Blog.Services.Identity
         /// Creates the user identity asynchronous.
         /// </summary>
         /// <param name="user">The user.</param>
-        /// <returns></returns>
-        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
-        {
-            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
-        }
+        /// <returns>Task.</returns>
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user) =>
+            user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
 
         /// <summary>
         /// Creates the specified options.
         /// </summary>
         /// <param name="options">The options.</param>
         /// <param name="context">The context.</param>
-        /// <returns></returns>
-        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
-        {
-            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
-        }
+        /// <returns>ApplicationSignInManager.</returns>
+        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context) =>
+            new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
     }
 }

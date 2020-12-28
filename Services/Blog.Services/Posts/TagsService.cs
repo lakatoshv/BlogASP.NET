@@ -23,7 +23,7 @@ namespace Blog.Services.Posts
         {
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ITagsService"/>
         public async Task DeletePostTags(int id) =>
             await DeleteAsync(await Where(x => x.PostId == id).ToListAsync());
     }

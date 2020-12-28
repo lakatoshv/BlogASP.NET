@@ -11,28 +11,20 @@ namespace Blog.Controllers
         /// <summary>
         /// Indexes this instance.
         /// </summary>
-        /// <returns></returns>
-        public ActionResult Index()
-        {
-            return RedirectToAction("Index", "Posts");
-        }
+        /// <returns>ActionResult.</returns>
+        public ActionResult Index() =>
+            RedirectToAction("Index", "Posts");
 
         /// <summary>
         /// About this instance.
         /// </summary>
-        /// <returns></returns>
-        public ActionResult About()
-        {
-            return View();
-        }
+        /// <returns>ActionResult.</returns>
+        public ActionResult About() => View();
 
         /// <summary>
         /// Contacts this instance.
         /// </summary>
-        /// <returns></returns>
-        public ActionResult Contact()
-        {
-            return View();
-        }
+        /// <returns>ActionResult.</returns>
+        public ActionResult Contact() => View();
     }
 }

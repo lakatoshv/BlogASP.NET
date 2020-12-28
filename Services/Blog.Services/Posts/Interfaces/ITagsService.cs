@@ -14,7 +14,7 @@ namespace Blog.Services.Posts.Interfaces
         /// Deletes the post tags.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         Task DeletePostTags(int id);
     }
 }

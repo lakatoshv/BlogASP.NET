@@ -87,7 +87,7 @@ namespace Blog.Controllers
         /// Indexes the specified message.
         /// </summary>
         /// <param name="message">The message.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
@@ -119,7 +119,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="loginProvider">The login provider.</param>
         /// <param name="providerKey">The provider key.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
@@ -148,19 +148,16 @@ namespace Blog.Controllers
         /// <summary>
         /// Adds the phone number.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
-        public ActionResult AddPhoneNumber()
-        {
-            return View();
-        }
+        public ActionResult AddPhoneNumber() => View();
 
         // POST: /Manage/AddPhoneNumber        
         /// <summary>
         /// Adds the phone number.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
@@ -191,7 +188,7 @@ namespace Blog.Controllers
         /// <summary>
         /// Enables the two factor authentication.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
@@ -210,7 +207,7 @@ namespace Blog.Controllers
         /// <summary>
         /// Disables the two factor authentication.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
@@ -230,7 +227,7 @@ namespace Blog.Controllers
         /// Verifies the phone number.
         /// </summary>
         /// <param name="phoneNumber">The phone number.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
             await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
@@ -244,7 +241,7 @@ namespace Blog.Controllers
         /// Verifies the phone number.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
@@ -274,7 +271,7 @@ namespace Blog.Controllers
         /// <summary>
         /// Removes the phone number.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemovePhoneNumber()
@@ -298,19 +295,16 @@ namespace Blog.Controllers
         /// <summary>
         /// Changes the password.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
-        public ActionResult ChangePassword()
-        {
-            return View();
-        }
+        public ActionResult ChangePassword() => View();
 
         // POST: /Manage/ChangePassword        
         /// <summary>
         /// Changes the password.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
@@ -341,19 +335,16 @@ namespace Blog.Controllers
         /// <summary>
         /// Sets the password.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpGet]
-        public ActionResult SetPassword()
-        {
-            return View();
-        }
+        public ActionResult SetPassword() => View();
 
         // POST: /Manage/SetPassword        
         /// <summary>
         /// Sets the password.
         /// </summary>
         /// <param name="model">The model.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
@@ -385,7 +376,7 @@ namespace Blog.Controllers
         /// Manages the logins.
         /// </summary>
         /// <param name="message">The message.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
@@ -415,20 +406,17 @@ namespace Blog.Controllers
         /// Links the login.
         /// </summary>
         /// <param name="provider">The provider.</param>
-        /// <returns></returns>
+        /// <returns>ActionResult.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LinkLogin(string provider)
-        {
-            // Redirect request to an external login provider to bind the current user login.
-            return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
-        }
+        public ActionResult LinkLogin(string provider) =>
+            new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
 
         // GET: /Manage/LinkLoginCallback        
         /// <summary>
         /// Links the login callback.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         public async Task<ActionResult> LinkLoginCallback()
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());

@@ -1,0 +1,87 @@
+﻿@model IList<Blog.Data.Models.ApplicationUser>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                @Html.ActionLink("Нові користувачі", "Index", "Posts", new { area = "Admin" }, new { @class = "navbar-brand" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Усі користувачі", "Index", "Posts", new { area = "Admin" }, new { @class = "navbar-brand" })
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%">
+                <thead>
+                <tr>
+                    <th><b>Ім'я:</b></th>
+                    <th><b>Фамілія:</b></th>
+                    <th><b>Електронна пошта:</b></th>
+                    <th><b>Пошта підтверджена:</b></th>
+                    <th><b>Номер телефону:</b></th>
+                    <th><b>Телефон підтверджено:</b></th>
+                    <th><b>Роль:</b></th>
+                    <th><b>Видалено:</b></th>
+                    <th><b>Дата видалення:</b></th>
+                    <th><b>Кількість постів:</b></th>
+                    <th><b>Кількість коментарів:</b></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th><b>Ім'я:</b></th>
+                    <th><b>Фамілія:</b></th>
+                    <th><b>Електронна пошта:</b></th>
+                    <th><b>Пошта підтверджена:</b></th>
+                    <th><b>Номер телефону:</b></th>
+                    <th><b>Телефон підтверджено:</b></th>
+                    <th><b>Роль:</b></th>
+                    <th><b>Видалено:</b></th>
+                    <th><b>Дата видалення:</b></th>
+                    <th><b>Кількість постів:</b></th>
+                    <th><b>Кількість коментарів:</b></th>
+                    <th></th>
+                </tr>
+                </tfoot>
+                <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.Email</td>
+                        <td>@(user.EmailConfirmed ? "Підтверджена" : "Не підтверджена")</td>
+                        <td>@user.PhoneNumber</td>
+                        <td>@(user.PhoneNumberConfirmed ? "Підтверджено" : "Не підтверджено")</td>
+                        <td>
+                            @{
+                                var roles = string.Join(", ", user.Roles.Select(x => x.RoleId));
+                            }
+                            @roles
+                        </td>
+                        <td>@(user.IsDeleted ? "Видалено" : "")</td>
+                        <td>@user.DeletedOn</td>
+                        <td>@user.Posts.Count</td>
+                        <td>@user.Comments.Count</td>
+                        <td data-th="">
+                            <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
+                            <button type="button"
+                                    class="btn btn-sm text-white btn-danger"
+                                    id="@user.Id"
+                                    onclick="setDeletePostValues(this.id)"
+                                    data-toggle="modal"
+                                    data-target="#delete-post">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+</div>

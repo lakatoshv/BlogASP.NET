@@ -45,29 +45,29 @@ namespace Blog.Services.GeneralService
             Repository = repository;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public T Find(object id) => Repository.GetById(id);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task<T> FindAsync(object id) => await Repository.GetByIdAsync(id).ConfigureAwait(false);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public void Insert(T entity) => Repository.Insert(entity);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public void Insert(IEnumerable<T> entities) => Repository.Insert(entities);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task InsertAsync(T entity) => await Repository.InsertAsync(entity).ConfigureAwait(false);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task InsertAsync(IEnumerable<T> entities) =>
             await Repository.InsertAsync(entities).ConfigureAwait(false);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public void Update(T entity) => Repository.Update(entity);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public void Update(IEnumerable<T> entities)
         {
             if (entities is null)
@@ -78,10 +78,10 @@ namespace Blog.Services.GeneralService
             Repository.Update(entities);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task UpdateAsync(T entity) => await Repository.UpdateAsync(entity).ConfigureAwait(false);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task UpdateAsync(IEnumerable<T> entities)
         {
             if (entities is null)
@@ -92,65 +92,65 @@ namespace Blog.Services.GeneralService
             await Repository.UpdateAsync(entities).ConfigureAwait(false);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public void Delete(int id)
         {
             var entity = Find(id);
             Delete(entity);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public void Delete(T entity) => Repository.Delete(entity);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public void Delete(IEnumerable<T> entities) => Repository.Delete(entities);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task DeleteAsync(int id)
         {
             var entity = await FindAsync(id).ConfigureAwait(false);
             await DeleteAsync(entity).ConfigureAwait(false);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task DeleteAsync(T entity) => await Repository.DeleteAsync(entity);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task DeleteAsync(IEnumerable<T> entities) => await Repository.DeleteAsync(entities);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public IQueryable<T> GetAll() => Repository.GetAll();
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public IQueryable<T> GetAll(Expression<Func<T, bool>> expression) => Repository.GetAll(expression);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task<IList<T>> GetAllAsync() => await Repository.GetAllAsync().ConfigureAwait(false);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> expression) =>
             await Repository.GetAllAsync(expression).ConfigureAwait(false);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public bool Any(Expression<Func<T, bool>> expression) => Repository.Any(expression);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public T FirstOrDefault(Expression<Func<T, bool>> expression) => Repository.FirstOrDefault(expression);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression) =>
             await Repository.FirstOrDefaultAsync(expression);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public T LastOrDefault(Expression<Func<T, bool>> expression) => Repository.LastOrDefault(expression);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public IQueryable<T> Where(Expression<Func<T, bool>> expression) => Repository.Where(expression);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IGeneralService{T}"/>
         public int Count(Expression<Func<T, bool>> expression) => Repository.Count(expression);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IDisposable"/>
         public void Dispose()
         {
             Dispose(true);

@@ -166,7 +166,7 @@ namespace BLog.Data.Repository.Interfaces
         /// Firsts the or default asynchronous.
         /// </summary>
         /// <param name="expression">The expression.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace BLog.Data.Repository.Interfaces
         /// Wheres the specified expression.
         /// </summary>
         /// <param name="expression">The expression.</param>
-        /// <returns></returns>
+        /// <returns>IQueryable.</returns>
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
 
         /// <summary>

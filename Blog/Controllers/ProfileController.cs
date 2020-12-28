@@ -37,7 +37,7 @@ namespace Blog.Controllers
         /// <summary>
         /// Indexes the specified search.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> Index()
@@ -52,7 +52,7 @@ namespace Blog.Controllers
         /// Shows the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         public async Task<ActionResult> Details(int? id)
         {
@@ -71,7 +71,7 @@ namespace Blog.Controllers
         /// Edits the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpGet]
         [Authorize]
         public async Task<ActionResult> Edit(int? id)
@@ -92,7 +92,7 @@ namespace Blog.Controllers
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <param name="model">The edited post.</param>
-        /// <returns></returns>
+        /// <returns>Task.</returns>
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]

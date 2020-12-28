@@ -281,3 +281,12 @@ D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.pdb
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\System.Threading.Tasks.Extensions.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ClosedXML.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\AutoMapper.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\DocumentFormat.OpenXml.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ExcelNumberFormat.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ClosedXML.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ClosedXML.xml
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\AutoMapper.xml
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\DocumentFormat.OpenXml.xml
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ExcelNumberFormat.xml

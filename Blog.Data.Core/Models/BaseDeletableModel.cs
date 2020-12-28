@@ -23,10 +23,7 @@ namespace Blog.Data.Core.Models
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator ==(BaseDeletableModel<TKey> x, BaseDeletableModel<TKey> y)
-        {
-            return Equals(x, y);
-        }
+        public static bool operator ==(BaseDeletableModel<TKey> x, BaseDeletableModel<TKey> y) => Equals(x, y);
 
         /// <summary>
         /// Implements the operator !=.
@@ -36,10 +33,7 @@ namespace Blog.Data.Core.Models
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator !=(BaseDeletableModel<TKey> x, BaseDeletableModel<TKey> y)
-        {
-            return !(x == y);
-        }
+        public static bool operator !=(BaseDeletableModel<TKey> x, BaseDeletableModel<TKey> y) => !(x == y);
 
         /// <summary>
         /// Determines whether the specified <see>
@@ -57,16 +51,14 @@ namespace Blog.Data.Core.Models
         ///     </see>
         ///     is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as BaseDeletableModel<TKey>);
-        }
+        public override bool Equals(object obj) =>
+             this.Equals(obj as BaseDeletableModel<TKey>);
 
         /// <summary>
         /// Equals the specified other.
         /// </summary>
         /// <param name="other">The other.</param>
-        /// <returns></returns>
+        /// <returns>bool.</returns>
         public virtual bool Equals(BaseDeletableModel<TKey> other)
         {
             if (other == null)
@@ -90,11 +82,9 @@ namespace Blog.Data.Core.Models
             return thisType.IsAssignableFrom(otherType) || otherType.IsAssignableFrom(thisType);
         }
 
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return Equals(Id, default(int)) ? base.GetHashCode() : this.Id.GetHashCode();
-        }
+        /// <inheritdoc cref="object"/>
+        public override int GetHashCode() =>
+            Equals(Id, default(int)) ? base.GetHashCode() : this.Id.GetHashCode();
 
         /// <summary>
         /// Determines whether the specified object is transient.
@@ -103,18 +93,13 @@ namespace Blog.Data.Core.Models
         /// <returns>
         ///   <c>true</c> if the specified object is transient; otherwise, <c>false</c>.
         /// </returns>
-        private static bool IsTransient(BaseDeletableModel<TKey> obj)
-        {
-            return obj != null && Equals(obj.Id, default(int));
-        }
+        private static bool IsTransient(BaseDeletableModel<TKey> obj) =>
+            obj != null && Equals(obj.Id, default(int));
 
         /// <summary>
         /// Gets the type of the unproxied.
         /// </summary>
-        /// <returns></returns>
-        private Type GetUnproxiedType()
-        {
-            return this.GetType();
-        }
+        /// <returns>Type.</returns>
+        private Type GetUnproxiedType() =>  this.GetType();
     }
 }

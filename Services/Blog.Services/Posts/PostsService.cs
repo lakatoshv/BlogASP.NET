@@ -30,7 +30,7 @@ namespace Blog.Services.Posts
         {
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IPostsService"/>
         public async Task<PostsDto> GetPosts(SortParametersDto sortParameters, string search, bool onlyWithComments = false)
         {
             var postsQueryable = GetAll();
@@ -71,7 +71,7 @@ namespace Blog.Services.Posts
             return postsDto;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IPostsService"/>
         public async Task<PostsDto> GetUserPosts(string userId, SortParametersDto sortParameters, string search)
         {
             var postsEnumerable = Table;
@@ -115,7 +115,7 @@ namespace Blog.Services.Posts
             return postsViewModel;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IPostsService"/>
         public async Task<PostShowDto> GetPost(int postId, SortParametersDto sortParameters)
         {
             var postModel = new PostShowDto()
@@ -138,7 +138,7 @@ namespace Blog.Services.Posts
             return postModel;
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IPostsService"/>
         public async Task CreatePost(Post postModel)
         {
             if (!string.IsNullOrWhiteSpace(postModel.Tags))
@@ -163,7 +163,7 @@ namespace Blog.Services.Posts
             await InsertAsync(postModel);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IPostsService"/>
         public async Task ChangePostStatus(int id, Status status)
         {
             var post = await FindAsync(id);
@@ -171,13 +171,11 @@ namespace Blog.Services.Posts
             await UpdateAsync(post);
         }
 
-        /// <inheritdoc/>
-        public SelectList GetPostsSelectList(int? postId)
-        {
-            return postId.HasValue 
+        /// <inheritdoc cref="IPostsService"/>
+        public SelectList GetPostsSelectList(int? postId) =>
+            postId.HasValue 
                 ? Repository.GetTableSelectList("Id", "Title", postId.Value) 
                 : Repository.GetTableSelectList("Id", "Title", null);
-        }
 
         /// <summary>
         /// Sort posts by sort parameters.
@@ -185,7 +183,7 @@ namespace Blog.Services.Posts
         /// <param name="posts">posts.</param>
         /// <param name="sortParameters">sortParameters.</param>
         /// <returns>IOrderedEnumerable.</returns>
-        private IOrderedQueryable<Post> SortPosts(IQueryable<Post> posts, SortParametersDto sortParameters)
+        private static IOrderedQueryable<Post> SortPosts(IQueryable<Post> posts, SortParametersDto sortParameters)
         {
             if (sortParameters.SortBy.Equals("CreatedAt") && sortParameters.OrderBy.Equals("asc"))
                 return posts.OrderBy(x => x.CreatedAt);

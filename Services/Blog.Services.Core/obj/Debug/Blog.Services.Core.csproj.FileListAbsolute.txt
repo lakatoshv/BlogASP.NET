@@ -20,3 +20,12 @@ D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\obj\Debug\Blog.Servic
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\obj\Debug\Blog.Services.Core.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\obj\Debug\Blog.Services.Core.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\obj\Debug\Blog.Services.Core.pdb
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\ClosedXML.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\DocumentFormat.OpenXml.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\ExcelNumberFormat.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.IO.FileSystem.Primitives.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\System.IO.Packaging.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\ClosedXML.pdb
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\ClosedXML.xml
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\DocumentFormat.OpenXml.xml
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services.Core\bin\Debug\ExcelNumberFormat.xml
