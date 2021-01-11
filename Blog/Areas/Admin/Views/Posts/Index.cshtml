@@ -26,7 +26,16 @@
                 </div>
                 <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
-
+            <div class="col-12">
+                <ul class="list-inline">
+                    <li class="list-inline pull-right">
+                        <a class="btn btn-default upload-btn">Upload by excel</a>
+                    </li>
+                </ul>
+                @{
+                    Html.RenderPartial("_UploadExcel", (Blog.Areas.Admin.ViewModels.UploadFileViewModel) ViewBag.UploadFileViewModel);
+                }
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable">
                     <thead>
@@ -130,6 +139,7 @@
                         }
                     </tbody>
                 </table>
+                <a class="btn btn-default pull-right" href="#" data-toggle="modal" data-target="#export-posts-modal">Download by excel</a>
             </div>
         </div>
     </div>

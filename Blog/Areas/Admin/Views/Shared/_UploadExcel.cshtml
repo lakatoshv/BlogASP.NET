@@ -1,0 +1,18 @@
+﻿@model Blog.Areas.Admin.ViewModels.UploadFileViewModel
+
+@using (Html.BeginForm("UploadItemsFromExcel", (string) ViewBag.Controller, FormMethod.Post, new {enctype = "multipart/form-data", onsubmit = "addSpinner()", @class = "form-inline pull-right upload-form", style = "display: none; clear: both;"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="excel-file float-left mr-2">
+            @Html.TextBoxFor(model => model.ExcelFile, new { type = "file", @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ExcelFile, "", new { @class = "text-danger" })
+        </div>
+        <button type="submit" class="btn btn-info" id="upload-file">Upload data from excel</button>
+    </div>
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/public/js/scripts.js")
