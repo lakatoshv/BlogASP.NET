@@ -59,7 +59,7 @@
                             @item.Title
                         </h2>
                         <br />
-                        @if (User.Identity.GetUserId().Equals(item.AuthorId))
+                        @if (User.Identity.GetUserId() != null && User.Identity.GetUserId().Equals(item.AuthorId))
                         {
                             <p class="pull-right">
                                 @{

@@ -289,3 +289,4 @@ D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.csproj.CoreCompileInputs.cach
 D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\obj\Debug\Blog.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
