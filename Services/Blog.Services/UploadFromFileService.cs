@@ -54,7 +54,11 @@ namespace Blog.Services
             _commentsService = commentsService;
             _tagsService = tagsService;
 
-            var config = new MapperConfiguration(cfg => { cfg.CreateMap<PostDto, Post>(); });
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<PostDto, Post>();
+                cfg.CreateMap<CommentDto, Comment>();
+            });
             _mapper = config.CreateMapper();
         }
 
@@ -121,6 +125,81 @@ namespace Blog.Services
             if (postsToDelete.Count > 0)
             {
                 await _postsService.DeleteAsync(postsToDelete);
+            }
+
+            resultDto.Success = true;
+
+            return resultDto;
+        }
+
+        /// <inheritdoc cref="IUploadFromFileService"/>
+        public async Task<ResultDto> UploadCommentsFromExcel(Stream inputStream, string currentUserId)
+        {
+            var resultDto = new ResultDto();
+
+            var commentsToCreate = new List<Comment>();
+            var commentsToEdit = new List<Comment>();
+            var commentsToDelete = new List<Comment>();
+
+            var posts = await _postsService.GetAllAsync();
+            var comments = await _commentsService.GetAllAsync();
+
+            var workSheet = WorkSheetUsedRows(inputStream, "Comments");
+            if (!workSheet.Success)
+            {
+                resultDto.ExceptionMessage = workSheet.ExceptionMessage;
+
+                return resultDto;
+            }
+
+            foreach (var row in workSheet.Rows)
+            {
+                var item = new CommentDto(row);
+
+                var post = posts.FirstOrDefault(x => x.Title.ToLower().Equals(item.PostTitle.ToLower()));
+                int postId;
+                if (post == null)
+                {
+                    continue;
+                }
+
+                postId = post.Id;
+                var comment = comments.FirstOrDefault(x =>
+                    x.CommentBody.ToLower().Equals(item.CommentBody) && x.PostId == postId);
+                
+
+                if (row.Cell(3).Value.ToString().TrimStart(' ').TrimEnd(' ').ToLower().Equals("edit") && comment != null)
+                {
+                    comment.CommentBody = item.CommentBody;
+                    commentsToEdit.Add(comment);
+                }
+                else if (row.Cell(7).Value.ToString().TrimStart(' ').TrimEnd(' ').ToLower().Equals("edit") &&
+                         comment != null)
+                {
+                    commentsToDelete.Add(comment);
+                }
+                else
+                {
+                    var newComment = _mapper.Map<CommentDto, Comment>(item);
+                    newComment.AuthorId = currentUserId;
+                    newComment.PostId = postId;
+                    commentsToCreate.Add(newComment);
+                }
+            }
+
+            if (commentsToCreate.Count > 0)
+            {
+                await _commentsService.InsertAsync(commentsToCreate);
+            }
+
+            if (commentsToEdit.Count > 0)
+            {
+                await _commentsService.UpdateAsync(commentsToEdit);
+            }
+
+            if (commentsToDelete.Count > 0)
+            {
+                await _commentsService.DeleteAsync(commentsToDelete);
             }
 
             resultDto.Success = true;

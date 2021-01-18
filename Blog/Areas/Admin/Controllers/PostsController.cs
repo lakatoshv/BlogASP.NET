@@ -34,6 +34,9 @@ namespace Blog.Areas.Admin.Controllers
         /// </summary>
         private readonly ITagsService _tagsService;
 
+        /// <summary>
+        /// The upload from file service.
+        /// </summary>
         private readonly IUploadFromFileService _uploadFromFileService;
 
         /// <summary>

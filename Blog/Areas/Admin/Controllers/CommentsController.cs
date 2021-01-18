@@ -2,8 +2,10 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Blog.Areas.Admin.ViewModels;
 using Blog.Areas.Admin.ViewModels.Posts;
 using Blog.Data.Models;
+using Blog.Services.Interfaces;
 using Microsoft.AspNet.Identity;
 using Blog.Services.Posts.Interfaces;
 
@@ -27,16 +29,24 @@ namespace Blog.Areas.Admin.Controllers
         private readonly IPostsService _postsService;
 
         /// <summary>
+        /// The upload from file service.
+        /// </summary>
+        private readonly IUploadFromFileService _uploadFromFileService;
+
+        /// <summary>
         /// Initializes static members of the <see cref="CommentsController"/> class.
         /// </summary>
         /// <param name="commentsService"></param>
         /// <param name="postsService"></param>
+        /// <param name="uploadFromFileService"></param>
         public CommentsController(
             ICommentsService commentsService,
-            IPostsService postsService)
+            IPostsService postsService,
+            IUploadFromFileService uploadFromFileService)
         {
             _commentsService = commentsService;
             _postsService = postsService;
+            _uploadFromFileService = uploadFromFileService;
         }
 
         // GET: Admin/Comments
@@ -45,8 +55,14 @@ namespace Blog.Areas.Admin.Controllers
         /// </summary>
         /// <returns>ActionResult.</returns>
         [HttpGet]
-        public async Task<ActionResult> Index() =>
-            View(await _commentsService.GetAllComments());
+        public async Task<ActionResult> Index()
+        {
+            ViewBag.Controller = "Comments";
+            ViewBag.UploadFileViewModel = new UploadFileViewModel();
+
+            return View(await _commentsService.GetAllComments());
+        }
+            
 
         // GET: test/Comments/Details/5
         /// <summary>
@@ -159,6 +175,35 @@ namespace Blog.Areas.Admin.Controllers
                 //ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Uploads the items from excel.
+        /// </summary>
+        /// <param name="uploadFile">The upload file.</param>
+        /// <returns>Task.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UploadItemsFromExcel(UploadFileViewModel uploadFile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            var currentUserId = User.Identity.GetUserId();
+            var result = await _uploadFromFileService
+                .UploadCommentsFromExcel(uploadFile?.ExcelFile.InputStream, currentUserId).ConfigureAwait(false);
+
+            ViewBag.Controller = "Posts";
+            ViewBag.UploadFileViewModel = new UploadFileViewModel();
+            if (result.Success)
+            {
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError(string.Empty, result.ExceptionMessage);
+
+            return View("Index");
         }
     }
 }

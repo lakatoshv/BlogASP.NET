@@ -32,7 +32,7 @@ namespace Blog.Services.Posts
         public async Task<CommentsDto> GetAllComments() =>
             new CommentsDto()
             {
-                Comments = await Table
+                Comments = await GetAll()
                     .Include(x => x.Author)
                     .Include(x => x.Author.Profile)
                     .ToListAsync()

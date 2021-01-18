@@ -6,7 +6,6 @@ D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\System.Web.WebPages.Razor.dll
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\System.Web.Razor.dll
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\Microsoft.Web.Infrastructure.dll
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\System.Web.WebPages.Deployment.dll
-D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csprojAssemblyReference.cache
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csproj.CoreCompileInputs.cache
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.dll

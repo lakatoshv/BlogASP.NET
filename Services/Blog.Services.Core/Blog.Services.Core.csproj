@@ -58,6 +58,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\Posts\CommentDto.cs" />
     <Compile Include="Dtos\Posts\CommentsDto.cs" />
     <Compile Include="Dtos\Posts\PopularItemsDto.cs" />
     <Compile Include="Dtos\Posts\PostDto.cs" />
