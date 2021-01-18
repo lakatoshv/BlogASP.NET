@@ -5,23 +5,6 @@
 @{
     ViewBag.Title = "BlogASP.NET - Мої пости";
 }
-<style>
-    .left li {
-        float: left;
-        vertical-align: middle;
-        margin-right: 15px;
-        margin-top: 10px;
-    }
-
-    .search {
-        background-color: #e9ecef;
-        border: 1px solid #ced4da;
-    }
-
-    .input-group-text {
-        border: none;
-    }
-</style>
 <!-- Main Content -->
 <div class="container">
     <div class="row">
@@ -223,41 +206,5 @@
     </div>
 </div>
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
-<script>
-    function setDeletePostValues(id) {
-        $("#delete-id").val(id);
-    }
-
-    function deletePost(url) {
-        var id = $("#delete-id").val();
-        ajaxQuery(id, url);
-    }
-    function ajaxQuery(id, url) {
-        $.post(
-            url + id,
-            onAjaxSuccess
-        );
-    }
-    function onAjaxSuccess() {
-        location.reload();
-    }
-
-    function cheked(select) {
-        // берём значение из select и что-то с ним делаем
-        return select.val();
-    };
-
-    /* сортування */
-    $("#sorting").click(function () {
-        var valueSort = cheked($("#sort-by"));
-        var typeSort = cheked($("#order-by"));
-        document.cookie = "sort=" + valueSort;
-        document.cookie = "type_sort=" + typeSort;
-        location.href = '@Url.Action("MyPosts", "Posts")?sortBy=' + valueSort + '&orderBy=' + typeSort;
-    });
-
-    $("#search-btn").click(function () {
-        var search = $("#search").val();
-        location.href = '@Url.Action("Index", "Posts")?search=' + search;
-    });
-</script>
+@Scripts.Render("~/public/js/scripts.js")
+@Scripts.Render("~/public/js/pages/posts/index.js")

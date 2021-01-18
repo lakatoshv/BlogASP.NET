@@ -32,7 +32,7 @@ ul.socialIcons {
     max-width:200px;
     padding-right:1em;
 }
-.socialIcons .facebook, {
+.socialIcons .facebook{
     background: #3b5998;
     box-shadow: 0 0 16px #3b5998;
 }

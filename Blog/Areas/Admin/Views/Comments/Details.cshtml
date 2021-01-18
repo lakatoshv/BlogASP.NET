@@ -129,41 +129,8 @@
 </div>
 
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
-<script>
-    function setEditCommentValues(id) {
-        var author = $("#author" + id).text();
-        var comment = $("#content" + id).text();
-        $("#edit-id").val(id);
-        $("#edit-author").val(author);
-        $("#edit-content").val(comment);
-    }
-    function setDeleteCommentValues(id) {
-        $("#delete-comment-id").val(id);
-    }
-
-    function setDeletePostValues(id) {
-        $("#delete-post-id").val(id);
-    }
-
-    function deletePost(url) {
-        var id = $("#delete-post-id").val();
-        ajaxQuery(id, url);
-    }
-
-    function deleteComment(url) {
-        var id = $("#delete-comment-id").val();
-        ajaxQuery(id, url);
-    }
-    function ajaxQuery(id, url) {
-        $.post(
-            url + id,
-            onAjaxSuccess
-        );
-    }
-    function onAjaxSuccess() {
-        window.location.href = "@Url.Action("Index", "Comments")";
-    }
-</script>
+@Scripts.Render("~/public/js/scripts.js")
+@Scripts.Render("~/public/js/pages/comments/details.js")
 
 <div id="delete-comment" class="modal fade" role="dialog">
     <div class="modal-dialog">

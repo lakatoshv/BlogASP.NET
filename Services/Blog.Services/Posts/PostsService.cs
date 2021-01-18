@@ -72,6 +72,40 @@ namespace Blog.Services.Posts
         }
 
         /// <inheritdoc cref="IPostsService"/>
+        public async Task<List<Post>> GetPopularPosts(SortParametersDto sortParameters, bool onlyWithComments = false)
+        {
+            var postsQueryable = GetAll();
+
+            var postModel = await postsQueryable
+                .Include(x => x.Author)
+                .Include(x => x.Author.Profile)
+                .Include(x => x.Comments)
+                .Include(x => x.PostTags)
+                .ToListAsync();
+
+            if (onlyWithComments)
+            {
+                postModel = postModel.Where(x => x.Comments.Count > 0).ToList();
+            }
+
+            if (sortParameters == null)
+            {
+                return postModel;
+            }
+
+            postModel = SortPosts(postModel.AsQueryable(), sortParameters).ToList();
+
+            if (sortParameters.DisplayType != null && !sortParameters.DisplayType.Equals("grid"))
+            {
+                postModel = postModel
+                    .Skip((sortParameters.CurrentPage - 1) * sortParameters.PageSize)
+                    .Take(sortParameters.PageSize).ToList();
+            }
+
+            return postModel;
+        }
+
+        /// <inheritdoc cref="IPostsService"/>
         public async Task<PostsDto> GetUserPosts(string userId, SortParametersDto sortParameters, string search)
         {
             var postsEnumerable = Table;

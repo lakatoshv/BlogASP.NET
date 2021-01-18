@@ -4,11 +4,6 @@
     ViewBag.Title = "Index";
 }
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
-<style type="text/css">
-    .btn- {
-        border: inherit;
-    }
-</style>
 
 <div class="container">
     <div class="row">
@@ -31,7 +26,16 @@
                 </div>
                 <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
-
+            <div class="col-12">
+                <ul class="list-inline">
+                    <li class="list-inline pull-right">
+                        <a class="btn btn-default upload-btn">Upload by excel</a>
+                    </li>
+                </ul>
+                @{
+                    Html.RenderPartial("_UploadExcel", (Blog.Areas.Admin.ViewModels.UploadFileViewModel) ViewBag.UploadFileViewModel);
+                }
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable">
                     <thead>
@@ -89,12 +93,8 @@
                                     <td>@item.Tags</td>
                                     <td>
                                         @{ var authorPage = item.Author != null ? Url.Action("Details", "Profile", new { area = "" }) + "/" + item.Author.Profile.Id : ""; }
-                                        <a href="@authorPage" title="@item.Author?.FirstName @item.Author?.LastName">
-                                            @if (item.Author != null)
-                                            {
-                                                @item.Author.FirstName
-                                                @item.Author.LastName
-                                            }
+                                        <a href="@authorPage" title="@(item.Author != null ? item.Author.FirstName + " " + item.Author.LastName : "No author")">
+                                            @(item.Author != null ? item.Author.FirstName + " " + item.Author.LastName : "No author")
                                         </a>
                                     </td>
                                     <td>
@@ -102,7 +102,7 @@
                                             m => item.Status,
                                             EnumHelper.GetSelectList(typeof(Status)),
                                             new { @class = "form-control", @id = "status-" + item.Id })
-                                        <button class="btn btn-sm btn-success btn-@item.Id" style="display: none" onclick="changeStatus(@item.Id)">Зберегти</button>
+                                        <button class="btn btn-sm btn-success btn-@item.Id" style="display: none" onclick="changeStatus(@item.Id, @Url.Action("ChangeStatus", "Posts"))">Зберегти</button>
                                     </td>
                                     <td>@item.Seen</td>
                                     <td>@item.Likes</td>
@@ -139,6 +139,7 @@
                         }
                     </tbody>
                 </table>
+                <a class="btn btn-default pull-right" href="#" data-toggle="modal" data-target="#export-posts-modal">Download by excel</a>
             </div>
         </div>
     </div>
@@ -164,31 +165,6 @@
     </div>
 </div>
 
-<script>
-    function setDeletePostValues(id) {
-        $("#delete-id").val(id);
-    }
-
-    function deletePost(url) {
-        var id = $("#delete-id").val();
-        ajaxQuery(id, url);
-    }
-    function ajaxQuery(id, url) {
-        $.post(
-            url + id,
-            onAjaxSuccess
-        );
-    }
-    function onAjaxSuccess() {
-        location.reload();
-    }
-
-    $("select").change(function () {
-        $(this).next("button").show();
-    });
-    function changeStatus(id) {
-        var value = $("#status-" + id).val();
-        var url = "@Url.Action("ChangeStatus", "Posts")" + "/" + id + "?status=" + value;
-        ajaxQuery('', url);
-    }
-</script>
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
+@Scripts.Render("~/public/js/scripts.js")
+@Scripts.Render("~/public/js/pages/posts/index.js")

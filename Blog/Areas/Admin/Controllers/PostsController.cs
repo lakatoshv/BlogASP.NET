@@ -7,6 +7,8 @@ using Microsoft.AspNet.Identity;
 using Blog.Data.Models;
 using Blog.Services.Posts.Interfaces;
 using System.Data;
+using Blog.Areas.Admin.ViewModels;
+using Blog.Services.Interfaces;
 
 namespace Blog.Areas.Admin.Controllers
 {
@@ -33,18 +35,26 @@ namespace Blog.Areas.Admin.Controllers
         private readonly ITagsService _tagsService;
 
         /// <summary>
+        /// The upload from file service.
+        /// </summary>
+        private readonly IUploadFromFileService _uploadFromFileService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PostsController"/> class.
         /// </summary>
         /// <param name="postsService">The posts service.</param>
         /// <param name="commentsService"></param>
         /// <param name="tagsService"></param>
+        /// <param name="uploadFromFileService"></param>
         public PostsController(IPostsService postsService, 
             ICommentsService commentsService, 
-            ITagsService tagsService)
+            ITagsService tagsService, 
+            IUploadFromFileService uploadFromFileService)
         {
             _postsService = postsService;
             _commentsService = commentsService;
             _tagsService = tagsService;
+            _uploadFromFileService = uploadFromFileService;
         }
 
         /// <summary>
@@ -58,6 +68,9 @@ namespace Blog.Areas.Admin.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(string search, bool onlyWithComments = false, bool onlyWithCommentsInfo = false)
         {
+            ViewBag.Controller = "Posts";
+            ViewBag.UploadFileViewModel = new UploadFileViewModel();
+
             var posts = await _postsService.GetPosts(null, search, onlyWithComments);
             posts.OnlyWithCommentsInfo = onlyWithComments;
             return View(posts);
@@ -211,6 +224,35 @@ namespace Blog.Areas.Admin.Controllers
                 ModelState.AddModelError("", exception.Message);
             }
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Uploads the items from excel.
+        /// </summary>
+        /// <param name="uploadFile">The upload file.</param>
+        /// <returns>Task.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UploadItemsFromExcel(UploadFileViewModel uploadFile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            var currentUserId = User.Identity.GetUserId();
+            var result = await _uploadFromFileService
+                .UploadPostsFromExcel(uploadFile?.ExcelFile.InputStream, currentUserId).ConfigureAwait(false);
+
+            ViewBag.Controller = "Posts";
+            ViewBag.UploadFileViewModel = new UploadFileViewModel();
+            if (result.Success)
+            {
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError(string.Empty, result.ExceptionMessage);
+
+            return View("Index");
         }
     }
 }

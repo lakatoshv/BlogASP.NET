@@ -1,0 +1,13 @@
+﻿@model Blog.Services.Core.Dtos.Posts.PopularItemsDto
+
+@{
+    Html.RenderPartial("PopularItemsLists/_PopularPosts", Model.PopularPosts);
+}
+
+@{
+    Html.RenderPartial("PopularItemsLists/_PopularTags", Model.PopularTags);
+}
+
+@{
+    Html.RenderPartial("_SubscribeForm");
+}

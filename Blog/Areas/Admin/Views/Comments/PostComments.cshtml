@@ -99,25 +99,6 @@
     </div>
 </div>
 
-
-<script>
-    function setDeleteCommentValues(id) {
-        $("#delete-id").val(id);
-    }
-
-    function deleteComment(url) {
-        var id = $("#delete-id").val();
-        ajaxQuery(id, url);
-    }
-    function ajaxQuery(id, url) {
-        $.post(
-            url + id,
-            onAjaxSuccess
-        );
-    }
-    function onAjaxSuccess() {
-        location.reload();
-    }
-</script>
-
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
+@Scripts.Render("~/public/js/scripts.js")
+@Scripts.Render("~/public/js/pages/comments/index.js")

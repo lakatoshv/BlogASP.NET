@@ -1,0 +1,11 @@
+﻿@model IList<Blog.Data.Models.Tag>
+
+<div class="sidebar-box ftco-animate">
+    <h3 class="sidebar-heading">Теги</h3>
+    <ul class="tagcloud">
+        @foreach (var tag in Model)
+        {
+            <a routerLink="/blog/posts/@tag.Title" class="tag-cloud-link">@tag.Title</a>
+        }
+    </ul>
+</div>

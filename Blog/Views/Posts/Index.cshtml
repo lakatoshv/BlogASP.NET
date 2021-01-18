@@ -5,23 +5,6 @@
 @{
     ViewBag.Title = "BlogASP.NET - Головна";
 }
-<style>
-    .left li {
-        float: left;
-        vertical-align: middle;
-        margin-right: 15px;
-        margin-top: 10px;
-    }
-
-    .search {
-        background-color: #e9ecef;
-        border: 1px solid #ced4da;
-    }
-
-    .input-group-text {
-        border: none;
-    }
-</style>
 <!-- Main Content -->
 <div class="container">
     <div class="row">
@@ -56,7 +39,7 @@
             </li>
         </ul>
         <div class="clearfix"></div>
-        <div class="col-lg-10 col-md-10 mx-auto">
+        <div class="col-lg-8 col-md-8 mx-auto">
             @{
                 var createPost = Url.Action("Create", "Posts");
             }
@@ -76,7 +59,7 @@
                             @item.Title
                         </h2>
                         <br />
-                        @if (User.Identity.GetUserId().Equals(item.AuthorId))
+                        @if (User.Identity.GetUserId() != null && User.Identity.GetUserId().Equals(item.AuthorId))
                         {
                             <p class="pull-right">
                                 @{
@@ -101,7 +84,7 @@
                                 </button>
                             </p>
                         }
-                        <img style="width: 100%; height: 300px;" src="@item.ImageUrl" alt=""/>
+                        <img style="width: 100%; height: 300px;" src="@item.ImageUrl" alt="" />
                         <h3 class="post-subtitle">
                             @Html.Raw(@item.Description)
                         </h3>
@@ -133,9 +116,14 @@
             {
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
-                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new {page = x}))
+                        @Html.PageLinks(Model.PageInfo, x => Url.Action("Index", new { page = x }))
                     </ul>
                 </nav>
+            }
+        </div>
+        <div class="col-lg-4 col-md-4 mx-auto sidebar pt-5">
+            @{
+                Html.RenderPartial("_RightSidebar", Model.PopularItems);
             }
         </div>
     </div>
@@ -161,41 +149,7 @@
 
     </div>
 </div>
+
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
-<script>
-    function setDeletePostValues(id) {
-        $("#delete-id").val(id);
-    }
-
-    function deletePost(url) {
-        var id = $("#delete-id").val();
-        ajaxQuery(id, url);
-    }
-    function ajaxQuery(id, url) {
-        $.post(
-            url + id,
-            onAjaxSuccess
-        );
-    }
-    function onAjaxSuccess() {
-        location.reload();
-    }
-
-    function cheked(select) {
-        // берём значение из select и что-то с ним делаем
-        return select.val();
-    };
-
-    /* сортування */
-    $("#sorting").click(function () {
-        var valueSort = cheked($("#sort-by"));
-        var typeSort = cheked($("#order-by"));
-        document.cookie = "sort=" + valueSort;
-        document.cookie = "type_sort=" + typeSort;
-        location.href = '@Url.Action("MyPosts", "Posts")?sortBy=' + valueSort + '&orderBy=' + typeSort;
-    });
-    $("#search-btn").click(function () {
-        var search = $("#search").val();
-        location.href = '@Url.Action("Index", "Posts")?search=' + search;
-    });
-</script>
+@Scripts.Render("~/public/js/scripts.js")
+@Scripts.Render("~/public/js/pages/posts/index.js")

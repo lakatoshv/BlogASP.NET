@@ -28,5 +28,23 @@ namespace Blog.Services.Core.Dtos.Posts
         /// Gets or sets onlyWithCommentsInfo.
         /// </summary>
         public bool OnlyWithCommentsInfo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the popular items.
+        /// </summary>
+        /// <value>
+        /// The popular items.
+        /// </value>
+        public PopularItemsDto PopularItems { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostsDto"/> class.
+        /// </summary>
+        public PostsDto()
+        {
+            Posts = new List<Post>();
+            PageInfo = new PageInfo();
+            PopularItems = new PopularItemsDto();
+        }
     }
 }

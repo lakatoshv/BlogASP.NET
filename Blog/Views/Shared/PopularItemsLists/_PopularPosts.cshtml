@@ -1,0 +1,29 @@
+﻿@model IList<Blog.Data.Models.Post>
+
+<div class="sidebar-box ftco-animate">
+    <h3 class="sidebar-heading">Популярні пости</h3>
+    @foreach (var post in Model)
+    {
+        <div class="block-21 mb-4 d-flex">
+            <a class="blog-img mr-4" style="background-image: url(@post.ImageUrl)"></a>
+            <div class="text">
+                <h3 class="heading">
+                    @{
+                        var pathUrl = Url.Action("Show", "Posts") + "/" + post.Id;
+                    }
+                    <a href="@pathUrl">@post.Title</a>
+                </h3>
+                <div class="meta">
+                    <div><a href="#"><span class="fa fa-calendar"></span> @post.CreatedAt</a></div>
+                    <div>
+                        @{ var authorPage = Url.Action("Details", "Profile") + "/" + post.Author.Profile.Id; }
+                        <a routerLink="@authorPage">
+                            <span class="fa fa-user"></span> @post.Author.FirstName @post.Author.LastName
+                        </a>
+                    </div>
+                    <div><a href="#"><span class="fa fa-comment"></span> @post.Comments.Count</a></div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

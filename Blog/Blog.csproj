@@ -292,9 +292,11 @@
     <Compile Include="Areas\Admin\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
+    <Compile Include="Areas\Admin\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\CommentsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\PostsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\PostViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\UploadFileViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Users\ProfileViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
@@ -303,6 +305,7 @@
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Core\Attributes\CheckPermissions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -419,6 +422,7 @@
     <Content Include="Content\PagedList.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\styles.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -480,12 +484,19 @@
     <Content Include="public\js\clean-blog.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="public\js\form.js" />
+    <Content Include="public\js\pages\comments.js" />
+    <Content Include="public\js\pages\comments\details.js" />
+    <Content Include="public\js\pages\comments\index.js" />
+    <Content Include="public\js\pages\posts\index.js" />
+    <Content Include="public\js\pages\posts\show.js" />
     <Content Include="public\js\sb-admin.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="public\js\sb-admin.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="public\js\scripts.js" />
     <Content Include="public\plugins\bootstrap\css\bootstrap.css" />
     <Content Include="public\plugins\bootstrap\css\bootstrap.min.css" />
     <Content Include="public\plugins\bootstrap\js\bootstrap.bundle.js" />
@@ -2569,6 +2580,15 @@
     </Content>
     <Content Include="packages.config" />
     <Content Include="Areas\Admin\Views\Shared\_UploadExcel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_RolesTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ActivityChart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_UsersTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_PostsTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_CategoriesTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_TagsTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_CommentsTableGroupedByPost.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Tabs\_UsersTab.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Tabs\_PostsTab.cshtml" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -2578,6 +2598,11 @@
     <Content Include="Views\Message\Create.cshtml" />
     <Content Include="Views\Message\Edit.cshtml" />
     <Content Include="Views\Message\Delete.cshtml" />
+    <Content Include="Views\Posts\_RightSidebar.cshtml" />
+    <Content Include="Views\Shared\PopularItemsLists\_PopularPosts.cshtml" />
+    <Content Include="Views\Shared\PopularItemsLists\_PopularTags.cshtml" />
+    <Content Include="Views\Shared\PopularItemsLists\_PopularCategories.cshtml" />
+    <Content Include="Views\Shared\_SubscribeForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2588,16 +2613,16 @@
       <Project>{F402E79D-C94A-4E6F-A193-254977F003CE}</Project>
       <Name>Blog.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Blog.Data.Core\Blog.Data.Core.csproj">
+    <ProjectReference Include="..\Data\Blog.Data.Core\Blog.Data.Core.csproj">
       <Project>{D6DA3DFF-982A-4A38-B8B0-5F891AF2C20E}</Project>
       <Name>Blog.Data.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Blog.Data.Models\Blog.Data.Models.csproj">
-      <Project>{69F1F434-44A9-499C-BF06-ECD703514FFC}</Project>
+    <ProjectReference Include="..\Data\Blog.Data.Models\Blog.Data.Models.csproj">
+      <Project>{69f1f434-44a9-499c-bf06-ecd703514ffc}</Project>
       <Name>Blog.Data.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BLog.Data\BLog.Data.csproj">
-      <Project>{6C66F33F-703F-4BD4-A4F0-D4E3E78BE028}</Project>
+    <ProjectReference Include="..\Data\BLog.Data\BLog.Data.csproj">
+      <Project>{6c66f33f-703f-4bd4-a4f0-d4e3e78be028}</Project>
       <Name>BLog.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Services\Blog.Services.Core\Blog.Services.Core.csproj">

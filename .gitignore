@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs/Blog/v15
+/Data/BLog.Data/bin/Debug
+/Data/BLog.Data/obj
+/Data/Blog.Data.Core/bin/Debug
+/Data/Blog.Data.Core/obj/Debug
+/Data/Blog.Data.Models/bin/Debug
+/Data/Blog.Data.Models/obj/Debug
