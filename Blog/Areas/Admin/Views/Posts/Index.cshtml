@@ -33,7 +33,7 @@
                     </li>
                 </ul>
                 @{
-                    Html.RenderPartial("_UploadExcel", (Blog.Areas.Admin.ViewModels.UploadFileViewModel) ViewBag.UploadFileViewModel);
+                    Html.RenderPartial("_UploadExcel", (Blog.Areas.Admin.ViewModels.UploadFileViewModel)ViewBag.UploadFileViewModel);
                 }
             </div>
             <div class="table-responsive">
@@ -145,25 +145,10 @@
     </div>
 </div>
 
-<div id="delete-post" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Видалити цей пост?</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <input type='hidden' id="delete-id" />
-            <div class="modal-footer">
-                <button class="btn btn-sm btn-danger" type="button" id="confirm" onclick="deletePost('Posts/Delete/')">
-                    <i class="fa fa-trash"></i>
-                    Видалити
-                </button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Скасувати</button>
-            </div>
-        </div>
-
-    </div>
-</div>
+@{
+    Html.RenderPartial("Modals/Posts/_DeletePosts");
+    Html.RenderPartial("Modals/Posts/_ExportPosts");
+}
 
 @Scripts.Render("~/public/plugins/jquery/jquery.js")
 @Scripts.Render("~/public/js/scripts.js")

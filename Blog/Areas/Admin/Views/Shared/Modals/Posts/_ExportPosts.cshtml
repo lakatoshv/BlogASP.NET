@@ -1,0 +1,19 @@
+﻿<div id="export-posts-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Export posts</div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            @using (Html.BeginForm("ExportToExcel", (string) ViewBag.Controller, null, FormMethod.Post, null))
+            {
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Export" class="btn btn-primary pull-left"/>
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

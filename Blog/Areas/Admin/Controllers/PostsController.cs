@@ -7,8 +7,11 @@ using Microsoft.AspNet.Identity;
 using Blog.Data.Models;
 using Blog.Services.Posts.Interfaces;
 using System.Data;
+using System.IO;
+using System.Linq;
 using Blog.Areas.Admin.ViewModels;
 using Blog.Services.Interfaces;
+using ClosedXML.Excel;
 
 namespace Blog.Areas.Admin.Controllers
 {
@@ -253,6 +256,69 @@ namespace Blog.Areas.Admin.Controllers
             ModelState.AddModelError(string.Empty, result.ExceptionMessage);
 
             return View("Index");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ExportToExcel()
+        {
+            try
+            {
+                var posts = await _postsService.GetAllAsync().ConfigureAwait(false);
+                var dataTable = new DataTable("Posts");
+                // Headers.
+                dataTable.Columns.AddRange(
+                    new[]
+                    {
+                        new DataColumn("Title"),
+                        new DataColumn("Description"),
+                        new DataColumn("Content"),
+                        new DataColumn("Author"),
+                        new DataColumn("Seen"),
+                        new DataColumn("Likes"),
+                        new DataColumn("Dislikes"),
+                        new DataColumn("ImageUrl"),
+                        new DataColumn("Status"),
+                        new DataColumn("Tags"),
+                        new DataColumn("Comments count")
+                    });
+
+                // Rows.
+                foreach (var post in posts)
+                {
+                    var tags = "";
+                    post.PostTags.Select(x => tags = string.IsNullOrEmpty(tags) ? x.Title : $"{tags}, {x.Title}");
+                    dataTable.Rows.Add(
+                        post.Title,
+                        post.Description,
+                        post.Content,
+                        $"{post.Author.FirstName} {post.Author.LastName}({post.Author.Email})",
+                        post.Seen,
+                        post.Likes,
+                        post.Dislikes,
+                        post.ImageUrl,
+                        post.Status.ToString(),
+                        tags,
+                        post.Comments.Count
+                    );
+                }
+
+                using (var wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(dataTable);
+
+                    using (var stream = new MemoryStream())
+                    {
+                        wb.SaveAs(stream);
+
+                        return File(stream.ToArray(),
+                            "application/wnd.openxmlformats-officedocument.spreadsheetml.sheet", "Posts.xlsx");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

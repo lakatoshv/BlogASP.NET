@@ -238,7 +238,6 @@ D:\Projects\AspNet\BlogASP.NET\Blog\bin\System.Runtime.CompilerServices.Unsafe.d
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\Unity.Abstractions.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\Unity.Container.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\Unity.Mvc5.dll
-D:\Projects\AspNet\BlogASP.NET\Blog\bin\ClosedXML.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\AutoMapper.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\System.Threading.Tasks.Extensions.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\DocumentFormat.OpenXml.dll

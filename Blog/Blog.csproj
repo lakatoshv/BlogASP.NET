@@ -46,6 +46,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.95.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\ClosedXML.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -2589,6 +2593,8 @@
     <Content Include="Areas\Admin\Views\Shared\Tables\_CommentsTableGroupedByPost.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Tabs\_UsersTab.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Tabs\_PostsTab.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Modals\Posts\_ExportPosts.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Modals\Posts\_DeletePosts.cshtml" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
