@@ -32,11 +32,14 @@ namespace Blog.Areas.Admin.Controllers
         }
 
         private readonly IPostsService _postsService;
+        private readonly ITagsService _tagsService;
 
         public HomeController(
-            IPostsService postsService)
+            IPostsService postsService,
+            ITagsService tagsService)
         {
             _postsService = postsService;
+            _tagsService = tagsService;
         }
 
         // GET: Admin/Home        
@@ -50,6 +53,7 @@ namespace Blog.Areas.Admin.Controllers
             {
                 Users = await UserManager.Users.ToListAsync(),
                 Posts = await _postsService.GetAllAsync(),
+                Tags = await _tagsService.GetAllAsync(),
             });
     }
 }
