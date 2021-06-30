@@ -32,16 +32,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.AspNet.Identity.Core">
-      <HintPath>..\Blog\bin\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <HintPath>..\..\Blog\bin\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
-      <HintPath>..\Blog\bin\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <HintPath>..\..\Blog\bin\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web.Mvc">
-      <HintPath>..\Blog\bin\System.Web.Mvc.dll</HintPath>
+      <HintPath>..\..\Blog\bin\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
