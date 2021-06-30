@@ -10,3 +10,4 @@ D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csproj.CoreCompileI
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.dll
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csprojAssemblyReference.cache

@@ -50,6 +50,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\ClosedXML.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -240,12 +248,6 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -296,6 +298,7 @@
     <Compile Include="Areas\Admin\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TagsController.cs" />
     <Compile Include="Areas\Admin\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\CommentsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\PostsViewModel.cs" />
@@ -324,99 +327,37 @@
     <Compile Include="ViewModels\Users\ProfileViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Antlr3.Runtime.dll" />
-    <Content Include="bin\Antlr3.Runtime.pdb" />
-    <Content Include="bin\Blog.dll" />
-    <Content Include="bin\Blog.pdb" />
-    <Content Include="bin\EntityFramework.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.dll" />
-    <Content Include="bin\EntityFramework.SqlServer.xml" />
-    <Content Include="bin\EntityFramework.xml" />
-    <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
-    <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
-    <Content Include="bin\Microsoft.AI.DependencyCollector.xml" />
-    <Content Include="bin\Microsoft.AI.PerfCounterCollector.dll" />
-    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.dll" />
-    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.xml" />
-    <Content Include="bin\Microsoft.AI.Web.dll" />
-    <Content Include="bin\Microsoft.AI.Web.xml" />
-    <Content Include="bin\Microsoft.AI.WindowsServer.dll" />
-    <Content Include="bin\Microsoft.AI.WindowsServer.xml" />
-    <Content Include="bin\Microsoft.ApplicationInsights.dll" />
-    <Content Include="bin\Microsoft.ApplicationInsights.xml" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Core.xml" />
-    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.xml" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
-    <Content Include="bin\Microsoft.AspNet.Identity.Owin.xml" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
-    <Content Include="bin\Microsoft.Owin.dll" />
-    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
-    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Cookies.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Facebook.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Facebook.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.Google.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Google.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.OAuth.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.Twitter.dll" />
-    <Content Include="bin\Microsoft.Owin.Security.Twitter.xml" />
-    <Content Include="bin\Microsoft.Owin.Security.xml" />
-    <Content Include="bin\Microsoft.Owin.xml" />
-    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Newtonsoft.Json.xml" />
-    <Content Include="bin\Owin.dll" />
-    <Content Include="bin\roslyn\csc.exe" />
-    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
-    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
-    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
-    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
-    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
-    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
-    <Content Include="bin\roslyn\vbc.exe" />
-    <Content Include="bin\roslyn\VBCSCompiler.exe" />
-    <Content Include="bin\ru\EntityFramework.resources.dll" />
-    <Content Include="bin\ru\EntityFramework.SqlServer.resources.dll" />
-    <Content Include="bin\ru\Microsoft.AspNet.Identity.Core.resources.dll" />
-    <Content Include="bin\ru\Microsoft.AspNet.Identity.EntityFramework.resources.dll" />
-    <Content Include="bin\ru\Microsoft.AspNet.Identity.Owin.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Owin.Host.SystemWeb.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Owin.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Owin.Security.Facebook.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Owin.Security.Google.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Owin.Security.MicrosoftAccount.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Owin.Security.resources.dll" />
-    <Content Include="bin\ru\Microsoft.Owin.Security.Twitter.resources.dll" />
-    <Content Include="bin\ru\System.Web.Helpers.resources.dll" />
-    <Content Include="bin\ru\System.Web.Mvc.resources.dll" />
-    <Content Include="bin\ru\System.Web.Optimization.resources.dll" />
-    <Content Include="bin\ru\System.Web.Razor.resources.dll" />
-    <Content Include="bin\ru\System.Web.WebPages.Deployment.resources.dll" />
-    <Content Include="bin\ru\System.Web.WebPages.Razor.resources.dll" />
-    <Content Include="bin\ru\System.Web.WebPages.resources.dll" />
-    <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Helpers.xml" />
-    <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\System.Web.Mvc.xml" />
-    <Content Include="bin\System.Web.Optimization.dll" />
-    <Content Include="bin\System.Web.Optimization.xml" />
-    <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
-    <Content Include="bin\System.Web.WebPages.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.xml" />
-    <Content Include="bin\WebGrease.dll" />
+    <Content Include="Areas\Admin\Views\Comments\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\PostComments.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Tabs\_PostsTab.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Tabs\_UsersTab.cshtml" />
+    <Content Include="Areas\Admin\Views\Posts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Posts\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Posts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Posts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Modals\Posts\_DeletePosts.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Modals\Posts\_ExportPosts.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_CategoriesTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_CommentsTableGroupedByPost.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_PostsTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_RolesTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_TagsTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Tables\_UsersTable.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_ActivityChart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_UploadExcel.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Content\bootstrap.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2395,15 +2336,6 @@
     <Content Include="public\web.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="bin\ApplicationInsights.config" />
-    <Content Include="bin\Blog.dll.config" />
-    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
-    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
-    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
-    <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="public\plugins\fontawesome-free\less\brands.less" />
     <Content Include="public\plugins\fontawesome-free\less\fontawesome.less" />
     <Content Include="public\plugins\fontawesome-free\less\regular.less" />
@@ -2480,16 +2412,6 @@
     <Content Include="public\plugins\tinymce\skins\lightgray\skin.mobile.min.css.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Areas\Admin\Views\Posts\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Posts\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Posts\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Posts\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Comments\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Comments\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Comments\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Comments\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Comments\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Comments\PostComments.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.intellisense.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2526,21 +2448,6 @@
     <Content Include="Scripts\_references.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
@@ -2552,25 +2459,50 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Comments\Create.cshtml" />
+    <Content Include="Views\Comments\Edit.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Posts\Index.cshtml" />
-    <Content Include="Views\Posts\Show.cshtml" />
+    <Content Include="Views\Message\Create.cshtml" />
+    <Content Include="Views\Message\Delete.cshtml" />
+    <Content Include="Views\Message\Details.cshtml" />
+    <Content Include="Views\Message\Edit.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
     <Content Include="Views\Posts\Create.cshtml" />
-    <Content Include="Views\Profile\Index.cshtml" />
-    <Content Include="Views\Profile\Edit.cshtml" />
-    <Content Include="Views\Posts\Edit.cshtml" />
-    <Content Include="Views\Profile\Details.cshtml" />
-    <Content Include="Views\Posts\MyPosts.cshtml" />
     <Content Include="Views\Posts\Delete.cshtml" />
-    <Content Include="Views\Comments\Create.cshtml" />
-    <Content Include="Views\Comments\Edit.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Posts\MyPosts.cshtml" />
+    <Content Include="Views\Posts\Show.cshtml" />
+    <Content Include="Views\Posts\_RightSidebar.cshtml" />
+    <Content Include="Views\Profile\Details.cshtml" />
+    <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\PopularItemsLists\_PopularCategories.cshtml" />
+    <Content Include="Views\Shared\PopularItemsLists\_PopularPosts.cshtml" />
+    <Content Include="Views\Shared\PopularItemsLists\_PopularTags.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_SubscribeForm.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff">
@@ -2583,32 +2515,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
-    <Content Include="Areas\Admin\Views\Shared\_UploadExcel.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Tables\_RolesTable.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_ActivityChart.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Tables\_UsersTable.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Tables\_PostsTable.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Tables\_CategoriesTable.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Tables\_TagsTable.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Tables\_CommentsTableGroupedByPost.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Tabs\_UsersTab.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Tabs\_PostsTab.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Modals\Posts\_ExportPosts.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Modals\Posts\_DeletePosts.cshtml" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Message\Index.cshtml" />
-    <Content Include="Views\Message\Details.cshtml" />
-    <Content Include="Views\Message\Create.cshtml" />
-    <Content Include="Views\Message\Edit.cshtml" />
-    <Content Include="Views\Message\Delete.cshtml" />
-    <Content Include="Views\Posts\_RightSidebar.cshtml" />
-    <Content Include="Views\Shared\PopularItemsLists\_PopularPosts.cshtml" />
-    <Content Include="Views\Shared\PopularItemsLists\_PopularTags.cshtml" />
-    <Content Include="Views\Shared\PopularItemsLists\_PopularCategories.cshtml" />
-    <Content Include="Views\Shared\_SubscribeForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
