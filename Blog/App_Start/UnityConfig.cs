@@ -57,6 +57,7 @@ namespace Blog
 
             container.RegisterType<IdentityDbContext<ApplicationUser>, BlogContext>();
             container.RegisterType<UserManager<ApplicationUser>>();
+            container.RegisterType<RoleManager<IdentityRole>>();
             container.RegisterType<IUserStore<ApplicationUser>, UserStore<ApplicationUser>>();
 
             container.RegisterType<AccountController>(

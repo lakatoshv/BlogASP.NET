@@ -1,4 +1,6 @@
-﻿<div class="card mb-3">
+﻿@model IList<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+
+<div class="card mb-3">
     <div class="card-header">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -22,48 +24,23 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    <tr>
-                        <td>Користувач</td>
-                        <td data-th="">
-                            <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
-                            <button type="button"
-                                    class="btn btn-sm text-white btn-danger"
-                                    id=""
-                                    onclick="setDeletePostValues(this.id)"
-                                    data-toggle="modal"
-                                    data-target="#delete-post">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Модератор</td>
-                        <td data-th="">
-                            <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
-                            <button type="button"
-                                    class="btn btn-sm text-white btn-danger"
-                                    id=""
-                                    onclick="setDeletePostValues(this.id)"
-                                    data-toggle="modal"
-                                    data-target="#delete-post">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Адміністратор</td>
-                        <td data-th="">
-                            <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
-                            <button type="button"
-                                    class="btn btn-sm text-white btn-danger"
-                                    id=""
-                                    onclick="setDeletePostValues(this.id)"
-                                    data-toggle="modal"
-                                    data-target="#delete-post">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    @foreach (var role in Model)
+                    {
+                        <tr>
+                            <td>@role.Name</td>
+                            <td data-th="">
+                                <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
+                                <button type="button"
+                                        class="btn btn-sm text-white btn-danger"
+                                        id=""
+                                        onclick="setDeletePostValues(this.id)"
+                                        data-toggle="modal"
+                                        data-target="#delete-post">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
