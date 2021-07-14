@@ -1,5 +1,7 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.Entity;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Areas.Admin.ViewModels;
@@ -127,7 +129,7 @@ namespace Blog.Areas.Admin.Controllers
                 var roleModel = await _roleManager.FindByIdAsync(id);
                 roleModel.Name = editedRole.Name;
                 
-                _roleManager.Update(roleModel);
+                await _roleManager.UpdateAsync(roleModel);
                 return RedirectToAction("Index", "Roles");
             }
             catch (DataException dex)
@@ -137,6 +139,34 @@ namespace Blog.Areas.Admin.Controllers
 
                 return RedirectToAction("Index", "Roles");
             }
+        }
+
+        // POST: Roles/Delete/5
+        /// <summary>
+        /// Delete post action.
+        /// </summary>
+        /// <param name="id">id.</param>
+        /// <param name="collection">collection.</param>
+        /// <returns>Task.</returns>
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id, FormCollection collection)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            try
+            {
+                var role = await _roleManager.FindByIdAsync(id);
+                await _roleManager.DeleteAsync(role);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError("", exception.Message);
+            }
+            return RedirectToAction("Index");
         }
     }
 }
