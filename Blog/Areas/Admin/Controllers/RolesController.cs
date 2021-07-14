@@ -51,5 +51,39 @@ namespace Blog.Areas.Admin.Controllers
             var roles = await RoleManager.Roles.ToListAsync();
             return View(roles);
         }
+
+        // GET: Roles/Create
+        /// <summary>
+        /// Create role page.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Create() => View();
+
+        // POST: Roles/Create
+        /// <summary>
+        /// Create role action.
+        /// </summary>
+        /// <param name="roleModel">roleModel.</param>
+        /// <returns>Task.</returns>
+        [HttpPost]
+        public async Task<ActionResult> Create(IdentityRole roleModel)
+        {
+            try
+            {
+                //post.CreatedAt = DateTime.Now;
+                if (!ModelState.IsValid)
+                {
+                    return null;
+                }
+                await RoleManager.CreateAsync(roleModel);
+                return RedirectToAction("index", "Roles", new { area = "Admin" });
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }
