@@ -11,3 +11,13 @@ D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.dll
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.pdb
 D:\Projects\AspNet\BlogASP.NET\Blog.Core\obj\Debug\Blog.Core.csprojAssemblyReference.cache
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\System.Web.Mvc.xml
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\System.Web.WebPages.xml
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\System.Web.WebPages.Razor.xml
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\System.Web.Razor.xml
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\System.Web.WebPages.Deployment.xml
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\ru\System.Web.Mvc.resources.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\ru\System.Web.WebPages.resources.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\ru\System.Web.WebPages.Razor.resources.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\ru\System.Web.Razor.resources.dll
+D:\Projects\AspNet\BlogASP.NET\Blog.Core\bin\Debug\ru\System.Web.WebPages.Deployment.resources.dll

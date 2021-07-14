@@ -298,6 +298,7 @@
     <Compile Include="Areas\Admin\Controllers\CommentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\TagsController.cs" />
     <Compile Include="Areas\Admin\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\Posts\CommentsViewModel.cs" />
@@ -435,6 +436,7 @@
     <Content Include="public\js\pages\comments\index.js" />
     <Content Include="public\js\pages\posts\index.js" />
     <Content Include="public\js\pages\posts\show.js" />
+    <Content Include="public\js\pages\roles\index.js" />
     <Content Include="public\js\sb-admin.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2515,6 +2517,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="packages.config" />
+    <Content Include="Areas\Admin\Views\Roles\Index.cshtml" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
