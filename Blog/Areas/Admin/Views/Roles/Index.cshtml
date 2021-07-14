@@ -44,11 +44,20 @@
                             <tr>
                                 <td>@role.Name</td>
                                 <td data-th="">
-                                    <a class="btn btn-primary" href="#"><i class="fa fa-edit"></i></a>
+                                    @{
+                                        var edit = Url.Action("Edit", "Roles") + "/" + role.Id;
+                                        Url.Action("Delete", "Roles");
+                                    }
+
+                                    <a type="button"
+                                        class="btn btn-sm text-white btn-primary"
+                                        href="@edit">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
                                     <button type="button"
                                             class="btn btn-sm text-white btn-danger"
-                                            id=""
-                                            onclick="setDeletePostValues(this.id)"
+                                            id="@role.Id"
+                                            onclick="setDeleteRoleValues(this.id)"
                                             data-toggle="modal"
                                             data-target="#delete-post">
                                         <i class="fa fa-trash"></i>

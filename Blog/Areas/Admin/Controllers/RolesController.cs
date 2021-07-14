@@ -1,7 +1,9 @@
-﻿using System.Data.Entity;
+﻿using System.Data;
+using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Blog.Areas.Admin.ViewModels;
+using Blog.Areas.Admin.ViewModels.Users;
 using BLog.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -18,24 +20,15 @@ namespace Blog.Areas.Admin.Controllers
         /// <summary>
         /// The role manager.
         /// </summary>
-        private RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         /// <summary>
-        /// Gets the role manager.
+        /// Initializes a new instance of the <see cref="RolesController"/> class.
         /// </summary>
-        /// <value>
-        /// The role manager.
-        /// </value>
-        public RoleManager<IdentityRole> RoleManager
+        public RolesController()
         {
-            get
-            {
-                return _roleManager ?? new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new BlogContext()));
-            }
-            private set
-            {
-                _roleManager = value;
-            }
+            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new BlogContext()));
+            ViewBag.AdminView = true;
         }
 
         /// <summary>
@@ -48,7 +41,7 @@ namespace Blog.Areas.Admin.Controllers
             ViewBag.Controller = "Posts";
             ViewBag.UploadFileViewModel = new UploadFileViewModel();
 
-            var roles = await RoleManager.Roles.ToListAsync();
+            var roles = await _roleManager.Roles.ToListAsync();
             return View(roles);
         }
 
@@ -77,12 +70,72 @@ namespace Blog.Areas.Admin.Controllers
                 {
                     return null;
                 }
-                await RoleManager.CreateAsync(roleModel);
+                await _roleManager.CreateAsync(roleModel);
                 return RedirectToAction("index", "Roles", new { area = "Admin" });
             }
             catch
             {
                 return View();
+            }
+        }
+
+        // GET: Roles/Edit/5
+        /// <summary>
+        /// Edit role page.
+        /// </summary>
+        /// <param name="id">id.</param>
+        /// <returns>Task.</returns>
+        [HttpGet]
+        public async Task<ActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Posts");
+            }
+
+            var role = await _roleManager.FindByIdAsync(id);
+
+            return View(new EditRoleViewModel
+            {
+                Id = role.Id,
+                Name = role.Name,
+            });
+        }
+
+        // POST: Roles/Edit/5
+        /// <summary>
+        /// Edit role action.
+        /// </summary>
+        /// <param name="id">id.</param>
+        /// <param name="editedRole">editedRole.</param>
+        /// <returns>Task.</returns>
+        [HttpPost]
+        public async Task<ActionResult> Edit(string id, EditRoleViewModel editedRole)
+        {
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Roles");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(editedRole);
+            }
+
+            try
+            {
+                var roleModel = await _roleManager.FindByIdAsync(id);
+                roleModel.Name = editedRole.Name;
+                
+                _roleManager.Update(roleModel);
+                return RedirectToAction("Index", "Roles");
+            }
+            catch (DataException dex)
+            {
+                //Log the error (uncomment dex variable name and add a line here to write a log.
+                ModelState.AddModelError("", dex.Message);
+
+                return RedirectToAction("Index", "Roles");
             }
         }
     }
