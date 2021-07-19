@@ -7,8 +7,6 @@ D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Blog.Data.Core.d
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\BLog.Data.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Blog.Data.Models.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Blog.Services.Core.dll
-D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ClosedXML.dll
-D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\DocumentFormat.OpenXml.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\EntityFramework.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\EntityFramework.SqlServer.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ExcelNumberFormat.dll
@@ -33,9 +31,6 @@ D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\BLog.Data.pdb
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\BLog.Data.dll.config
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Blog.Services.Core.pdb
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\AutoMapper.xml
-D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ClosedXML.pdb
-D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ClosedXML.xml
-D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\DocumentFormat.OpenXml.xml
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\EntityFramework.xml
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\EntityFramework.SqlServer.xml
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ExcelNumberFormat.xml
@@ -48,6 +43,11 @@ D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\obj\Debug\Blog.Services.cs
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\obj\Debug\Blog.Services.csproj.CopyComplete
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\obj\Debug\Blog.Services.dll
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\obj\Debug\Blog.Services.pdb
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ClosedXML.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\DocumentFormat.OpenXml.dll
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ClosedXML.pdb
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\ClosedXML.xml
+D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\DocumentFormat.OpenXml.xml
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\Projects\AspNet\BlogASP.NET\Services\Blog.Services\bin\Debug\Microsoft.AspNet.Identity.Owin.xml

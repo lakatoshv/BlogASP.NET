@@ -24,5 +24,12 @@ namespace Blog.Services.Interfaces
         /// <param name="currentUserId">The current user identifier.</param>
         /// <returns>Task.</returns>
         Task<ResultDto> UploadCommentsFromExcel(Stream inputStream, string currentUserId);
+
+        /// <summary>
+        /// Uploads the roles from excel.
+        /// </summary>
+        /// <param name="inputStream">The input stream.</param>
+        /// <returns>Task.</returns>
+        Task<ResultDto> UploadRolesFromExcel(Stream inputStream);
     }
 }

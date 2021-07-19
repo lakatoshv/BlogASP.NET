@@ -364,3 +364,11 @@ D:\Projects\AspNet\BlogASP.NET\Blog\bin\ru\Microsoft.Owin.Security.Facebook.reso
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\ru\Microsoft.Owin.Security.Google.resources.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\ru\Microsoft.Owin.Security.Twitter.resources.dll
 D:\Projects\AspNet\BlogASP.NET\Blog\bin\ru\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ClosedXML.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\DocumentFormat.OpenXml.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ExcelNumberFormat.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\System.IO.Packaging.dll
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ClosedXML.pdb
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ClosedXML.xml
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\DocumentFormat.OpenXml.xml
+D:\Projects\AspNet\BlogASP.NET\Blog\bin\ExcelNumberFormat.xml

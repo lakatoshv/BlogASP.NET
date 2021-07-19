@@ -1,0 +1,86 @@
+﻿@model IList<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+
+@{
+    ViewBag.Title = "Index";
+}
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 mx-auto">
+            @{
+                var createRole = Url.Action("Create", "Roles");
+            }
+            <a href="@createRole" class="btn btn-light">Додати нову роль</a>
+            <span></span>
+            
+            <div class="col-12">
+                <ul class="list-inline">
+                    <li class="list-inline pull-right">
+                        <a class="btn btn-default upload-btn">Upload by excel</a>
+                    </li>
+                </ul>
+                @{
+                    Html.RenderPartial("_UploadExcel", (Blog.Areas.Admin.ViewModels.UploadFileViewModel)ViewBag.UploadFileViewModel);
+                }
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%">
+                    <thead>
+                        <tr>
+                            <th><b>Роль:</b></th>
+                            <th><b>Користувачі:</b></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th><b>Роль:</b></th>
+                            <th><b>Користувачі:</b></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var role in Model)
+                        {
+                        <tr>
+                            <td>@role.Name</td>
+                            <td>@role.Users.Count</td>
+                            <td data-th="">
+                                @{
+                                    var edit = Url.Action("Edit", "Roles") + "/" + role.Id;
+                                    Url.Action("Delete", "Roles");
+                                }
+
+                                <a type="button"
+                                   class="btn btn-sm text-white btn-primary"
+                                   href="@edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <button type="button"
+                                        class="btn btn-sm text-white btn-danger"
+                                        id="@role.Id"
+                                        onclick="setDeleteRoleValues(this.id)"
+                                        data-toggle="modal"
+                                        data-target="#delete-post">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <a class="btn btn-default pull-right" href="#" data-toggle="modal" data-target="#export-posts-modal">Download by excel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    Html.RenderPartial("Modals/Roles/_DeleteRoles");
+    Html.RenderPartial("Modals/Roles/_ExportRoles");
+}
+
+@Scripts.Render("~/public/plugins/jquery/jquery.js")
+@Scripts.Render("~/public/js/scripts.js")
+@Scripts.Render("~/public/js/pages/roles/index.js")
