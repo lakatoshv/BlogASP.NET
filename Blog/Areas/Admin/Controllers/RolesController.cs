@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Blog.Areas.Admin.ViewModels;
 using Blog.Areas.Admin.ViewModels.Users;
 using BLog.Data;
+using Blog.Services.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -20,6 +21,11 @@ namespace Blog.Areas.Admin.Controllers
     public class RolesController : Controller
     {
         /// <summary>
+        /// The upload from file service.
+        /// </summary>
+        private readonly IUploadFromFileService _uploadFromFileService;
+
+        /// <summary>
         /// The role manager.
         /// </summary>
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -27,8 +33,10 @@ namespace Blog.Areas.Admin.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="RolesController"/> class.
         /// </summary>
-        public RolesController()
+        /// <param name="uploadFromFileService">The upload from file service.</param>
+        public RolesController(IUploadFromFileService uploadFromFileService)
         {
+            _uploadFromFileService = uploadFromFileService;
             _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new BlogContext()));
             ViewBag.AdminView = true;
         }
@@ -40,7 +48,7 @@ namespace Blog.Areas.Admin.Controllers
         // GET: Admin/Roles
         public async Task<ActionResult> Index()
         {
-            ViewBag.Controller = "Posts";
+            ViewBag.Controller = "Roles";
             ViewBag.UploadFileViewModel = new UploadFileViewModel();
 
             var roles = await _roleManager.Roles.ToListAsync();
@@ -167,6 +175,35 @@ namespace Blog.Areas.Admin.Controllers
                 ModelState.AddModelError("", exception.Message);
             }
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Uploads the items from excel.
+        /// </summary>
+        /// <param name="uploadFile">The upload file.</param>
+        /// <returns>Task.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> UploadItemsFromExcel(UploadFileViewModel uploadFile)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            var currentUserId = User.Identity.GetUserId();
+            var result = await _uploadFromFileService
+                .UploadRolesFromExcel(uploadFile?.ExcelFile.InputStream, currentUserId).ConfigureAwait(false);
+
+            ViewBag.Controller = "Roles";
+            ViewBag.UploadFileViewModel = new UploadFileViewModel();
+            if (result.Success)
+            {
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError(string.Empty, result.ExceptionMessage);
+
+            return View("Index");
         }
     }
 }

@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BLog.Data;
 using Blog.Data.Models;
 using Blog.Services.Core.Dtos;
 using Blog.Services.Core.Dtos.Posts;
+using Blog.Services.Core.Dtos.Users;
 using Blog.Services.Interfaces;
 using Blog.Services.Posts.Interfaces;
 using ClosedXML.Excel;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Blog.Services
 {
@@ -40,6 +45,11 @@ namespace Blog.Services
         private readonly IMapper _mapper;
 
         /// <summary>
+        /// The role manager.
+        /// </summary>
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UploadFromFileService"/> class.
         /// </summary>
         /// <param name="postsService">The posts service.</param>
@@ -54,10 +64,13 @@ namespace Blog.Services
             _commentsService = commentsService;
             _tagsService = tagsService;
 
+            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new BlogContext()));
+
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<PostDto, Post>();
                 cfg.CreateMap<CommentDto, Comment>();
+                cfg.CreateMap<RoleDto, IdentityRole>();
             });
             _mapper = config.CreateMapper();
         }
@@ -97,7 +110,7 @@ namespace Blog.Services
                     post.PostTags = item.PostTags;
                     postsToEdit.Add(post);
                 }
-                else if (row.Cell(7).Value.ToString().TrimStart(' ').TrimEnd(' ').ToLower().Equals("edit") &&
+                else if (row.Cell(7).Value.ToString().TrimStart(' ').TrimEnd(' ').ToLower().Equals("delete") &&
                          post != null)
                 {
                     await _commentsService.DeletePostComments(post.Id);
@@ -173,7 +186,7 @@ namespace Blog.Services
                     comment.CommentBody = item.CommentBody;
                     commentsToEdit.Add(comment);
                 }
-                else if (row.Cell(7).Value.ToString().TrimStart(' ').TrimEnd(' ').ToLower().Equals("edit") &&
+                else if (row.Cell(7).Value.ToString().TrimStart(' ').TrimEnd(' ').ToLower().Equals("delete") &&
                          comment != null)
                 {
                     commentsToDelete.Add(comment);
@@ -200,6 +213,63 @@ namespace Blog.Services
             if (commentsToDelete.Count > 0)
             {
                 await _commentsService.DeleteAsync(commentsToDelete);
+            }
+
+            resultDto.Success = true;
+
+            return resultDto;
+        }
+
+        /// <inheritdoc cref="IUploadFromFileService"/>
+        public async Task<ResultDto> UploadRolesFromExcel(Stream inputStream, string currentUserId)
+        {
+            var resultDto = new ResultDto();
+
+            var rolesToCreate = new List<IdentityRole>();
+            var rolesToDelete = new List<IdentityRole>();
+
+            var roles = await _roleManager.Roles.ToListAsync();
+
+            var workSheet = WorkSheetUsedRows(inputStream, "Roles");
+            if (!workSheet.Success)
+            {
+                resultDto.ExceptionMessage = workSheet.ExceptionMessage;
+
+                return resultDto;
+            }
+
+            foreach (var row in workSheet.Rows)
+            {
+                var item = new RoleDto(row);
+
+                var role = roles.FirstOrDefault(x => x.Name.ToLower().Equals(item.Name.ToLower()));
+                
+                if (row.Cell(2).Value.ToString().TrimStart(' ').TrimEnd(' ').ToLower().Equals("delete") &&
+                    role != null)
+                {
+                    rolesToDelete.Add(role);
+                }
+                else
+                {
+                    var newRole = _mapper.Map<RoleDto, IdentityRole>(item);
+                    rolesToCreate.Add(newRole);
+                }
+            }
+
+            if (rolesToCreate.Count > 0)
+            {
+                foreach (var t in rolesToCreate)
+                {
+                    await _roleManager.CreateAsync(t);
+                }
+            }
+
+            if (rolesToDelete.Count > 0)
+            {
+                foreach (var t in rolesToDelete)
+                {
+                    await _roleManager.DeleteAsync(t);
+                }
             }
 
             resultDto.Success = true;
