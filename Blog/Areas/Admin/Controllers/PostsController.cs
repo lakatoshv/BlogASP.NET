@@ -258,6 +258,10 @@ namespace Blog.Areas.Admin.Controllers
             return View("Index");
         }
 
+        /// <summary>
+        /// Exports to excel.
+        /// </summary>
+        /// <returns>Task.</returns>
         [HttpPost]
         public async Task<ActionResult> ExportToExcel()
         {

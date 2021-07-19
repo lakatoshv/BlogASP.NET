@@ -221,7 +221,7 @@ namespace Blog.Services
         }
 
         /// <inheritdoc cref="IUploadFromFileService"/>
-        public async Task<ResultDto> UploadRolesFromExcel(Stream inputStream, string currentUserId)
+        public async Task<ResultDto> UploadRolesFromExcel(Stream inputStream)
         {
             var resultDto = new ResultDto();
 

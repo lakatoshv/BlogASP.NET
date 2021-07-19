@@ -2536,7 +2536,7 @@
     <Content Include="Areas\Admin\Views\Roles\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\Modals\Roles\_DeleteRoles.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\Modals\Roles\_ExportPosts.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Modals\Roles\_ExportRoles.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_SideMenu.cshtml" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map">

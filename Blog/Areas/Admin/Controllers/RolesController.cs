@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -8,6 +9,7 @@ using Blog.Areas.Admin.ViewModels;
 using Blog.Areas.Admin.ViewModels.Users;
 using BLog.Data;
 using Blog.Services.Interfaces;
+using ClosedXML.Excel;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -190,9 +192,8 @@ namespace Blog.Areas.Admin.Controllers
             {
                 return RedirectToAction("Index");
             }
-            var currentUserId = User.Identity.GetUserId();
             var result = await _uploadFromFileService
-                .UploadRolesFromExcel(uploadFile?.ExcelFile.InputStream, currentUserId).ConfigureAwait(false);
+                .UploadRolesFromExcel(uploadFile?.ExcelFile.InputStream).ConfigureAwait(false);
 
             ViewBag.Controller = "Roles";
             ViewBag.UploadFileViewModel = new UploadFileViewModel();
@@ -204,6 +205,49 @@ namespace Blog.Areas.Admin.Controllers
             ModelState.AddModelError(string.Empty, result.ExceptionMessage);
 
             return View("Index");
+        }
+
+        /// <summary>
+        /// Exports to excel.
+        /// </summary>
+        /// <returns>Task.</returns>
+        [HttpPost]
+        public async Task<ActionResult> ExportToExcel()
+        {
+            try
+            {
+                var roles = await _roleManager.Roles.ToListAsync().ConfigureAwait(false);
+                var dataTable = new DataTable("Roles");
+                // Headers.
+                dataTable.Columns.AddRange(
+                    new[]
+                    {
+                        new DataColumn("Name"),
+                    });
+
+                // Rows.
+                foreach (var role in roles)
+                {
+                    dataTable.Rows.Add(role.Name);
+                }
+
+                using (var wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(dataTable);
+
+                    using (var stream = new MemoryStream())
+                    {
+                        wb.SaveAs(stream);
+
+                        return File(stream.ToArray(),
+                            "application/wnd.openxmlformats-officedocument.spreadsheetml.sheet", "Roles.xlsx");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }
