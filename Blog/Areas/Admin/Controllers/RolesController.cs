@@ -223,12 +223,13 @@ namespace Blog.Areas.Admin.Controllers
                     new[]
                     {
                         new DataColumn("Name"),
+                        new DataColumn("Users count"),
                     });
 
                 // Rows.
                 foreach (var role in roles)
                 {
-                    dataTable.Rows.Add(role.Name);
+                    dataTable.Rows.Add(role.Name, role.Users.Count);
                 }
 
                 using (var wb = new XLWorkbook())

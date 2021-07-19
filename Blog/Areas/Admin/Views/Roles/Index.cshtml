@@ -29,41 +29,44 @@
                     <thead>
                         <tr>
                             <th><b>Роль:</b></th>
+                            <th><b>Користувачі:</b></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th><b>Роль:</b></th>
+                            <th><b>Користувачі:</b></th>
                             <th></th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach (var role in Model)
                         {
-                            <tr>
-                                <td>@role.Name</td>
-                                <td data-th="">
-                                    @{
-                                        var edit = Url.Action("Edit", "Roles") + "/" + role.Id;
-                                        Url.Action("Delete", "Roles");
-                                    }
+                        <tr>
+                            <td>@role.Name</td>
+                            <td>@role.Users.Count</td>
+                            <td data-th="">
+                                @{
+                                    var edit = Url.Action("Edit", "Roles") + "/" + role.Id;
+                                    Url.Action("Delete", "Roles");
+                                }
 
-                                    <a type="button"
-                                        class="btn btn-sm text-white btn-primary"
-                                        href="@edit">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <button type="button"
-                                            class="btn btn-sm text-white btn-danger"
-                                            id="@role.Id"
-                                            onclick="setDeleteRoleValues(this.id)"
-                                            data-toggle="modal"
-                                            data-target="#delete-post">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                                <a type="button"
+                                   class="btn btn-sm text-white btn-primary"
+                                   href="@edit">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <button type="button"
+                                        class="btn btn-sm text-white btn-danger"
+                                        id="@role.Id"
+                                        onclick="setDeleteRoleValues(this.id)"
+                                        data-toggle="modal"
+                                        data-target="#delete-post">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
