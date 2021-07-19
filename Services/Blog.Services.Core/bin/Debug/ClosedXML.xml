@@ -14,7 +14,7 @@
             Clear the repository;
             </summary>
         </member>
-        <member name="M:ClosedXML.Excel.Caching.IXLRepository`2.Store(`0,`1)">
+        <member name="M:ClosedXML.Excel.Caching.IXLRepository`2.Store(`0@,`1)">
             <summary>
             Put the <paramref name="value"/> into the repository under the specified <paramref name="key"/>
             if there is no such key present.
@@ -24,7 +24,7 @@
             <returns>Value stored in the repository under the specified <paramref name="key"/>. If key already existed
             returned value may differ from the input one.</returns>
         </member>
-        <member name="M:ClosedXML.Excel.Caching.XLRepositoryBase`2.ContainsKey(`0,`1@)">
+        <member name="M:ClosedXML.Excel.Caching.XLRepositoryBase`2.ContainsKey(`0@,`1@)">
             <summary>
             Check if the specified key is presented in the repository.
             </summary>
@@ -33,7 +33,7 @@
             not exist or the entry under this key has already bee GCed.</param>
             <returns>True if entry exists and alive, false otherwise.</returns>
         </member>
-        <member name="M:ClosedXML.Excel.Caching.XLRepositoryBase`2.Store(`0,`1)">
+        <member name="M:ClosedXML.Excel.Caching.XLRepositoryBase`2.Store(`0@,`1)">
             <summary>
             Put the entity into the repository under the specified key if no other entity with
             the same key is presented.
@@ -360,22 +360,15 @@
             <param name="expression">Formula to parse.</param>
             <returns>Collection of ranges included into the expression.</returns>
         </member>
-        <member name="P:ClosedXML.Excel.IXLCell.Value">
-            <summary>
-            Gets or sets the cell's value. To get or set a strongly typed value, use the GetValue&lt;T&gt; and SetValue methods.
-            <para>ClosedXML will try to detect the data type through parsing. If it can't then the value will be left as a string.</para>
-            <para>If the object is an IEnumerable, ClosedXML will copy the collection's data into a table starting from this cell.</para>
-            <para>If the object is a range, ClosedXML will copy the range starting from this cell.</para>
-            <para>Setting the value to an object (not IEnumerable/range) will call the object's ToString() method.</para>
-            <para>If the value starts with a single quote, ClosedXML will assume the value is a text variable and will prefix the value with a single quote in Excel too.</para>
-            </summary>
-            <value>
-            The object containing the value(s) to set.
-            </value>
-        </member>
         <member name="P:ClosedXML.Excel.IXLCell.Address">
             <summary>Gets this cell's address, relative to the worksheet.</summary>
             <value>The cell's address.</value>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLCell.CachedValue">
+            <summary>
+            Calculated value of cell formula. Is used for decreasing number of computations perfromed.
+            May hold invalid value when <see cref="P:ClosedXML.Excel.IXLCell.NeedsRecalculation"/> flag is True.
+            </summary>
         </member>
         <member name="P:ClosedXML.Excel.IXLCell.CurrentRegion">
             <summary>
@@ -396,52 +389,90 @@
             </value>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:ClosedXML.Excel.IXLCell.SetDataType(ClosedXML.Excel.XLDataType)">
+        <member name="P:ClosedXML.Excel.IXLCell.FormulaA1">
             <summary>
-            Sets the type of this cell's data.
-            <para>Changing the data type will cause ClosedXML to covert the current value to the new data type.</para>
-            <para>An exception will be thrown if the current value cannot be converted to the new data type.</para>
+            Gets or sets the cell's formula with A1 references.
             </summary>
-            <param name="dataType">Type of the data.</param>
-            <returns></returns>
+            <value>The formula with A1 references.</value>
         </member>
-        <member name="M:ClosedXML.Excel.IXLCell.SetValue``1(``0)">
+        <member name="P:ClosedXML.Excel.IXLCell.FormulaR1C1">
             <summary>
-            Sets the cell's value.
-            <para>If the object is an IEnumerable ClosedXML will copy the collection's data into a table starting from this cell.</para>
-            <para>If the object is a range ClosedXML will copy the range starting from this cell.</para>
+            Gets or sets the cell's formula with R1C1 references.
+            </summary>
+            <value>The formula with R1C1 references.</value>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLCell.NeedsRecalculation">
+            <summary>
+            Flag indicating that previously calculated cell value may be not valid anymore and has to be re-evaluated.
+            </summary>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLCell.ShareString">
+            <summary>
+            Gets or sets a value indicating whether this cell's text should be shared or not.
+            </summary>
+            <value>
+              If false the cell's text will not be shared and stored as an inline value.
+            </value>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLCell.Style">
+            <summary>
+            Gets or sets the cell's style.
+            </summary>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLCell.Value">
+            <summary>
+            Gets or sets the cell's value. To get or set a strongly typed value, use the GetValue&lt;T&gt; and SetValue methods.
+            <para>ClosedXML will try to detect the data type through parsing. If it can't then the value will be left as a string.</para>
+            <para>If the object is an IEnumerable, ClosedXML will copy the collection's data into a table starting from this cell.</para>
+            <para>If the object is a range, ClosedXML will copy the range starting from this cell.</para>
             <para>Setting the value to an object (not IEnumerable/range) will call the object's ToString() method.</para>
-            <para>ClosedXML will try to translate it to the corresponding type, if it can't then the value will be left as a string.</para>
+            <para>If the value starts with a single quote, ClosedXML will assume the value is a text variable and will prefix the value with a single quote in Excel too.</para>
             </summary>
             <value>
             The object containing the value(s) to set.
             </value>
         </member>
-        <member name="M:ClosedXML.Excel.IXLCell.GetValue``1">
+        <member name="M:ClosedXML.Excel.IXLCell.AddToNamed(System.String)">
             <summary>
-            Gets the cell's value converted to the T type.
-            <para>ClosedXML will try to covert the current value to the T type.</para>
-            <para>An exception will be thrown if the current value cannot be converted to the T type.</para>
+            Creates a named range out of this cell.
+            <para>If the named range exists, it will add this range to that named range.</para>
+            <para>The default scope for the named range is Workbook.</para>
             </summary>
-            <typeparam name="T">The return type.</typeparam>
-            <exception cref="T:System.ArgumentException"></exception>
+            <param name="rangeName">Name of the range.</param>
         </member>
-        <member name="M:ClosedXML.Excel.IXLCell.GetString">
+        <member name="M:ClosedXML.Excel.IXLCell.AddToNamed(System.String,ClosedXML.Excel.XLScope)">
             <summary>
-            Gets the cell's value converted to a String.
-            </summary>
-        </member>
-        <member name="M:ClosedXML.Excel.IXLCell.GetFormattedString">
-            <summary>
-            Gets the cell's value formatted depending on the cell's data type and style.
+            Creates a named range out of this cell.
+            <para>If the named range exists, it will add this range to that named range.</para>
+            <param name="rangeName">Name of the range.</param>
+            <param name="scope">The scope for the named range.</param>
             </summary>
         </member>
-        <member name="M:ClosedXML.Excel.IXLCell.GetDouble">
+        <member name="M:ClosedXML.Excel.IXLCell.AddToNamed(System.String,ClosedXML.Excel.XLScope,System.String)">
             <summary>
-            Gets the cell's value converted to Double.
-            <para>ClosedXML will try to covert the current value to Double.</para>
-            <para>An exception will be thrown if the current value cannot be converted to Double.</para>
+            Creates a named range out of this cell.
+            <para>If the named range exists, it will add this range to that named range.</para>
+            <param name="rangeName">Name of the range.</param>
+            <param name="scope">The scope for the named range.</param>
+            <param name="comment">The comments for the named range.</param>
             </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.AsRange">
+            <summary>
+            Returns this cell as an IXLRange.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.Clear(ClosedXML.Excel.XLClearOptions)">
+            <summary>
+            Clears the contents of this cell.
+            </summary>
+            <param name="clearOptions">Specify what you want to clear.</param>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.Delete(ClosedXML.Excel.XLShiftDeletedCells)">
+            <summary>
+            Deletes the current cell and shifts the surrounding cells according to the shiftDeleteCells parameter.
+            </summary>
+            <param name="shiftDeleteCells">How to shift the surrounding cells.</param>
         </member>
         <member name="M:ClosedXML.Excel.IXLCell.GetBoolean">
             <summary>
@@ -457,6 +488,23 @@
             <para>An exception will be thrown if the current value cannot be converted to DateTime.</para>
             </summary>
         </member>
+        <member name="M:ClosedXML.Excel.IXLCell.GetDouble">
+            <summary>
+            Gets the cell's value converted to Double.
+            <para>ClosedXML will try to covert the current value to Double.</para>
+            <para>An exception will be thrown if the current value cannot be converted to Double.</para>
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.GetFormattedString">
+            <summary>
+            Gets the cell's value formatted depending on the cell's data type and style.
+            </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.GetString">
+            <summary>
+            Gets the cell's value converted to a String.
+            </summary>
+        </member>
         <member name="M:ClosedXML.Excel.IXLCell.GetTimeSpan">
             <summary>
             Gets the cell's value converted to TimeSpan.
@@ -464,47 +512,14 @@
             <para>An exception will be thrown if the current value cannot be converted to TimeSpan.</para>
             </summary>
         </member>
-        <member name="M:ClosedXML.Excel.IXLCell.Clear(ClosedXML.Excel.XLClearOptions)">
+        <member name="M:ClosedXML.Excel.IXLCell.GetValue``1">
             <summary>
-            Clears the contents of this cell.
+            Gets the cell's value converted to the T type.
+            <para>ClosedXML will try to covert the current value to the T type.</para>
+            <para>An exception will be thrown if the current value cannot be converted to the T type.</para>
             </summary>
-            <param name="clearOptions">Specify what you want to clear.</param>
-        </member>
-        <member name="M:ClosedXML.Excel.IXLCell.Delete(ClosedXML.Excel.XLShiftDeletedCells)">
-            <summary>
-            Deletes the current cell and shifts the surrounding cells according to the shiftDeleteCells parameter.
-            </summary>
-            <param name="shiftDeleteCells">How to shift the surrounding cells.</param>
-        </member>
-        <member name="P:ClosedXML.Excel.IXLCell.FormulaA1">
-            <summary>
-            Gets or sets the cell's formula with A1 references.
-            </summary>
-            <value>The formula with A1 references.</value>
-        </member>
-        <member name="P:ClosedXML.Excel.IXLCell.FormulaR1C1">
-            <summary>
-            Gets or sets the cell's formula with R1C1 references.
-            </summary>
-            <value>The formula with R1C1 references.</value>
-        </member>
-        <member name="M:ClosedXML.Excel.IXLCell.AsRange">
-            <summary>
-            Returns this cell as an IXLRange.
-            </summary>
-        </member>
-        <member name="P:ClosedXML.Excel.IXLCell.Style">
-            <summary>
-            Gets or sets the cell's style.
-            </summary>
-        </member>
-        <member name="P:ClosedXML.Excel.IXLCell.ShareString">
-            <summary>
-            Gets or sets a value indicating whether this cell's text should be shared or not.
-            </summary>
-            <value>
-              If false the cell's text will not be shared and stored as an inline value.
-            </value>
+            <typeparam name="T">The return type.</typeparam>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:ClosedXML.Excel.IXLCell.InsertData(System.Collections.IEnumerable)">
             <summary>
@@ -599,52 +614,39 @@
             <para>if set to <c>false</c> the table will be created in memory.</para>
             </param>
         </member>
-        <member name="M:ClosedXML.Excel.IXLCell.AddToNamed(System.String)">
-            <summary>
-            Creates a named range out of this cell.
-            <para>If the named range exists, it will add this range to that named range.</para>
-            <para>The default scope for the named range is Workbook.</para>
-            </summary>
-            <param name="rangeName">Name of the range.</param>
-        </member>
-        <member name="M:ClosedXML.Excel.IXLCell.AddToNamed(System.String,ClosedXML.Excel.XLScope)">
-            <summary>
-            Creates a named range out of this cell.
-            <para>If the named range exists, it will add this range to that named range.</para>
-            <param name="rangeName">Name of the range.</param>
-            <param name="scope">The scope for the named range.</param>
-            </summary>
-        </member>
-        <member name="M:ClosedXML.Excel.IXLCell.AddToNamed(System.String,ClosedXML.Excel.XLScope,System.String)">
-            <summary>
-            Creates a named range out of this cell.
-            <para>If the named range exists, it will add this range to that named range.</para>
-            <param name="rangeName">Name of the range.</param>
-            <param name="scope">The scope for the named range.</param>
-            <param name="comment">The comments for the named range.</param>
-            </summary>
-        </member>
-        <member name="P:ClosedXML.Excel.IXLCell.ValueCached">
-            <summary>
-            Textual representation of cell calculated value (as it is saved to a workbook or read from it)
-            </summary>
-        </member>
-        <member name="P:ClosedXML.Excel.IXLCell.CachedValue">
-            <summary>
-            Calculated value of cell formula. Is used for decreasing number of computations perfromed.
-            May hold invalid value when <see cref="P:ClosedXML.Excel.IXLCell.NeedsRecalculation"/> flag is True.
-            </summary>
-        </member>
-        <member name="P:ClosedXML.Excel.IXLCell.NeedsRecalculation">
-            <summary>
-            Flag indicating that previously calculated cell value may be not valid anymore and has to be re-evaluated.
-            </summary>
-        </member>
         <member name="M:ClosedXML.Excel.IXLCell.InvalidateFormula">
             <summary>
             Invalidate <see cref="P:ClosedXML.Excel.IXLCell.CachedValue"/> so the formula will be re-evaluated next time <see cref="P:ClosedXML.Excel.IXLCell.Value"/> is accessed.
             If cell does not contain formula nothing happens.
             </summary>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.SetDataType(ClosedXML.Excel.XLDataType)">
+            <summary>
+            Sets the type of this cell's data.
+            <para>Changing the data type will cause ClosedXML to covert the current value to the new data type.</para>
+            <para>An exception will be thrown if the current value cannot be converted to the new data type.</para>
+            </summary>
+            <param name="dataType">Type of the data.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.SetValue``1(``0)">
+            <summary>
+            Sets the cell's value.
+            <para>If the object is an IEnumerable ClosedXML will copy the collection's data into a table starting from this cell.</para>
+            <para>If the object is a range ClosedXML will copy the range starting from this cell.</para>
+            <para>Setting the value to an object (not IEnumerable/range) will call the object's ToString() method.</para>
+            <para>ClosedXML will try to translate it to the corresponding type, if it can't then the value will be left as a string.</para>
+            </summary>
+            <value>
+            The object containing the value(s) to set.
+            </value>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLCell.ToString(System.String)">
+            <summary>
+            Returns a string that represents the current state of the cell according to the format.
+            </summary>
+            <param name="format">A: address, F: formula, NF: number format, BG: background color, FG: foreground color, V: formatted value</param>
+            <returns></returns>
         </member>
         <member name="P:ClosedXML.Excel.IXLCells.Value">
             <summary>
@@ -1293,23 +1295,6 @@
             </summary>
             <returns>A created copy of the picture.</returns>
         </member>
-        <member name="M:ClosedXML.Excel.IXLSheetProtection.AllowElement(ClosedXML.Excel.XLSheetProtectionElements,System.Boolean)">
-            <summary>
-            Adds the sheet protection element to the list of allowed elements.
-            Beware that if you pass through <see cref="F:ClosedXML.Excel.XLSheetProtectionElements.None" />, this will have no effect.
-            </summary>
-            <param name="element">The sheet protection element to add</param>
-            <param name="allowed">Set to <c>true</c> to allow the element or <c>false</c> to disallow the element</param>
-            <returns>The current sheet protection</returns>
-        </member>
-        <member name="M:ClosedXML.Excel.IXLSheetProtection.DisallowElement(ClosedXML.Excel.XLSheetProtectionElements)">
-            <summary>
-            Removes the sheet protection element to the list of allowed elements.
-            Beware that if you pass through <see cref="F:ClosedXML.Excel.XLSheetProtectionElements.None" />, this will have no effect.
-            </summary>
-            <param name="element">The sheet protection element to remove</param>
-            <returns>The current sheet protection</returns>
-        </member>
         <member name="P:ClosedXML.Excel.IXLSheetView.SplitColumn">
             <summary>
             Gets or sets the column after which the horizontal split should take place.
@@ -1319,6 +1304,14 @@
             <summary>
             Gets or sets the row after which the vertical split should take place.
             </summary>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLSheetView.TopLeftCellAddress">
+            <summary>
+            Gets or sets the location of the top left visible cell
+            </summary>
+            <value>
+            The scroll position's top left cell.
+            </value>
         </member>
         <member name="P:ClosedXML.Excel.IXLSheetView.ZoomScale">
             <summary>
@@ -2472,6 +2465,137 @@
               <P>Helper function used during saving to calculate the indices of the filtered values</P>
             </summary>
             <returns>Indices of the filtered values</returns>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLElementProtection`1.AllowedElements">
+            <summary>Gets or sets the elements that are allowed to be edited by the user, i.e. those that are not protected.</summary>
+            <value>The allowed elements.</value>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.AllowElement(`0,System.Boolean)">
+            <summary>
+            Adds the specified element to the list of allowed elements.
+            Beware that if you pass through "None", this will have no effect.
+            </summary>
+            <param name="element">The element to add</param>
+            <param name="allowed">Set to <c>true</c> to allow the element or <c>false</c> to disallow the element</param>
+            <returns>The current protection instance</returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.AllowEverything">
+            <summary>Allows all elements to be edited.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.AllowNone">
+            <summary>Allows no elements to be edited. Protects all elements.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.CopyFrom(ClosedXML.Excel.IXLElementProtection{`0})">
+            <summary>Copies all the protection settings from a different instance.</summary>
+            <param name="protectable">The protectable.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.DisallowElement(`0)">
+            <summary>
+            Removes the element to the list of allowed elements.
+            Beware that if you pass through "None", this will have no effect.
+            </summary>
+            <param name="element">The element to remove</param>
+            <returns>The current protection instance</returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.Protect">
+            <summary>Protects this instance without a password.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.Protect(System.String,ClosedXML.Excel.XLProtectionAlgorithm.Algorithm)">
+            <summary>Protects this instance using the specified password and password hash algorithm.</summary>
+            <param name="password">The password.</param>
+            <param name="algorithm">The algorithm.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.Unprotect">
+            <summary>Unprotects this instance without a password.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLElementProtection`1.Unprotect(System.String)">
+            <summary>Unprotects this instance using the specified password.</summary>
+            <param name="password">The password.</param>
+            <returns></returns>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLElementProtection.Algorithm">
+            <summary>Gets the algorithm used to hash the password.</summary>
+            <value>The algorithm.</value>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLElementProtection.IsPasswordProtected">
+            <summary>Gets a value indicating whether this instance is protected with a password.</summary>
+            <value>
+              <c>true</c> if this instance is password protected; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLElementProtection.IsProtected">
+            <summary>Gets a value indicating whether this instance is protected, either with or without a password.</summary>
+            <value>
+              <c>true</c> if this instance is protected; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable`2.Protect">
+            <summary>Protects this instance without a password.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable`2.Protect(System.String,ClosedXML.Excel.XLProtectionAlgorithm.Algorithm)">
+            <summary>Protects this instance using the specified password and password hash algorithm.</summary>
+            <param name="password">The password.</param>
+            <param name="algorithm">The algorithm.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable`2.Protect(System.String,ClosedXML.Excel.XLProtectionAlgorithm.Algorithm,`1)">
+            <summary>Protects this instance with the specified password, password hash algorithm and set elements that the user is allowed to change.</summary>
+            <param name="password">The password.</param>
+            <param name="algorithm">The algorithm.</param>
+            <param name="allowedElements">The allowed elements.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable`2.Unprotect">
+            <summary>Unprotects this instance without a password.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable`2.Unprotect(System.String)">
+            <summary>Unprotects this instance using the specified password.</summary>
+            <param name="password">The password.</param>
+            <returns></returns>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLProtectable.IsPasswordProtected">
+            <summary>Gets a value indicating whether this instance is protected with a password.</summary>
+            <value>
+              <c>true</c> if this instance is password protected; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:ClosedXML.Excel.IXLProtectable.IsProtected">
+            <summary>Gets a value indicating whether this instance is protected, either with or without a password.</summary>
+            <value>
+              <c>true</c> if this instance is protected; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable.Protect">
+            <summary>Protects this instance without a password.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable.Protect(System.String,ClosedXML.Excel.XLProtectionAlgorithm.Algorithm)">
+            <summary>Protects this instance using the specified password and password hash algorithm.</summary>
+            <param name="password">The password.</param>
+            <param name="algorithm">The algorithm.</param>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable.Unprotect">
+            <summary>Unprotects this instance without a password.</summary>
+            <returns></returns>
+        </member>
+        <member name="M:ClosedXML.Excel.IXLProtectable.Unprotect(System.String)">
+            <summary>Unprotects this instance using the specified password.</summary>
+            <param name="password">The password.</param>
+            <returns></returns>
+        </member>
+        <member name="F:ClosedXML.Excel.XLWorkbookProtectionElements.Windows">
+            <summary>
+            The Windows option is available only in Excel 2007, Excel 2010, Excel for Mac 2011, and Excel 2016 for Mac. Select the Windows option if you want to prevent users from moving, resizing, or closing the workbook window, or hide/unhide windows.
+            </summary>
         </member>
         <member name="T:ClosedXML.Excel.Ranges.Index.IXLRangeIndex">
             <summary>
@@ -3867,6 +3991,11 @@
             all rows on a worksheet so changing its height will affect all rows.</param>
             <param name="defaultStyle">Default style to use when initializing child entries.</param>
         </member>
+        <member name="P:ClosedXML.Excel.SaveOptions.FilterPrivacy">
+            <summary>
+            Gets or sets the filter privacy flag. Set to null to leave the current property in saved workbook unchanged
+            </summary>
+        </member>
         <member name="M:ClosedXML.Excel.XLSparkline.#ctor(ClosedXML.Excel.IXLSparklineGroup,ClosedXML.Excel.IXLCell,ClosedXML.Excel.IXLRange)">
             <summary>
             Create a new sparkline
@@ -5109,7 +5238,7 @@
             <param name="colorCache">The dictionary containing parsed colors to optimize performance.</param>
             <returns>The color in ClosedXML format.</returns>
         </member>
-        <member name="M:ClosedXML.Utils.OpenXmlHelper.ConvertToClosedXMLColor(System.Object,System.Collections.Generic.IDictionary{System.String,System.Drawing.Color})">
+        <member name="M:ClosedXML.Utils.OpenXmlHelper.ConvertToClosedXMLColor(ClosedXML.Utils.IColorTypeAdapter,System.Collections.Generic.IDictionary{System.String,System.Drawing.Color})">
             <summary>
             Here we perform the actual convertion from OpenXML color to ClosedXML color.
             </summary>
@@ -5118,7 +5247,7 @@
             <param name="colorCache">The dictionary containing parsed colors to optimize performance.</param>
             <returns>The color in ClosedXML format.</returns>
         </member>
-        <member name="M:ClosedXML.Utils.OpenXmlHelper.FillFromClosedXMLColor(System.Object,ClosedXML.Excel.XLColor,System.Boolean)">
+        <member name="M:ClosedXML.Utils.OpenXmlHelper.FillFromClosedXMLColor(ClosedXML.Utils.IColorTypeAdapter,ClosedXML.Excel.XLColor,System.Boolean)">
             <summary>
             Initialize properties of the existing instance of the color in OpenXML format basing on properties of the color 
             in ClosedXML format.

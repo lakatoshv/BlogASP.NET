@@ -77,9 +77,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="bin/Blog.Services.pdb">
       <publishTime>06/29/2021 19:29:04</publishTime>
     </File>
-    <File Include="bin/ClosedXML.dll">
-      <publishTime>05/25/2020 10:43:54</publishTime>
-    </File>
     <File Include="bin/Content/bootstrap.css">
       <publishTime>07/26/2019 23:40:18</publishTime>
     </File>
